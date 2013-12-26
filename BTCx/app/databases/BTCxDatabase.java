@@ -6,6 +6,7 @@ import java.util.Map;
 import org.neo4j.graphdb.GraphDatabaseService;
 import org.neo4j.graphdb.PropertyContainer;
 import org.neo4j.graphdb.RelationshipType;
+
 import org.neo4j.graphdb.config.Setting;
 import org.neo4j.graphdb.factory.GraphDatabaseFactory;
 import org.neo4j.graphdb.index.Index;
@@ -17,6 +18,14 @@ import serverLoggers.ServerLoggers;
 public class BTCxDatabase {
 	static public GraphDatabaseService bDB;
 	static public IndexManager bDBIndex;
+	/**
+	 * These are the database supported indexes.
+	 * EXCHANGE_INDEX -- Exchanges
+		USER_INDEX -- Users
+		TRANSACTION_INDEX -- Transactions
+	 * @author danielmorozoff
+	 *
+	 */
 	static public Index EXCHANGE_INDEX,
 				 USER_INDEX,
 				 TRANSACTION_INDEX;
@@ -84,14 +93,7 @@ public class BTCxDatabase {
 		/*
 		 * RELATIONSHIP TRANSACTION -> EXCHANGE
 		 */
-			TRADED_ON;
+			TRADED_ON,
 	}
-	/**
-	 * These are the database supported indexes.
-	 * EXCHANGE_INDEX -- Exchanges
-		USER_INDEX -- Users
-		TRANSACTION_INDEX -- Transactions
-	 * @author danielmorozoff
-	 *
-	 */
+	
 }
