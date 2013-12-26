@@ -6,6 +6,7 @@ import java.util.Map;
 import org.neo4j.graphdb.GraphDatabaseService;
 import org.neo4j.graphdb.PropertyContainer;
 import org.neo4j.graphdb.RelationshipType;
+import org.neo4j.graphdb.Transaction;
 
 import org.neo4j.graphdb.config.Setting;
 import org.neo4j.graphdb.factory.GraphDatabaseFactory;
@@ -33,9 +34,9 @@ public class BTCxDatabase {
 	 * BTCx Database -- Neo4j 2.0 supports a new config mechanism- will need to update this.
 	 */
 	public BTCxDatabase(){
-		File folder = new File("PTVN_Databases");
+		File folder = new File("Databases");
 		if(!folder.exists())folder.mkdirs();
-		System.out.println("***STARTING UP PTVN_USER_DB****");
+		System.out.println("***BTCx Server Started****");
 			serverLoggers.ServerLoggers.infoLog.info("***BTCx Server Started***");
 		
 		Map<String, String> config = new HashMap<String, String>();
@@ -44,16 +45,15 @@ public class BTCxDatabase {
 		config.put( "array_block_size", "300" );
 		
 		 bDB = new GraphDatabaseFactory()
-		    .newEmbeddedDatabaseBuilder( "Databses/BTCx-Databse" )
+		    .newEmbeddedDatabaseBuilder( "Databases/BTCx-Databse" ).newGraphDatabase();
 //		    .setConfig(config)
-		    .newGraphDatabase();
 		 //Start the indexes
 		 bDBIndex = bDB.index();
-		 
-		 EXCHANGE_INDEX = bDBIndex.forNodes("exchanges");
-		 USER_INDEX = bDBIndex.forNodes("users");
-		 TRANSACTION_INDEX = bDBIndex.forNodes("transactions");
-		 
+		 Transaction tx = bDB.beginTx();
+			 EXCHANGE_INDEX = bDBIndex.forNodes("exchanges");
+			 USER_INDEX = bDBIndex.forNodes("users");
+			 TRANSACTION_INDEX = bDBIndex.forNodes("transactions");
+		 tx.success();
 		registerShutdownHook(bDB);
 	}
 	private static void registerShutdownHook( final GraphDatabaseService graphDb )

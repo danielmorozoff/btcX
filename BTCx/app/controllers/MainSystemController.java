@@ -20,7 +20,7 @@ public class MainSystemController extends Controller {
 	    	//Logger.log4j.getLogger("INFOLOG").info("SERVER HAS STARTED");
 	    	ServerLoggers.infoLog.info("SERVER HAS STARTED");
 	    	//load User DB.
-	    	//new BTCxDatabase();
+	    	new BTCxDatabase();
 	    	//Create User file Stores
 	    	File userImageStore = new File("UserFiles/");
 	    	if(!userImageStore.exists()){
