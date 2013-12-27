@@ -28,6 +28,7 @@ public class User {
 	public String lastName;
 	public String country;
 	public String password;
+	public String salt;
 	public long lastLoginDate;
 	public long signupDate;
 	public boolean accountActive;
