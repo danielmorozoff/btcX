@@ -8,6 +8,19 @@ import play.mvc.Controller;
 import serverLoggers.ServerLoggers;
 
 public class MainSystemController extends Controller {
+/************************************************************************************************/
+//Static values for server
+	public static String system_name = "";
+	public static String system_url = "";
+	public static String system_email = "";
+	
+	
+	
+	
+	
+	
+	
+/************************************************************************************************/	
 /**
  * Startup code fo the server. Log instantiation, user file directories and DB activation.
  * @author danielmorozoff
@@ -39,6 +52,7 @@ public class MainSystemController extends Controller {
 		    } );
 	    }    
 	}
+	
 /************************************************************************************************/
 	/**
 	 * Before methods are run code. Will be used to maintain a user's login state.

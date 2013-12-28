@@ -18,63 +18,57 @@ import org.neo4j.graphdb.index.Index;
 import org.neo4j.graphdb.index.IndexHits;
 import org.neo4j.graphdb.index.IndexManager;
 
+import serverLoggers.ServerLoggers;
+
 
 import databases.BTCxDatabase;
 import databases.objects.BTCxObject;
 import databases.objects.User;
 
-
-
-
-public class UserEntrance {
+public class UserLoginAndSignup {
 
 	GraphDatabaseService bDB = BTCxDatabase.bDB; 
 	public String errorString;
 	public User loggedInUser = null;
 	
-	
+	/**
+	 * Creates a new user in the database from a loaded user class
+	 * @param userClass
+	 * @return
+	 */
 	public boolean makeNewUser(User userClass){
-			
-			 IndexManager userIndex = bDB.index();
-			 
+//		If traffic gets bigger will need to do batchInserter methods instead of transactions
 		boolean userSaved = false;
-		//If traffic gets bigger will need to do batchInserter methods instead of transactions
 		try{
 		Transaction transaction = bDB.beginTx();
-		
 		Node userNode = bDB.createNode();
-		//add to index
-		Index<Node> userNameIndex = userIndex.forNodes( "users" ); 	
-			System.out.println("***Loading User params.***");
+		Index<Node> userNameIndex = BTCxDatabase.USER_INDEX;
+		ServerLoggers.infoLog.info("***Loading User params for "+userClass.userName+".***");
+		
 		Field[] userFields = userClass.getClass().getDeclaredFields();
 			for(int i=0; i<userFields.length;i++){
-				if(!userFields[i].getName().equals("userDB")){
-				System.out.println("Name: "+userFields[i].getName()+" ClassObject:  "+userFields[i].get(userClass) );
 				if(userFields[i].get(userClass)!=null){
 					userNode.setProperty(userFields[i].getName(), userFields[i].get(userClass));
 				}
 				else{
 					userNode.setProperty(userFields[i].getName(), "");
 				}
-				}
 			}
-			//This overrides the default prop of 0
 			
 			System.out.println("Adding "+userClass.userName+" to index via "+ userNode);
-		
+			//Adding user to indices
 			userNameIndex.add(userNode, "userName", userClass.userName);
-//			userNameIndex.add(userNode, "publicId", userClass.publicId);
-//			userNameIndex.add(userNode, "privateId", userClass.privateId);
-			System.out.println("adding user email: "+userClass.email);
+			userNameIndex.add(userNode, "public_uniqueId", userClass.public_uniqueId);
+			userNameIndex.add(userNode, "private_uniqueId", userClass.private_uniqueId);
 			userNameIndex.add(userNode, "email", userClass.email);
 			
 			transaction.success();
 		
-			System.out.println("User creation transaction complete");
+			ServerLoggers.infoLog.info("***User creation success "+userNode.getProperty("userName")+".***");
 			userSaved = true;
 		}
 		catch(Exception e){
-			System.out.println("****Exception in Creating New User after encryption of password******");
+			ServerLoggers.errorLog.error("!!! Failed to store user in DB. Method UserLoginAndSignup.makeNewUser !!!");
 			e.printStackTrace();
 		}
 		return userSaved;
@@ -90,46 +84,42 @@ public class UserEntrance {
 	//	System.out.println("Logging "+userName+" into site");
 		boolean enter = false;
 		if (userName !=null && password!=null && bDB.index().existsForNodes("users") ){
-		 IndexManager userIndex = bDB.index();
-		 
 		 String encryptedInputPass="";
 		 IndexHits <Node> hits=null;
 				if(type.equals("userName")){
-					hits = userIndex.forNodes("users").get("userName", userName);
+					hits = BTCxDatabase.USER_INDEX.get("userName", userName);
 				}
+				//Currently not supported --- probably never since we allow multiple emails per username
 				else if(type.equals("email")){
-					
-					System.out.println("getting email");
-					System.out.println(userIndex.forNodes("users").get("email", userName).getSingle());
-					hits = userIndex.forNodes("users").get("email", userName);
+//					
+//					System.out.println("getting email");
+//					System.out.println(userIndex.forNodes("users").get("email", userName).getSingle());
+//					hits = userIndex.forNodes("users").get("email", userName);
 				}
 				Node curNode = (Node) hits.getSingle();
-				System.out.println("Loggin type: "+type);
-				System.out.println(curNode);
 				if(curNode!=null){
 					if(curNode.getProperty("userName").equals(userName) && type.equals("userName")){
-								
-										try {
-											//Returns my encryption string
-											encryptedInputPass = encryptPassword(password,"userValidation",curNode,null,"1wayEncryption");
-										} catch (Exception e) {
-											System.out.println("*****Password Encryption Error in !!!testLoginInfo!!!****");
-											errorString = "User / password combination not found.";
-											e.printStackTrace();
-										}
-										// Dual encrypted/ final hash with bCrypt
-										String hashedDbPass =(String) curNode.getProperty("password");
-									
-										if (BCrypt.checkpw(encryptedInputPass, hashedDbPass)){
-											enter = true;
-											loggedInUser =(User) new BTCxObject().convertNodeToObject(curNode, new ArrayList <String>());
-											System.out.println("USER ACCESS GRANTED: "+loggedInUser.userName);
-										}
-										else{
-											enter=false;
-											errorString = "User / password combination not found.";
-											return enter;
-										}
+						try {
+							//Returns my encryption string
+							encryptedInputPass = encryptPassword(password,"userValidation",curNode,null,"1wayEncryption");
+						} catch (Exception e) {
+							ServerLoggers.errorLog.error("!!! Failed to decrypt password. Method UserLoginAndSignup.println !!!");
+							errorString = "User / password combination not found.";
+							e.printStackTrace();
+						}
+						// Dual encrypted/ final hash with bCrypt
+						String hashedDbPass =(String) curNode.getProperty("password");
+					
+						if (BCrypt.checkpw(encryptedInputPass, hashedDbPass)){
+							enter = true;
+							loggedInUser =(User) new BTCxObject().convertNodeToObject(curNode, new ArrayList <String>());
+							ServerLoggers.infoLog.info("***User "+userName+" granted access***");
+						}
+						else{
+							enter=false;
+							errorString = "User / password combination not found.";
+							return enter;
+						}
 						
 					}
 				}
@@ -143,19 +133,26 @@ public class UserEntrance {
 		errorString="Server Error.";
 		return enter;
 	 }
-	public String checkIfUserExistsInDb(String userName, String email){
+	/**
+	 * Sees if user is in DB based on username or email. 
+	 * @param userName
+	 * @param email
+	 * @return
+	 */
+	public String checkIfUserExistsInDb(String userName, String email, String enforcement){
 		String userExists ="false";
-
 		IndexManager userIndex = bDB.index();
 		Node hit =  userIndex.forNodes( "users" ).get("userName", userName).getSingle();
+		if(enforcement.contains("userName")){
 			if(hit!=null){
-				if(hit.getProperty("userName").equals(userName)){
-					userExists = "Username exists";
-					setErrorMessage("Username exists");
+					if(hit.getProperty("userName").equals(userName)){
+						userExists = "Username exists";
+						setErrorMessage("Username exists");
+					}
 				}
-			}
-		if(userExists.equals("false")){
-			Node emailHit = userIndex.forNodes( "users" ).get("email", email).getSingle();
+		}
+		if(enforcement.contains("email")){
+		Node emailHit = userIndex.forNodes( "users" ).get("email", email).getSingle();
 			if(emailHit!=null){
 				if(emailHit.getProperty("email").equals(email)){
 					userExists = "Email exists";
@@ -164,7 +161,6 @@ public class UserEntrance {
 			}
 		}
 		 return userExists;
-		 
 	 }
 
 	public String encryptPassword(String password,String operation,Node potentialNode, String pSalt,String cond) throws Exception{

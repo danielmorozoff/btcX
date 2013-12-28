@@ -164,7 +164,7 @@ public class BTCxObject {
 			// User to exchange or transaction-- Relationships: BUY, SELL, CONDUCTED, MEMBER_OF
 			org.neo4j.graphdb.Transaction tx = BTCxDatabase.bDB.beginTx();	
 			if(us1!=null && tx2!=null || ex2!=null){
-				Node userNode = (Node) BTCxDatabase.USER_INDEX.get("id", us1.uniqueId).getSingle();
+				Node userNode = (Node) BTCxDatabase.USER_INDEX.get("id", us1.private_uniqueId).getSingle();
 				if(tx2!=null){
 					//us1 -> tx2
 					Node txNode = (Node) BTCxDatabase.TRANSACTION_INDEX.get("id", tx2.uniqueId).getSingle();

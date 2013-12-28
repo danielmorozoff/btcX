@@ -4,6 +4,7 @@ import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 import org.neo4j.graphdb.GraphDatabaseService;
+import org.neo4j.graphdb.Node;
 import org.neo4j.graphdb.PropertyContainer;
 import org.neo4j.graphdb.RelationshipType;
 import org.neo4j.graphdb.Transaction;
@@ -27,7 +28,7 @@ public class BTCxDatabase {
 	 * @author danielmorozoff
 	 *
 	 */
-	static public Index EXCHANGE_INDEX,
+	static public Index <Node> EXCHANGE_INDEX,
 				 USER_INDEX,
 				 TRANSACTION_INDEX;
 	/**

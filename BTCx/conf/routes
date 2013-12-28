@@ -4,7 +4,7 @@
 #***DEVELOPER ROUTES***#
 # Login page
 	
-GET     /                                      MainSystemController.renderLoginPage
+GET     /                                      MainLoginController.logIntoSite
 # Index page
 GET     /index								   MainSystemController.renderIndexPage
 POST	/signin								   MainLoginController.logIntoSite

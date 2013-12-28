@@ -1,184 +1,136 @@
-//package controllers;
-//
-//import java.io.UnsupportedEncodingException;
-//import java.net.URLEncoder;
-//import java.util.UUID;
-//
-//import javax.crypto.Cipher;
-//
-//import login.UserEntrance;
-//
-//import org.mindrot.jbcrypt.BCrypt;
-//import org.neo4j.graphdb.GraphDatabaseService;
-//import org.neo4j.graphdb.Node;
-//import org.neo4j.graphdb.Transaction;
-//import org.neo4j.shell.util.json.JSONObject;
-//import databases.BTCxDatabase;
-//
-//import play.cache.Cache;
-//import play.mvc.Before;
-//import play.mvc.Controller;
-//import play.mvc.Http.Cookie;
-//import serverLoggers.ServerLoggers;
-//
-//public class MainLoginController extends Controller {
-//	
-//final static String currentServerURL = "";	
-//final static  String accessCode="";	
-//public static GraphDatabaseService uDB = BTCxDatabase.bDB;
-//	
-//
-//	@Before(unless={"resetPassword","linkToResetPassword","forgotEmail","loginToSite","logoutUser"})
-//	
-//	public static void authentify(){
-//		//User not logged in
-//		System.out.println("Session: "+Cache.get(session.getAuthenticityToken()));
-//		if(Cache.get(session.getAuthenticityToken())!=null){
-//			System.out.println("Logging in: "+session.getAuthenticityToken());
-//			//Login in to site
-//			Cache.set(session.getAuthenticityToken(), Cache.get(session.getAuthenticityToken()));
-//			//Add page to render
-//			
-//		}
-//	}
-//	
-//	
-//	/**
-//	 * Beginning of Login flow
-//	 * @param username
-//	 * @param password
-//	 */
-//	 
-//	public static void logIntoSite(String userName, String password,boolean remember){
-//		//Currently remember set to true -- removed the box
-//		remember = true;
-//		
-//		UserEntrance entranceClass = new UserEntrance();
-//		System.out.println("AUTH token: "+session.getAuthenticityToken());
-//			if(Cache.get(session.getAuthenticityToken())==null){
-//				if(userName!=null){
-//					System.out.println("Session null");
-//				Node curNode = BTCxDatabase.bDB.index().forNodes("users").get("userName", userName).getSingle();	
-//					if(curNode!=null){
-//						System.out.println("User Found");
-//						System.out.println("Checking email verification");
-//						/*
-//							if(!(Boolean) curNode.getProperty("emailVerified")){
-//								//Render Validation page
-//								System.out.println("Need to Validate Email");
-//								String userFName = (String) curNode.getProperty("fName");
-//								String userEmail = (String) curNode.getProperty("email");
-//								String userPubId = (String) curNode.getProperty("publicId");
-//								
-//								renderTemplate("app/views/Application/EmailValidation.html",userFName, userEmail,userPubId );
-//							}
-//						*/
-//						if(entranceClass.testLoginInfo(userName, password, "userName")){
-//							System.out.println("Logging in: "+userName);
-//							//Login in to site
-//							Cache.set(session.getAuthenticityToken(), userName);
-//							if(remember){
-//								Node userNode = uDB.index().forNodes("users").get("userName", userName).getSingle();
-//								String hashedStringForCookie ="";
-//								try {
-//									try {
-//										hashedStringForCookie = entranceClass.encryptOrDecryptUserCookie((String) userNode.getProperty("publicId"), Cipher.ENCRYPT_MODE);
-//									} catch (Throwable e) {
-//										// TODO Auto-generated catch block
-//										e.printStackTrace();
-//									}
-//									System.out.println("Encrypted Cookie: "+hashedStringForCookie);
-//								} catch (Exception e) {
-//									e.printStackTrace();
-//								}
-//								response.setCookie("PTVN_rememberCookie", (String) hashedStringForCookie,"3h");
-//								Cache.add(hashedStringForCookie, (String) userNode.getProperty("publicId"),"3h");
-//								//Set tagger cookie 
-//								System.out.println("Setting tagger cookie");
-//								int secretKey = UUID.randomUUID().toString().hashCode();
-//								String keyStr = "tagger_"+userName+"_"+secretKey;
-//									//when we switch to https then set secure to true
-//								Cookie cook = new Cookie();
-//									cook.name = "taggerCookie";
-//									cook.value = "tagger_"+userName+"_"+secretKey;
-//									
-//								response.cookies.put("taggerCookie", cook);
-//								System.out.println("TaggerSystem cookie set: "+response.cookies.get("taggerCookie").value);
-//								Cache.add(keyStr, userName,"4h");
-//								
-//							}
-//							//Add page to render
-//							System.out.println("rendering homepage");
-//							MainSystemController.renderTopicLayoutPage();
-//						}
-//						else{
-//							System.out.println("auth tok null");
-//							flash.error(entranceClass.errorString);
-//							MainSystemController.renderLoginPage();
-//						}
-//					}
-//					else{
-//						System.out.println("Username does not exist...");
-//						flash.error("Username or Password Incorrect");
-//						MainSystemController.renderLoginPage();
-//					}
-//				}
-//				else{
-//					//No username sent render te login page
-//					MainSystemController.renderLoginPage();
-//				}
-//			}
-//			else{
-//				System.out.println("Auth token not null- loggin "+Cache.get(session.getAuthenticityToken())+" in...");
-//					//Login in to site
-//					Cache.set(session.getAuthenticityToken(), Cache.get(session.getAuthenticityToken()));
-//					//Add page to Render
-////					MainSystemController.renderTopicLayoutPage();
-//			}
-//	}
-//	/**
-//	 * Create new user in DB
-//	 * @param userClass
-//	 * @return
-//	 * @throws Exception 
-//	 */
-//	public static String signupUser(String userObj) throws Exception{
-//		JSONObject jObj = new JSONObject(userObj);
-//		System.out.println("CREATING NEW USER: "+jObj.get("userName"));
-//		System.out.println(jObj.toString());
-//		if(jObj.get("accessCode").equals(accessCode)){
-//			System.out.println("Access Code verified...");
-//			User newUser = new User();
-//			String userName=(String)jObj.get("userName"),
-//					password=(String)jObj.get("password"),
-//					email=(String)jObj.get("email"),
-//					fName=(String)jObj.get("fName"),
-//					lName=(String)jObj.get("lName");
-//				
-//				//In the future we will have a different flow to signup stations
-//				//new ClientMethods().addClient(userName, password, email,fName,lName, "", "");
-//				newUser.loadUserClassForSignup(userName, password, email,fName,lName, "", "");
-//				
-//				UserEntrance uEnter = new UserEntrance();
-//				String userExistsTestResult = uEnter.checkIfUserExistsInDb(userName, email); 
-//				if(userExistsTestResult.equals("false")){
-//					
-//					if(uEnter.makeNewUser(newUser)){
-//						Node userNode = uDB.index().forNodes("users").get("userName", userName).getSingle();
-//						System.out.println("USER ACCESS CODE: "+userNode.getProperty("uniqueEmailVerificationString"));
-//						return "validateEmail";
-//						//new SignupEmailer().sendSignupEmail(email, userName,(String)userNode.getProperty("fName"),(String)userNode.getProperty("uniqueEmailVerificationString"));
-//						//return "userCreated_"+newUser.userName;
-//						
-//					}
-//					else return "UserNOTCREATED";
-//				}
-//				else{
-//					return userExistsTestResult;
-//				}
-//		}
-//		return "WrongAccessCode";
-//	}
+package controllers;
+
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+import java.util.UUID;
+
+import javax.crypto.Cipher;
+
+import login.UserLoginAndSignup;
+
+import org.mindrot.jbcrypt.BCrypt;
+import org.neo4j.graphdb.GraphDatabaseService;
+import org.neo4j.graphdb.Node;
+import org.neo4j.graphdb.Transaction;
+import org.neo4j.shell.util.json.JSONObject;
+import databases.BTCxDatabase;
+import databases.objects.User;
+import emailers.SignupEmailer;
+
+import play.cache.Cache;
+import play.mvc.Before;
+import play.mvc.Controller;
+import play.mvc.Http.Cookie;
+import serverLoggers.ServerLoggers;
+
+public class MainLoginController extends Controller {
+
+final static String currentServerURL = "";	
+final static  String accessCode="";	
+public static GraphDatabaseService bDB = BTCxDatabase.bDB;
+
+	@Before(unless={"resetPassword","linkToResetPassword","forgotEmail","signupUser"})
+	
+	public static void authentify(){
+		//Test if user has previously logged in
+		if(Cache.get(session.getAuthenticityToken())!=null){
+			System.out.println("Logging in: "+session.getAuthenticityToken());
+			//User has already logged in
+			Cache.set(session.getAuthenticityToken(), Cache.get(session.getAuthenticityToken()));
+			//Render index page
+			MainSystemController.renderIndexPage();
+		}
+	}
+	
+	
+	/**
+	 * Beginning of Login flow
+	 * @param username
+	 * @param password
+	 */
+	 
+	public static void logIntoSite(String userName, String password){
+		UserLoginAndSignup entranceClass = new UserLoginAndSignup();
+		//Double check the Cache.
+			if(Cache.get(session.getAuthenticityToken())==null){
+				if(userName!=null){
+					Node curNode = BTCxDatabase.USER_INDEX.get("userName", userName).getSingle();	
+					if(curNode!=null){
+						//Login with email.
+						/*
+							if(!(Boolean) curNode.getProperty("emailVerified")){
+								//Render Validation page
+								System.out.println("Need to Validate Email");
+								String userFName = (String) curNode.getProperty("fName");
+								String userEmail = (String) curNode.getProperty("email");
+								String userPubId = (String) curNode.getProperty("publicId");
+								
+								renderTemplate("app/views/Application/EmailValidation.html",userFName, userEmail,userPubId );
+							}
+						*/
+						if(entranceClass.testLoginInfo(userName, password, "userName")){
+							ServerLoggers.infoLog.info("***Logging in: "+userName+" ***");
+							//Set Cache for logged in User
+							Cache.set(session.getAuthenticityToken(), userName);
+							}
+							//Add page to render
+							MainSystemController.renderIndexPage();
+						}
+						else{
+							flash.error("Username or Password Incorrect");//entranceClass.errorString
+							MainSystemController.renderLoginPage();
+						}
+					}
+				else{
+					//Username null
+					flash.error("Username or Password Incorrect");
+					MainSystemController.renderLoginPage();
+				}
+		}
+		else{
+			//No auth token
+			MainSystemController.renderLoginPage();
+		}
+	}
+	/**
+	 * Create new user in DB
+	 * @param userClass
+	 * @return
+	 * @throws Exception 
+	 */
+	public static String signupUser(String userStr) throws Exception{
+		JSONObject userObj = new JSONObject(userStr);
+		if(userObj.get("password1").equals(userObj.get("password2"))){
+			UserLoginAndSignup uEnter = new UserLoginAndSignup();
+			String userExistsTestResult = uEnter.checkIfUserExistsInDb((String)userObj.get("userName"), (String)userObj.get("email"),"userName");
+			//Currently only enforcing unique usernames.
+			if(userExistsTestResult.equals("false")){
+				ServerLoggers.infoLog.info("***CREATING NEW USER: "+userObj.get("userName")+" ***");
+					
+				User newUser = new User();
+				String userName=(String)userObj.get("userName"),
+						password=(String)userObj.get("password"),
+						email=(String)userObj.get("email"),
+						fName=(String)userObj.get("fName"),
+						lName=(String)userObj.get("lName");
+					
+					//Loads User class for creation. Generates unique ids, encrypts password and creates salt
+					newUser.loadUserClassForSignup(userName, password, email,fName,lName);
+						//Stores and verifies user in DB
+						if(uEnter.makeNewUser(newUser)){
+							Node userNode =  BTCxDatabase.USER_INDEX.get("userName", userName).getSingle();
+							ServerLoggers.infoLog.info("***Sending "+newUser.userName+" email verifcation code ***");
+							new SignupEmailer().sendSignupEmail(email, userName,(String)userNode.getProperty("fName"),(String)userNode.getProperty("uniqueEmailVerificationString"));
+							return "userCreated_"+newUser.public_uniqueId;
+						}
+						else return "User was not stored - error occured";
+			}
+			else{
+				return "Username exists";
+			}
+		}
+		return "Passwords do not match";
+	}
 //	/**
 //	 * Method for verifying provided email
 //	 * @param emailValidationCode
@@ -298,4 +250,4 @@
 //	}
 //
 //
-//}
+}
