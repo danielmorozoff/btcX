@@ -51,10 +51,10 @@ public class MainSystemController extends Controller {
 	 * Default rendering for pages
 	 */
 	public static void renderLoginPage(){
-		renderTemplate("app/views/pages/loginPage.html");
+		renderTemplate("app/views/webpages/login.html");
 	}
 	public static void renderIndexPage(){
-		renderTemplate("app/views/pages/indexPage.html");
+		renderTemplate("app/views/webpages/index.html");
 	}
 	
 }

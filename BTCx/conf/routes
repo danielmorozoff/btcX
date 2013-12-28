@@ -1,9 +1,18 @@
 # Routes
 # This file defines all application routes (Higher priority routes first)
 # ~~~~
-
-# Home page
+#***DEVELOPER ROUTES***#
+# Login page
+	#Sign In Panel	The Sign In Panel on the landing page	"Name: 'login'
+	#Type: 'POST'
+	#Data: username, password"	Should contain a message and a success statement	"{'message':'Wrong password','pass':false}
+	#{'message':'','pass':true}"	Display a message when pass is false otherwise link to index page
+	
 GET     /                                      MainSystemController.renderLoginPage
+# Index page
+GET     /index								   MainSystemController.renderIndexPage
+POST	/signin								   MainLoginController.logIntoSite
+POST	/singup								   MainLoginController.signupUser
 
 # Ignore favicon requests
 GET     /favicon.ico                            404

@@ -65,9 +65,8 @@ public class BTCxDatabase {
 	    {
 	        @Override
 	        public void run()
-	        {
-	        	System.out.println("*****SHUTTING DOWN BTCx_USER_DB*****");
-	        		serverLoggers.ServerLoggers.infoLog.info("***BTCx Server Shutdown***");
+	        {	        
+        		serverLoggers.ServerLoggers.infoLog.info("***BTCx Database Shutdown***");
 	        	bDB.shutdown();
 	        }
 	    } );

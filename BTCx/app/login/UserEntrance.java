@@ -63,8 +63,8 @@ public class UserEntrance {
 			System.out.println("Adding "+userClass.userName+" to index via "+ userNode);
 		
 			userNameIndex.add(userNode, "userName", userClass.userName);
-			userNameIndex.add(userNode, "publicId", userClass.publicId);
-			userNameIndex.add(userNode, "privateId", userClass.privateId);
+//			userNameIndex.add(userNode, "publicId", userClass.publicId);
+//			userNameIndex.add(userNode, "privateId", userClass.privateId);
 			System.out.println("adding user email: "+userClass.email);
 			userNameIndex.add(userNode, "email", userClass.email);
 			
