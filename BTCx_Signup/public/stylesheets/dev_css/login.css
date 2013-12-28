@@ -1,0 +1,101 @@
+body,html 
+{
+	height:100%;
+	width:100%;
+	padding:0;
+	margin:0;
+	overflow-x: hidden;
+}
+h1
+{
+	color:#fff;
+}
+
+.bk {
+	width: 100%;
+	height: 80%;
+}
+.bk_0
+{
+	background:url(/public/images/dev_imgs/bitcoin.png) center center fixed;
+	background-size: cover;
+}
+.bk_1
+{	
+	padding:35px 0px;
+	background:#000;
+	height:85%;
+}
+
+.bk_blank
+{
+	padding-top:35px;
+	background-color: #ecf0f1;
+	height:50%;
+}
+.c_1 {
+	padding-top:125px;
+	height: 80%;
+	width: 100%;
+	background:transparent;
+}
+.footer
+{
+	background:#2c2c2c;
+	height:164px;
+	width:100%;
+}
+.footer h3
+{
+	color:#fff;
+	font-family: 'Iceland', cursive;
+}
+.footer ul 
+{
+	list-style: none;
+	color: #fff;
+}
+.modal-content
+{
+	border-radius:0px;
+	-webkit-border-radius:0px;
+	-moz-border-radius:0px;
+	width: 400px;
+	margin:0 auto;
+}
+.modal-header
+{
+	background:#000;
+	text-align: right;
+	font-size:18px;
+	color:#fff;
+}
+.modal-header h4 
+{
+	font-family: 'Iceland', cursive;
+}
+.modal-header .close,
+.modal-header .close:hover
+{
+	color:#fff;
+	opacity: 1;
+	text-shadow: none;
+	margin-left:5px;
+}
+.modal-content .input-group
+{
+	margin-bottom:2px;
+}
+/*.modal-content .input-group input
+{
+	border-right:none;
+	-webkit-border-right:none;
+	-moz-border-right:none;
+}*/
+.modal-content .input-group .addon-right
+{
+	background:transparent;
+	/*border-left:none;
+	-webkit-border-left:none;
+	-moz-border-left:none;*/
+}

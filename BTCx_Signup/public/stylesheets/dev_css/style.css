@@ -1,0 +1,345 @@
+body
+{
+	background-color: #ecf0f1;
+/*	background-color:rgba(149, 165, 166,1.0);
+*/}
+header 
+{
+	font-family: 'Iceland', cursive;
+}
+ul
+{
+	list-style: none;
+	padding:0;
+}
+textarea:focus, input[type="text"]:focus, input[type="password"]:focus, input[type="datetime"]:focus, input[type="datetime-local"]:focus, input[type="date"]:focus, input[type="month"]:focus, input[type="time"]:focus, input[type="week"]:focus, input[type="number"]:focus, input[type="email"]:focus, input[type="url"]:focus, input[type="search"]:focus, input[type="tel"]:focus, input[type="color"]:focus, .uneditable-input:focus, .btn:focus 
+{   
+/*border-color: rgba(126, 239, 104, 0.8);
+box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset, 0 0 8px rgba(126, 239, 104, 0.6);*/
+outline: 0 none;
+
+box-shadow: 0 1px 1px rgba(46, 204, 113,0.075) inset, 0 0 8px rgba(46, 204, 113,0.6);
+border-color:#27ae60;
+}
+input[disabled],
+.form-control[disabled]
+{
+	cursor: default;
+	background:transparent;
+	border: 1px solid #ccc;
+	-webkit-border: 1px solid #ccc;
+	-moz-border: 1px solid #ccc;
+}
+.shadow
+{
+	box-shadow: rgba(0, 0, 0, 0.298039) 0px 4px 16px;
+	-webkit-box-shadow: rgba(0, 0, 0, 0.298039) 0px 4px 16px;
+	-moz-box-shadow: rgba(0, 0, 0, 0.298039) 0px 4px 16px;
+}
+header
+{
+	width:100%;
+	position: fixed;
+	top:0;
+	z-index: 1;
+	height:64px;
+	background: #2c3e50;
+	background: #fff;
+	padding:0px 70px;
+}
+a:hover
+{
+	text-decoration: none;
+	cursor: pointer;
+	color:#2ecc71;
+}
+.link:hover
+{
+	text-decoration: underline;
+}
+a
+{
+	color:#2ecc71;
+}
+
+.navbar-fixed
+{
+	z-index: 3;
+	border-bottom:1px solid #eee;
+	-webkit-border-bottom:1px solid #eee;
+	-moz-border-bottom:1px solid #eee;
+}
+.navbar-brand
+{
+	color:#ecf0f1;
+	color:#2c3e50;
+	text-shadow:0px 1px 0px #000;
+	font-size:38px;
+	
+	line-height: 64px;
+	padding:0;
+}
+.nav
+{
+	margin-left:15px;
+	margin-right:15px;
+	padding-top:26px;
+}
+.nav > li
+{
+	float:left;
+	margin-right:10px;
+	font-size:18px;
+	color:#ecf0f1;
+	color:#2c3e50;
+}
+.info 
+{
+	color:#27ae60;
+}
+.nav > li > a:not(.info)
+{
+	color:#ecf0f1;
+	color:#2c3e50;
+	cursor: pointer;
+	font-size:18px;
+	padding:0 0px;
+}
+
+.nav > li > a:hover,
+.nav > .active a
+{
+	background: transparent;
+	border-bottom:2px solid #ecf0f1;
+}
+.nav-arrow
+{
+	width: 10px;
+	margin:auto auto;
+	cursor: pointer;
+}
+.nav-arrow .glyphicon,
+.dropdown-menu .glyphicon
+{
+	background: transparent;
+	color:#000;
+	vertical-align: middle;
+}
+.page
+{
+	padding-top:64px;
+}
+.panel,
+.form-control,
+.btn,
+.input-group-addon
+{
+	border-radius:0px;
+	-webkit-border-radius:0px;
+	-moz-border-radius:0px;
+}
+.glyphicon
+{
+	position: static;
+	top: 0px;
+	display: inline;
+	background: #000;
+	padding:5px 5px;
+	color:#fff;
+
+	border-radius:100%;
+	-webkit-border-radius:100%;
+	-moz-border-radius:100%;
+}
+.mid-div
+{
+	line-height:35px;
+	margin-left:5px;
+	margin-right:5px;
+}
+
+.panel-primary
+{
+
+	border-color:#f5f5f5;
+	-webkit-border-color:#f5f5f5;
+	-moz-border-color:#f5f5f5;
+
+	box-shadow: rgba(0, 0, 0, 0.298039) 0px 4px 16px;
+	-webkit-box-shadow: rgba(0, 0, 0, 0.298039) 0px 4px 16px;
+	-moz-box-shadow: rgba(0, 0, 0, 0.298039) 0px 4px 16px;
+}
+.panel-primary>.panel-heading
+{
+	/*background-color: #E1F1FF;
+	background-color:#2ecc71;*/
+	background-color:#fff;
+
+	border-color:#f5f5f5;
+	-webkit-border-color:#f5f5f5;
+	-moz-border-color:#f5f5f5;
+
+	border-radius:0px;
+	-webkit-border-radius:0px;
+	-moz-border-radius:0px;
+
+
+}
+.panel-title
+{
+	font-family: 'Iceland', cursive;
+	font-size:18px;
+	color:#000;
+}
+.panel-primary>.panel-footer
+{
+	border-radius:0px;
+	-webkit-border-radius:0px;
+	-moz-border-radius:0px;
+}
+.panel-footer
+{
+	background:#fff;
+}
+.panel-inverted
+{
+	/*border-color:#000;
+	-webkit-border-color:#000;
+	-moz-border-color:#000;*/
+	border: none;
+	-webkit-border: none;
+	-moz-border: none;
+}
+.panel-inverted>.panel-heading
+{
+	background-color:#000;
+	border-color:#000;
+	-webkit-border-color:#000;
+	-moz-border-color:#000;
+}
+.panel-inverted .panel-title
+{
+	color:#fff;
+}
+.panel-inverted .panel-body .input-group 
+{
+	margin-bottom:4px;
+}
+.panel-inverted .panel-body .input-group-addon
+{
+	background:black;
+	color:#2ecc71;
+}
+.nav-menu ul >li
+{
+	float:left;
+	margin-right:2px;
+}
+.nav-menu ul >li a
+{
+	text-transform: uppercase;
+}
+.nav-menu .btn,
+.btn-black,
+.btn-black:hover
+{
+	background:#000;
+	border-color:#000;
+	color:#fff;
+}
+.nav-menu .btn.active,
+.btn-primary.active,
+.btn-green,
+.btn-green:hover
+{
+	background-color: #2ecc71;
+	border-color:#27ae60;
+	color:#fff;
+}
+.panel-collapse .panel-body
+{
+	border-top:1px solid #eee;
+	padding:8px;
+}
+.table thead
+{
+	display:table-header-group
+}
+.table>tbody>tr>td.left
+{
+	text-align: left;
+	width:100px;
+}
+.table .glyphicon
+{
+	background:transparent;
+	padding:0;
+	color:#000;
+}
+.no-margin
+{
+	margin:0 auto;
+}
+.trash
+{
+	background:transparent;
+	padding:0;
+	color:#000;
+	line-height: 20px;
+}
+.trash:hover
+{
+	color:#2ecc71;
+}
+
+.datepicker
+{
+	z-index: 10000;
+}
+#transactionDate
+{	
+	width:75px;
+}
+#transactionTime
+{
+	width:60px;
+	text-align: right;
+}
+.bootstrap-timepicker-widget table td a i
+{
+	font-size:8px;
+}
+.bootstrap-timepicker-widget .glyphicon
+{
+	background:transparent;
+	padding:0;
+	border-radius:0px;
+	-webkit-border-radius:0px;
+	-moz-border-radius:0px;
+	color:#000;
+}
+.bootstrap-timepicker-widget table td input
+{
+	width:30px;
+}
+.bootstrap-timepicker-widget input
+{
+	border-radius:0px;
+	-webkit-border-radius:0px;
+	-moz-border-radius:0px;
+}
+.input-fake:focus
+{
+    outline: none;
+}
+.input-fake
+{
+	disabled:disabled;
+	padding:0;
+	color:#2ecc71;
+	cursor: pointer;
+
+	border:none;
+	-webkit-border:none;
+	-moz-border:none;
+}
