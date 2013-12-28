@@ -261,14 +261,20 @@ a
 	border-top:1px solid #eee;
 	padding:8px;
 }
-.table>tbody>tr>td
+.table thead
 {
-text-align: right;
-width: 85px;
+	display:table-header-group
 }
 .table>tbody>tr>td.left
 {
 	text-align: left;
+	width:100px;
+}
+.table .glyphicon
+{
+	background:transparent;
+	padding:0;
+	color:#000;
 }
 .no-margin
 {

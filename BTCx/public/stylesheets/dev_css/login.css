@@ -26,12 +26,6 @@ h1
 	background:#000;
 	height:85%;
 }
-.bk_2
-{
-	background:url(/public/images/dev_imgs/bitcoin.png) center center fixed;
-	background-size: cover;
-	height: 0%;
-}
 
 .bk_blank
 {
@@ -51,18 +45,15 @@ h1
 	height:164px;
 	width:100%;
 }
-.team 
+.footer h3
 {
-	text-align: center;
 	color:#fff;
+	font-family: 'Iceland', cursive;
 }
-.team h3 
+.footer ul 
 {
-	color:#2ecc71;
-}
-img
-{
-	max-width:100%;
+	list-style: none;
+	color: #fff;
 }
 .modal-content
 {

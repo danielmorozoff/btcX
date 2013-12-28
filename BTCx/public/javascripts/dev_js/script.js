@@ -33,10 +33,10 @@ $(document).ready(function()
 	{
 		this.initialize = function()
 		{
+			this.tableHeader = ['Name','Last Trade','Highest Price','Lowest Price','Market Volume','Trade Frequency','Cancelable'];
 			this.exchanges = [
-			{'Name':'MtGox','Last':'$741.61','High':'$750.00','Low':'$687.55','Vol':'9002 BTC','W.Avg':'$725.69','':'','additional':{'website':'http://wwww.mtgox.com'}},
-			{'Name':'BTCe','Last':'$737.691','High':'$761','Low':'$690','Vol':'27938 BTC','W.Avg':'$725.69','':'','additional':{'website':'http://wwww.btc-e.com'}},
-			{'Name':'Bitstamp','Last':'$737.35','High':'$762.10','Low':'$702.26','Vol':'25705 BTC','W.Avg':'$737.83','':'','additional':{'website':'http://wwww.bitstamp.net'}}
+			{'name':'MtGox','lt':'$741.61','hp':'$750.00','lp':'$687.55','mv':'9002 BTC','tf':'60%','cancel':'','additional':{'website':'http://wwww.mtgox.com'}},
+			{'name':'BTCe','lt':'$741.61','hp':'$750.00','lp':'$687.55','mv':'9002 BTC','tf':'60%','cancel':'','additional':{'website':'http://wwww.mtgox.com'}}
 			];
 			this.exchangesOrder = new Array();
 
@@ -44,13 +44,17 @@ $(document).ready(function()
 			$("#exchanges-dropdown").empty();
 			$("#exchanges-table-header").empty();
 
+			// for(var i = 0; i < this.tableHeader.length;i++)
+			// {
+			// 	$("#exchanges-table-header").append('<th>'+this.tableHeader[i]+'</th>');
+			// }
+
 			for(var i = 0; i < this.exchanges.length;i++)
 			{
 				//Create Exchange Dropdown
 				var exchange = this.exchanges[i];
-				$("#exchanges-dropdown").append('<li><a index="'+i+'">'+exchange.Name+'</a></li>');
+				$("#exchanges-dropdown").append('<li><a index="'+i+'">'+exchange.name+'</a></li>');
 				//Generate Table head
-				if(i == 0) for(var key in exchange) if(key != 'additional') $("#exchanges-table-header").append('<th>'+key+'</th>');
 			}
 
 			
@@ -78,21 +82,30 @@ $(document).ready(function()
 			this.exchangesOrder.push(index);
 
 			//Append exchange information to table
-			var appendHtml = '<div id='+exchange.Name+' class="table-entry"><table class="table no-margin"><tbody><tr>';
-				appendHtml += '<td class="left"><a class="link" data-toggle="collapse" href="#collapse-'+exchange.Name+'">'+exchange.Name+'</a></td>';
-				appendHtml += '<td>'+exchange.Last+'</td>';
-				appendHtml += '<td>'+exchange.High+'</td>';
-				appendHtml += '<td>'+exchange.Low+'</td>';
-				appendHtml += '<td>'+exchange.Vol+'</td>';
-				appendHtml += '<td>'+exchange['W.Avg']+'</td>';
+			var appendHtml = '<div id='+exchange.name+' class="table-entry"><table class="table no-margin">';
+				if(this.exchangesOrder.length == 1) appendHtml += '<thead><tr>';
+				else  appendHtml += '<thead style="opacity:0"><tr>';
+				for(var i = 0; i < this.tableHeader.length;i++)
+				{
+					appendHtml += '<th>'+this.tableHeader[i]+'</th>';
+				}
+				appendHtml += '</thead><tr>';
+				appendHtml += '<tbody><tr>';
+				for(var key in exchange)
+				{
+					if(key == 'name') appendHtml += '<td class="left"><a class="link" data-toggle="collapse" href="#collapse-'+exchange.name+'">'+exchange.name+'</a></td>';
+					else if(key == 'cancel') appendHtml += '<td><a class="info"><span class="glyphicon glyphicon-ban-circle"></span></a></td>';
+					else if(key != 'additional') appendHtml += '<td>'+exchange[key]+'</td>';
+				}
+				appendHtml += '<td><a class="info"><span index="'+index+'" class="glyphicon glyphicon-star"></span></a></td>';
 				appendHtml += '<td><a class="info"><span index="'+index+'" class="glyphicon glyphicon-trash trash"></span></a></td>';
 				appendHtml += '</tr></tbody></table>';
-				appendHtml += '<div id="collapse-'+exchange.Name+'" class="panel-collapse collapse"><div class="panel-body">';
+				appendHtml += '<div id="collapse-'+exchange.name+'" class="panel-collapse collapse"><div class="panel-body">';
 				appendHtml += '<a class="link pull-right" href="'+exchange.additional.website+'">'+exchange.additional.website+'</a>';
 				appendHtml += '</div></div></div>';
 				
 			//Get the new height for quicksand	
-			$.when($("#exchanges-table-entries").append(appendHtml)).then(Menu.refresh('Exchanges'));
+			$.when($("#exchanges-table-entries").append(appendHtml)).then(function(){});
 
 			//Activate trash function
 			$(".trash").click(function()
@@ -105,13 +118,13 @@ $(document).ready(function()
 		{
 			//Remove exchange entry in table
 			var exchange = this.exchanges[index];
-			$.when($("#"+exchange.Name).remove()).then(Menu.refresh('Exchanges'));
+			$.when($("#"+exchange.name).remove()).then(function(){});
 				
 			//Calculate the new height or quicksand cannot locate the right height.	
-			var panelHeight = 	parseInt($("#panels").find("li[data-id=Exchanges]").css('height'));
-			var exchangeHeight = parseInt($("#"+exchange.Name).css('height'));
-			var newHeight = panelHeight - exchangeHeight;
-			$("#panels").find("li[data-id=Exchanges]").attr('style','height:'+newHeight+'px');
+			// var panelHeight = 	parseInt($("#panels").find("li[data-id=Exchanges]").css('height'));
+			// var exchangeHeight = parseInt($("#"+exchange.Name).css('height'));
+			// var newHeight = panelHeight - exchangeHeight;
+			// $("#panels").find("li[data-id=Exchanges]").attr('style','height:'+newHeight+'px');
 
 
 			//Remove exchange from order/display
@@ -181,11 +194,6 @@ $(document).ready(function()
 			this.elements = $('#panels');
 		  	this.data = this.elements.clone();
 		  	this.sortedData = this.data.find('li[filter-id="filter"]');
-	  	}
-	  	this.refresh = function(panel)
-	  	{
-	  		//Updates the height of a panel for quicksand purposes
-	  		this.data.find("li[data-id=" + panel + "]").css('height', $("#panels").find("li[data-id=" + panel + "]").css('height'));
 	  	}
 
 		this.show = function(button) 
