@@ -69,6 +69,7 @@ public class SignupController extends Controller {
      * @throws JSONException
      */
     public static String storeUserData(String usrStr) throws JSONException{
+    	ServerLoggers.infoLog.info("***Userdata: "+usrStr+"***");
     	JSONObject usrObj = new JSONObject(usrStr);
     	if(BTCxDatabase.USER_INDEX.get("email", usrObj.get("email")).getSingle()==null){
 	    	try{

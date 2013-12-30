@@ -9,7 +9,7 @@ $(document).ready(function()
 			var elements = 0;
 			var valid = 0;
 			var text = '';
-			var postData = {'elements':[]};
+			var postData = {};
 			form.find('input[name]').each(function()
 			{
 				var input = $(this);
@@ -47,8 +47,7 @@ $(document).ready(function()
 				}
 				if(check) 
 				{
-					var postObj = {'name':name,'type':type,'value':val};
-					postData.elements.push(postObj);
+					postData[name] = val;
 
 					input.next('.addon-right').find('span').attr('class','glyphicon glyphicon-ok');
 					valid++;
@@ -74,19 +73,11 @@ $(document).ready(function()
 				$("#"+formName+"-message").html(text);
 			}
 		}
-		this.login = function(postData)
-		{
-			Tube.login(postData,function(data)
-					{
-						if(!data.pass) $('#login-message').html(data.message);
-						else window.location.href = "/";
-					});
-		}
 		this.signup = function(postData)
 		{
 			Tube.signup(postData,function(data)
 					{
-						$('#signup-message').html(data.message);
+						$('#signup-message').html(data);
 					});
 		}
 	}
