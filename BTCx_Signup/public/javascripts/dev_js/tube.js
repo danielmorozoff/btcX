@@ -13,7 +13,6 @@ $(document).ready(function()
 			console.debug('Sending request: '+url+' '+postData);
 			try
 			{
-
 				$.post(url,{ usrStr: postData},function(data)
 				{
 					if(data != null)

@@ -112,3 +112,33 @@ h1
 	background:transparent;
 
 }
+.navbar-description {
+	line-height:60px;
+	font-size:16pt;
+}
+.type-selection{
+	padding:3px;
+
+	margin-bottom: 20px;
+    -webkit-border-radius:1px;
+    -moz-border-radius:1px;
+    border-radius:0px;
+   /* -webkit-box-shadow: 0 3px 0 #ccc, 0 -1px #fff inset;
+    -moz-box-shadow: 0 3px 0 #ccc, 0 -1px #fff inset;
+    box-shadow: 0 3px 0 #ccc, 0 -1px #fff inset;*/
+    background: #FFF;
+    color:#888;
+    border:1px solid #27ae60;
+    outline:none;
+    display: inline-block;
+    -webkit-appearance:none;
+    -moz-appearance:none;
+    appearance:none;
+    cursor:pointer;
+}
+.type-selection:focus{
+	border:1px solid #27ae60;
+	-webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none;
+}

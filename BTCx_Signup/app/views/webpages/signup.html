@@ -1,5 +1,3 @@
-
-
 <!DOCTYPE html>
 <html>
   <head>
@@ -22,7 +20,10 @@
   	<header class="navbar-fixed">
   		<div class="navbar-inner clearfix">
   			<a class="navbar-brand" href="#">CryptREX</a>
+  			<div class='navbar-right pull-right info '>A cryptocurrency exchange -  built for a decentralized currency</div>
   		</div>	
+
+
   	</header>
   		<div class="bk bk_0 clearfix">
 	  		<div class="c_1 row img_1">
@@ -30,49 +31,53 @@
 					<div class="panel-heading clearfix"><span class="glyphicon glyphicon-info-sign pull-left"></span><h3 class="panel-title pull-right">Sign up for more information</h3></div>
 				   <div class="panel-body">
 			  		<form name="signup">
-				      	<div class="input-group">
+				  		<select class="form-control type-selection">
+						  <option>Trader</option>
+						  <option>Merchant</option>
+						</select>
+				      	<div class="input-group merchant trader">
 						  <span class="input-group-addon">E</span>
 						  <input type="text" name="email" class="form-control" placeholder="Email">
 						   <span class="input-group-addon addon-right"><span class=""></span></span>
 						</div>
-						<div class="input-group">
+						<div class="input-group merchant trader">
 						  <span class="input-group-addon">F</span>
-						  <input type="text" name="firstName" class="form-control" placeholder="Firstname">
+						  <input type="text" name="firstName" class="form-control" placeholder="First Name">
 						   <span class="input-group-addon addon-right"><span class=""></span></span>
 						</div>
-						<div class="input-group">
+						<div class="input-group merchant">
 						  <span class="input-group-addon">L</span>
-						  <input type="text" name="lastName" class="form-control" placeholder="Lastname">
+						  <input type="text" name="lastName" class="form-control" placeholder="Last Name">
 						   <span class="input-group-addon addon-right"><span class=""></span></span>
 						</div>
-						<div class="input-group">
+						<div class="input-group merchant">
 						  <span class="input-group-addon">P</span>
 						  <input type="text" name="phoneNumber" class="form-control" placeholder="Phone">
 						   <span class="input-group-addon addon-right"><span class=""></span></span>
 						</div>
-						<div class="input-group">
+						<div class="input-group merchant">
 						  <span class="input-group-addon">A</span>
 						  <input type="text" name="address" class="form-control" placeholder="Address">
 						   <span class="input-group-addon addon-right"><span class=""></span></span>
 						</div>
-						<div class="input-group">
+						<div class="input-group merchant">
 						  <span class="input-group-addon">C</span>
 						  <input type="text" name="city" class="form-control" placeholder="City">
 						   <span class="input-group-addon addon-right"><span class=""></span></span>
 						</div>
-						<div class="input-group">
+						<div class="input-group merchant">
 						  <span class="input-group-addon">S</span>
 						  <input type="text" name="state" class="form-control" placeholder="State">
 						   <span class="input-group-addon addon-right"><span class=""></span></span>
 						</div>
-						<!-- <div class="input-group">
+						<div class="input-group merchant">
 						  <span class="input-group-addon">P</span>
 						  <input type="text" name="percentChargedByCC" class="form-control" placeholder="Percent Charged By CC">
 						   <span class="input-group-addon addon-right"><span class=""></span></span>
-						</div> -->
+						</div>
 					    <br>
 					    <p id="signup-message" style="text-align:left;font-size:11px;margin:0"></p>
-					    <button type="button" class="btn btn-default btn-black pull-right" id="signupBtn">Submit</button>
+					    <button type="button" class="btn btn-default btn-white pull-right" id="signupBtn">Submit</button>
 					  </form>
 					</div>
 				</div>		  
@@ -80,16 +85,17 @@
 		</div>	
 		<div class="footer">
 			<div class="row">
-				<div class="col-md-offset-1 col-md-3">
+				<div class="col-md-3">
 					<ul>
 					<li><a>About us</a></li>
 					<li><a>Tech</a></li>
+					<li><a>Blog</a></li> 
 					<li><a>Contact us</a></li>
 					</ul>
 
 				</div>
-				<div class="col-md-offset-4 col-md-4">
-					<p>© CryptREX <a>Privacy Policy</a>  |  <a>Terms and Conditions</a></p>
+				<div class="col-md-offset-7 col-md-2" style='text-align:right;padding-right:30px'>
+					<p>© CryptREX</p>
 				</div>
 			</div>	
 		</div>
@@ -101,6 +107,7 @@
     <script src="/public/javascripts/dev_js/landing.js"></script>
  	<script src="/public/javascripts/dev_js/tube.js"></script>
     <script src="/public/javascripts/dev_js/verification.js"></script>
+    <script src="/public/javascripts/dev_js/selection.js"></script>
 
   </body>
 </html>

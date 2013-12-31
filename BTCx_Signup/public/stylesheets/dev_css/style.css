@@ -45,11 +45,16 @@ header
 	height:64px;
 	background: #2c3e50;
 	background: #fff;
-	padding:0px 70px;
+	padding:0px 10px 0px 70px;
 }
+.navbar-right{
+	font-size:14pt;
+	line-height:60px;
+
+} 
 a:hover
 {
-	text-decoration: none;
+	text-decoration: underline;
 	cursor: pointer;
 	color:#2ecc71;
 }
