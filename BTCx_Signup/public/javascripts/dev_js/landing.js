@@ -69,7 +69,8 @@ $(document).ready(function()
 		{
 			Verifier.verifyForm('signup');
 		});
-   	
+   		
+   
 
 	});
 	function getScrollTop(){ //  Verifies the total sum in pixels of the whole page

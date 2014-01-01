@@ -8,15 +8,19 @@ $(document).ready(function()
 			var form = $('form[name='+formName+']');
 			var elements = 0;
 			var valid = 0;
-			var text = '';
 			var postData = {};
-			form.find('input[name]').each(function()
+			var type = form.find('.type-selection').val();
+			console.debug(type);
+			form.find('.'+type+' input[name]').each(function()
 			{
+
 				var input = $(this);
 				var type = input.attr('type');
 				var name = input.attr('name');
 				var val = input.val();
 				var check = false;
+				var text = '';
+
 				if(type == 'text')
 				{
 					if(name == 'email')
@@ -45,6 +49,9 @@ $(document).ready(function()
 					val = input.is(':checked');
 					if(val) check = true;
 				}
+
+				input.closest('.input-group').next('.alert').remove();
+
 				if(check) 
 				{
 					postData[name] = val;
@@ -57,9 +64,12 @@ $(document).ready(function()
 					if(type != 'checkbox') text += 'Please provide a valid '+name+'<br>';
 					else text += 'Agree to our Terms of Use and Privacy Policy';
 
+					input.closest('.input-group').after('<div class="alert alert-danger">'+text+'</div>');
 					input.next('.addon-right').find('span').attr('class','glyphicon glyphicon-remove');	
 				}
+
 				elements++;
+				
 			});
 			if(elements == valid)
 			{
@@ -67,10 +77,6 @@ $(document).ready(function()
 				
 				if(formName.indexOf('signup') >= 0) this.signup(JSON.stringify(postData));	
 				else if(formName.indexOf('login') >= 0) this.login(JSON.stringify(postData));	
-			}
-			else
-			{
-				$("#"+formName+"-message").html(text);
 			}
 		}
 		this.signup = function(postData)
