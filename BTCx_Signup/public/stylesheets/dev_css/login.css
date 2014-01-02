@@ -114,17 +114,28 @@ h1
 	line-height:60px;
 	font-size:16pt;
 }
-.type-selection{
-	padding:3px;
 
+.type-selection-wrapper{
+   width: 120px;
+   height: 34px;
+   overflow: hidden;
+   background: url(/public/images/dev_imgs/type_favicon.ico) no-repeat 85% #FFF;
+   margin-bottom:10px;
+}
+.type-selection{
+	background: transparent;
+    width: 110px;
+    font-size: 16px;
+    height: 34px;
+	padding:3px;
 	margin-bottom: 20px;
-    -webkit-border-radius:1px;
-    -moz-border-radius:1px;
+    -webkit-border-radius:0px;
+    -moz-border-radius:0px;
     border-radius:0px;
    /* -webkit-box-shadow: 0 3px 0 #ccc, 0 -1px #fff inset;
     -moz-box-shadow: 0 3px 0 #ccc, 0 -1px #fff inset;
     box-shadow: 0 3px 0 #ccc, 0 -1px #fff inset;*/
-    background: #FFF;
+    
     color:#888;
     border:1px solid #27ae60;
     outline:none;
