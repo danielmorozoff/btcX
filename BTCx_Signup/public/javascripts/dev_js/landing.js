@@ -69,6 +69,17 @@ $(document).ready(function()
 		{
 			Verifier.verifyForm('signup');
 		});
+
+		$(".footer ul li a").click(function()
+		{
+			$(".footer ul li a").removeClass('active');
+			$(this).addClass('active');
+			var li = $(this).parent();
+			var index = li.index();
+			$("#carousel-example-generic").carousel(index);
+			$("#carousel-example-generic").carousel('pause');
+		});
+
    		
    
 
