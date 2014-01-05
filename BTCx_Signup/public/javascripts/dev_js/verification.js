@@ -11,7 +11,7 @@ $(document).ready(function()
 			var postData = {};
 			var type = form.find('.type-selection').val();
 			console.debug(type);
-			form.find('.'+type+' input[name]').each(function()
+			form.find('.input-group:not(:hidden) input').each(function()
 			{
 
 				var input = $(this);
@@ -19,7 +19,7 @@ $(document).ready(function()
 				var name = input.attr('name');
 				var val = input.val();
 				var check = false;
-				var text = '';
+				var msg = input.attr('msg');
 
 				if(type == 'text')
 				{
@@ -38,11 +38,6 @@ $(document).ready(function()
 					var pass2 = pass1;
 					if(form.find('input[name=reppassword]').length > 0) pass2 = form.find('input[name=reppassword]');
 					if(pass1.val().length >= 2 && (pass1.val() == pass2.val())) check = true;
-					else
-					{
-						pass1.next('.addon-right').find('span').attr('class','glyphicon glyphicon-remove');	
-						if(form.find('input[name=reppassword]').length > 0) pass2.next('.addon-right').find('span').attr('class','glyphicon glyphicon-remove');	
-					}
 				}
 				else if(type == 'checkbox')
 				{
@@ -50,22 +45,18 @@ $(document).ready(function()
 					if(val) check = true;
 				}
 
-				input.closest('.input-group').next('.alert').remove();
+				input.closest('.input-group').next('.message-error').remove();
 
 				if(check) 
 				{
+					input.removeClass('has-error');
 					postData[name] = val;
-
-					input.next('.addon-right').find('span').attr('class','glyphicon glyphicon-ok');
 					valid++;
 				}
 				else
 				{
-					if(type != 'checkbox') text += 'Please provide a valid '+name+'<br>';
-					else text += 'Agree to our Terms of Use and Privacy Policy';
-
-					input.closest('.input-group').after('<div class="alert alert-danger">'+text+'</div>');
-					input.next('.addon-right').find('span').attr('class','glyphicon glyphicon-remove');	
+					input.addClass('has-error');
+					input.closest('.input-group').after('<p class="message-error">Please check '+msg+'</p>');
 				}
 
 				elements++;

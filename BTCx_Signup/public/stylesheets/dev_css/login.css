@@ -71,13 +71,6 @@ h1
 {
 	color:#fff;
 }
-.footer ul li:not(:last-child)
-{
-	border-right:1px solid #fff;
-	-webkit-border-right:1px solid #fff;
-	-moz-border-right:1px solid #fff;
-	padding-right:15px;
-}
 .modal-content
 {
 	border-radius:0px;
@@ -170,7 +163,8 @@ h1
 }
 .carousel-inner
 {
-	height:580px;
+	min-height:580px;
+	padding-bottom:10px;
 }
 .panel
 {
@@ -179,4 +173,14 @@ h1
 .margin 
 {
 	margin-top:65px;
+}
+.message-error
+{
+	text-align: right;
+	font-size:10px;
+	color: #843534;
+}
+.has-error
+{
+	border-color: #843534;
 }

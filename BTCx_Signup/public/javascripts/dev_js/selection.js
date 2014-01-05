@@ -20,20 +20,15 @@ $(document).ready(function()
 	}
 	Selection = new Selection();
 	//Defaults to trader
-	$('.input-group:not(.trader)').hide();
 	$('.type-selection').change(function()
 	{	
+		$(".input-group input").removeClass('has-error');
 		$($(this).selector+' option:selected').each(function()
 		{
+			if($(this).text()=='Trader') Selection.hideInputs("merchant");
+			else Selection.displayInputs("merchant");
 
-			if($(this).text()=='Trader'){
-				Selection.hideInputs("merchant");
-				Selection.displayInputs("trader");
-			}
-			else{
-				Selection.displayInputs("merchant");
-				Selection.displayInputs("trader");
-			}
+			$(".input-group").next('.message-error').fadeOut();
 		});
 	});
 
