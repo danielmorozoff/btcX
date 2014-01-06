@@ -51,6 +51,9 @@ public class SignupController extends Controller {
     public static void index() {
         renderTemplate("app/views/webpages/signup.html");
     }
+    public static void map() {
+        renderTemplate("app/views/webpages/map.html");
+    }
     /**
      * Signup User for future usage of the system
      * Properties stored:

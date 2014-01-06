@@ -80,8 +80,7 @@ $(document).ready(function()
 			$("#carousel-example-generic").carousel('pause');
 		});
 
-   		
-   
+   	
 
 	});
 	function getScrollTop(){ //  Verifies the total sum in pixels of the whole page

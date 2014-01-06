@@ -4,6 +4,7 @@
 
 # Home page
 GET     /                                       SignupController.index
+GET     /map                                      SignupController.map
 POST     /signupUser                            SignupController.storeUserData
 
 # Ignore favicon requests
