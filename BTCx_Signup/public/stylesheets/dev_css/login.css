@@ -14,6 +14,9 @@ h1
 {
 	color:#fff;
 }
+.input-group{
+	width:290px;
+}
 
 .bk {
 	width: 100%;
@@ -191,4 +194,10 @@ h1
 	bottom:0;
 	width:100%;
 	height:580px;
+}
+#panel-signup-info
+{
+	transition:width, 0.5s;
+	-webkit-transition:width, 0.5s;
+	-moz-transition:width, 0.5s;
 }

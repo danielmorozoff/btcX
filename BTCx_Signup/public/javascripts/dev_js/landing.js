@@ -65,7 +65,7 @@ $(document).ready(function()
 			Verifier.verifyForm('login');
 		});
 		
-		$("#signupBtn").click(function()
+		$(".signupBtn").click(function()
 		{
 			Verifier.verifyForm('signup');
 		});

@@ -32,52 +32,89 @@
 				  <!-- Wrapper for slides -->
 				  <div class="carousel-inner">
 				    <div class="item active">
-					      <div class="margin col-md-offset-1 col-md-4 panel panel-primary panel-inverted" style="padding:0;">
-						<div class="panel-heading clearfix"><span class="glyphicon glyphicon-info-sign pull-left"></span><h3 class="panel-title pull-right">Sign up for more information</h3></div>
-					   <div class="panel-body">
-				  		<form name="signup">
-				  			<div class='type-selection-wrapper'>
-					  		<select class="form-control type-selection" >
-							  <option value="trader">Trader</option>
-							  <option value="merchant">Merchant</option>
-							</select>
-							</div>
-					      	<div class="input-group trader">
-							  <span class="input-group-addon">E</span>
-							  <input type="text" name="email" msg="Email" class="form-control" placeholder="Email">
-							</div>
-							<div class="input-group trader">
-							  <span class="input-group-addon">F</span>
-							  <input type="text" name="firstName" msg="First Name" class="form-control" placeholder="First Name">
-							</div>
-							<div class="input-group merchant" style="display: none;">
-							  <span class="input-group-addon">L</span>
-							  <input type="text" name="lastName" msg="Last Name" class="form-control" placeholder="Last Name">
-							</div>
-							<div class="input-group merchant" style="display: none;">
-							  <span class="input-group-addon">P</span>
-							  <input type="text" name="phoneNumber" msg="Phone" class="form-control" placeholder="Phone">
-							</div>
-							<div class="input-group merchant" style="display: none;">
-							  <span class="input-group-addon">A</span>
-							  <input type="text" name="address" msg="Address" class="form-control" placeholder="Address">
-							</div>
-							<div class="input-group merchant" style="display: none;"> 
-							  <span class="input-group-addon">C</span>
-							  <input type="text" name="city" msg="City" class="form-control" placeholder="City">
-							</div>
-							<div class="input-group merchant" style="display: none;">
-							  <span class="input-group-addon">S</span>
-							  <input type="text" name="state" msg="State" class="form-control" placeholder="State">
-							</div>
-							<div class="input-group merchant" style="display: none;">
-							  <span class="input-group-addon">P</span>
-							  <input type="text" name="percentChargedByCC" msg="Percent Charged By CC" class="form-control" placeholder="Percent Charged By CC">
-							</div>
-						    <br>
-						    <p id="signup-message" style="text-align:left;font-size:11px;margin:0"></p>
-						    <button type="button" class="btn btn-default btn-white pull-right" id="signupBtn">Submit</button>
-						  </form>
+					      <div id="panel-signup-info" class="margin col-md-offset-1 col-md-3 panel panel-primary panel-inverted" style="padding:0;">
+							<div class="panel-heading clearfix"><span class="glyphicon glyphicon-info-sign pull-left"></span><h3 class="panel-title pull-right">Sign up for more information</h3></div>
+						   <div class="panel-body">
+							   	<div class="row">
+							   		<div id="panel-trader" class="col-md-12">
+							  			<form name="signup">
+							  			<div class='type-selection-wrapper'>
+								  		<select class="form-control type-selection" >
+										  <option value="trader">Trader</option>
+										  <option value="merchant">Merchant</option>
+										</select>
+										</div>
+								      	<div class="input-group trader">
+										  <span class="input-group-addon">E</span>
+										  <input type="text" name="email" msg="Email" class="form-control" placeholder="Email">
+										</div>
+										<div class="input-group trader">
+										  <span class="input-group-addon">F</span>
+										  <input type="text" name="firstName" msg="First Name" class="form-control" placeholder="First Name">
+										</div>
+										<div class="input-group merchant" style="display: none;">
+										  <span class="input-group-addon">L</span>
+										  <input type="text" name="lastName" msg="Last Name" class="form-control" placeholder="Last Name">
+										</div>
+										<div class="input-group merchant" style="display: none;">
+										  <span class="input-group-addon">P</span>
+										  <input type="text" name="phoneNumber" msg="Phone" class="form-control" placeholder="Phone">
+										</div>
+										<div class="input-group merchant" style="display: none;">
+										  <span class="input-group-addon">A</span>
+										  <input type="text" name="address" msg="Address" class="form-control" placeholder="Address">
+										</div>
+										<div class="input-group merchant" style="display: none;"> 
+										  <span class="input-group-addon">C</span>
+										  <input type="text" name="city" msg="City" class="form-control" placeholder="City">
+										</div>
+										<div class="input-group merchant" style="display: none;">
+										  <span class="input-group-addon">S</span>
+										  <input type="text" name="state" msg="State" class="form-control" placeholder="State">
+										</div>
+										<div class="input-group merchant" style="display: none;">
+										  <span class="input-group-addon">P</span>
+										  <input type="text" name="percentChargedByCC" msg="Percent Charged by CC per Tx" class="form-control" placeholder="Percent Charged by CC per Tx">
+										</div>
+										<div class="trader-fade">
+											<div class="checkbox">
+											   <label>
+											      <input type="checkbox"> I read and accept the <a>Terms of Use</a> and <a>Privacy Policy</a>
+											   </label>
+											</div>
+											<hr>
+											 <p id="signup-message" style="text-align:left;font-size:11px;margin:0"></p>
+							    			<button type="button" class="btn btn-default btn-white pull-right" id="signupBtn">Submit</button>
+										    </form>
+									   </div> 
+									</div>
+									<div class="col-md-6 merchant" style="display:none">
+										<div class="input-group">
+										  <span class="input-group-addon">S</span>
+										  <input type="text" name="storeName" msg="Store name" class="form-control" placeholder="Store name">
+										</div>
+										<div class="input-group" style="width:100%">
+										  <textarea placeholder="Store description" class="form-control" style="resize:none;" name="Description" msg="Description" rows="4"></textarea>
+										</div>
+										<div class="checkbox">
+										   <label>
+										      <input type="checkbox"> I am currently accepting Bitcoin*
+										   </label>
+										</div>
+										<div class="checkbox">
+										   <label>
+										      <input type="checkbox"> I read and accept the <a>Terms of Use</a> and <a>Privacy Policy</a>
+										   </label>
+										</div>
+										<hr>
+										 <p class="signup-message" style="text-align:left;font-size:11px;margin:0"></p>
+						    			<button type="button" class="signupBtn btn btn-default btn-white pull-right">Submit</button>
+									    </form>
+									    <span style="font-size:8px;margin-top:30px;" class="pull-right">
+									    	* Your information will be displayed on our map with your store name, description and its contact information. If you leave this box unchecked your store will be displayed as a potential Bitcoin accepter.</span>
+									    </span>
+									</div> 
+								</div> 
 							</div>
 						</div>	
 				    </div>
@@ -135,7 +172,7 @@
 						</div>	
 				    </div>
 				    <div class="item">
-					      <div class="margin col-md-offset-1 col-md-4 panel panel-primary panel-inverted" style="padding:0;">
+					      <div class="margin col-md-offset-1 col-md-3 panel panel-primary panel-inverted" style="padding:0;">
 							<div class="panel-heading clearfix">
 								<span class="glyphicon glyphicon-envelope pull-left"></span><h3 class="panel-title pull-right">Contact us</h3></div>
 				  			 <div class="panel-body">
@@ -151,6 +188,7 @@
 										<div class="input-group" style="width:100%">
 										  <textarea placeholder="Dear CryptREX, ..."class="form-control" style="resize:none;" name="Message" msg="Message" rows="4"></textarea>
 										</div>
+										<hr>
 										 <button type="button" class="btn btn-default btn-white pull-right" id="contactBtn">Send</button>
 				  					</form>
 							</div>

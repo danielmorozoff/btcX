@@ -64,7 +64,7 @@ $(document).ready(function()
 			});
 			if(elements == valid)
 			{
-				$("#"+formName+"-message").html('Processing...');
+				$("."+formName+"-message").html('Processing...');
 				
 				if(formName.indexOf('signup') >= 0) this.signup(JSON.stringify(postData));	
 				else if(formName.indexOf('login') >= 0) this.login(JSON.stringify(postData));	
@@ -74,7 +74,7 @@ $(document).ready(function()
 		{
 			Tube.signup(postData,function(data)
 					{
-						$('#signup-message').html(data);
+						$('.signup-message').html(data);
 					});
 		}
 	}

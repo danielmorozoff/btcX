@@ -221,6 +221,7 @@ a
 	border-color:#000;
 	-webkit-border-color:#000;
 	-moz-border-color:#000;
+	height: 45px;
 }
 .panel-inverted .panel-title
 {
