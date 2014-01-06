@@ -190,10 +190,10 @@ h1
 #crypt-map
 {
 	position: absolute;
-	top:64px;
+	top:45px;
 	bottom:0;
 	width:100%;
-	height:580px;
+	height:100%;
 }
 #panel-signup-info
 {

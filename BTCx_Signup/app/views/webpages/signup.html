@@ -14,6 +14,8 @@
  	<link href="/public/stylesheets/dev_css/timepicker.css" rel="stylesheet">
     <link href="/public/stylesheets/dev_css/style.css" rel="stylesheet">
     <link href="/public/stylesheets/dev_css/login.css" rel="stylesheet">
+        <link href='//api.tiles.mapbox.com/mapbox.js/v1.5.2/mapbox.css' rel='stylesheet' />
+
 
   </head>
   <body>
@@ -172,6 +174,16 @@
 						</div>	
 				    </div>
 				    <div class="item">
+					      <div class=" panel panel-primary panel-inverted" style="padding:0;width:100%;height:570px">
+							<div class="panel-heading clearfix">
+								<span class="glyphicon glyphicon-globe pull-left"></span><h3 class="panel-title pull-right">Map</h3></div>
+				  			 <div class="panel-body" id="crypt-map" style="height:100%">
+				  				
+							</div>
+						</div>	
+				    </div>
+				   
+				    <div class="item">
 					      <div class="margin col-md-offset-1 col-md-3 panel panel-primary panel-inverted" style="padding:0;">
 							<div class="panel-heading clearfix">
 								<span class="glyphicon glyphicon-envelope pull-left"></span><h3 class="panel-title pull-right">Contact us</h3></div>
@@ -194,6 +206,380 @@
 							</div>
 						</div>	
 				    </div>
+				    <div class="item">
+				    	<div class="row">
+						    <div class="margin col-md-offset-1 col-md-4 panel panel-primary panel-inverted" style="padding:0">
+								<div class="panel-heading clearfix">
+									<span class="glyphicon glyphicon-book pull-left"></span><h3 class="panel-title pull-right">Terms of Use</h3></div>
+					  			 <div class="panel-body" style="max-height:460px;overflow-y:auto;">
+					  				<p>
+									PLEASE READ THESE TERMS OF USE CAREFULLY. BY ACCESSING OR USING THE SITE, YOU AGREE TO BE BOUND BY THE TERMS DESCRIBED HEREIN AND ALL TERMS INCORPORATED BY REFERENCE. IF YOU DO NOT AGREE TO THESE TERMS, DO NOT USE THE SITE. 
+									<br><br>
+									These Terms of Use ("Terms") apply to your access to, and use of, the websites of Project Investors, Inc. and its subsidiaries and affiliated companies ("CryptREX" "we" or "us"), including www.CryptREX.com (collectively, the "Site"). 
+									<br><br>
+									CryptREX reserves the right to change or modify the terms and conditions contained in these Terms or any policy or guideline of the Site, at any time and in its sole discretion. We will provide notice of these changes by posting the revised Terms to the Site and changing the "Last Revised" date at the top of the Terms, or by providing other means of notice as CryptREX will determine each time in its sole discretion. Using a particular form of notice in some instances does not obligate us to use the same form in other instances. Any changes or modifications will be effective immediately upon posting the revisions to the Site, and will apply to your subsequent use of the Site. You waive any right you may have to receive specific notice of such changes or modifications. Your continued use of this Site will confirm your acceptance of such changes or modifications; therefore, you should review the Terms and applicable policies whenever you use the Site to understand the terms that apply to such use. The most current version of the Terms can be reviewed by clicking on the "Terms of Use" hypertext link located at the bottom of our web pages. If you do not agree to the Terms in effect when you access or use the Site, you must stop using the Site. 
+									<br><br>
+									PREAMBLE 
+									<br>
+									CryptREX provides an online tool that allows users to freely trade between a number of different cryptographic currencies worldwide. 
+									<br><br>
+									<b>1. Eligibility</b> 
+									<br>
+									By accessing or using the Site, you represent and warrant that you have not previously been suspended or removed from the Site. You represent and warrant that you are not: (a) located in, under the control of, or a national or resident of any country to which the United States has embargoed goods or services; (b) identified as a "Specially Designated National", or (c) placed on the Commerce Department’s Denied Persons List. You further represent and warrant that you will not use the Site if the laws of your country prohibit you from doing so in accordance with these Terms. 
+									<br><br>
+									<b>2. Registration and Account </b>
+									<br>
+									In order to access and use certain features on the Site, you must create an account with  CryptREX ("Account"). You agree to: (a) provide accurate, current and complete information when creating or updating an Account; (b) maintain and promptly update your Account information; (c) maintain the security and confidentiality of your login credentials and restrict access to your Account and your computer; (d) promptly notify CryptREX if you discover or otherwise suspect any security breaches related to the Site; and (e) take responsibility for all activities that occur under your Account and accept all risks of unauthorized access. 
+									<br><br>
+									<b>3. Privacy Policy </b>
+									<br>
+									Please refer to our Privacy Policy for information about how CryptREX collects, uses and discloses information about its users. 
+									<br><br>
+									<b>4. Confidentiality of Transmissions Over the Internet </b>
+									<br>
+									The transmission of data or information (including communications by e-mail) over the Internet or other publicly accessible networks is not one hundred percent secure, and is subject to possible loss, interception, or alteration while in transit. Accordingly, CryptREX does not assume any liability for any damage you may experience or costs you may incur as a result of any transmissions over the Internet or other publicly accessible networks, including without limitation transmissions involving the exchange of e-mail with CryptREX containing your personal information. While CryptREX shall take commercially reasonable efforts to safeguard the privacy of the information you provide to CryptREX and shall treat such information in accordance with CryptREX's Privacy Policy, in no event will the information you provide to CryptREX be deemed to be confidential, create any fiduciary obligations to you on CryptREX's part, or result in any liability to you on CryptREX's part in the event that such information is inadvertently released by CryptREX or accessed by third parties without CryptREX's consent. 
+									<br><br>
+									<b>5. NON ADVISED </b>
+									<br>
+									    a. Execution only 
+									    <br>
+									We deal on an execution only basis and do not advise on the merits of particular transactions, or their taxation consequences. 
+										<br>
+									    b. Own judgement and suitability 
+									    <br>
+									Without prejudice to our foregoing obligations, in asking us to enter into any transaction, you represent that you have been solely responsible for making your own independent appraisal and investigations into the risks of the transaction. You represent that you have sufficient knowledge, market sophistication, professional advice and experience to make your own evaluation of the merits and risks of any transaction. We give you no warranty as to the suitability of the products traded under this Agreement and assume no fiduciary duty in our relations with you. 
+										<br>
+									    c. Incidental information and investment research 
+									    <br>
+									Where we do provide generic trading recommendations, market commentary or other information: 
+										<br>
+									 - this is incidental to your dealing relationship with us. It is provided solely to enable you to make your own investment decisions and does not amount to advice; 
+									 	<br>
+									 - we give no representation, warranty or guarantee as to the accuracy or completeness of such information or as to the tax consequences of any transaction. 
+								 	<br><br>
+									<b>6. Copyright and Limited License </b>
+									<br>
+									Unless otherwise indicated on the Site, the Site and all content and other materials on the Site, including, without limitation, the CryptREX logo and all designs, text, graphics, pictures, information, data, software, sound files, other files and the selection and arrangement thereof (collectively, "CryptREX Materials") are the proprietary property of CryptREX or its licensors or users and are protected by U.S. and international copyright laws. 
+									<br>
+									You are granted a limited, non-sublicensable license to access and use the Site and CryptREX Materials; subject to these Terms. Except as expressly permitted on the Site, in these Terms or otherwise in writing by CryptREX, such license does not include: (a) any resale or commercial use of the Site or the CryptREX Materials; (b) the distribution, public performance or public display of any CryptREX Materials; (c) modifying or otherwise making any derivative uses of the Site and the CryptREX Materials, or any portion thereof; (d) use of any data mining, robots or similar data gathering or extraction methods; (e) downloading (other than the page caching) of any portion of the Site, the CryptREX Materials or any information contained therein; or (f) any use of the Site or the CryptREX Materials other than for its intended purpose. Any use of the Site or the CryptREX Materials other than as specifically authorized herein, without the prior written permission of CryptREX, is strictly prohibited and will terminate the license granted herein. Such unauthorized use may also violate applicable laws, including, without limitation, copyright and trademark laws and applicable communications regulations and statutes. Unless explicitly stated herein, nothing in these Terms will be construed as conferring any license to intellectual property rights, whether by estoppel, implication or otherwise. This license is revocable at any time. 
+									<br><br>
+									<b>7. Repeat Infringer Policy </b>
+									<br>
+									In accordance with the Digital Millennium Copyright Act ("DMCA") and other applicable law, CryptREX has adopted a policy of terminating, in appropriate circumstances and in CryptREX’s sole discretion, users who are deemed to be repeat infringers. CryptREX may also, in its sole discretion, limit access to the Site and/or terminate the Account of any user who infringes any intellectual property rights of others, whether or not there is any repeat infringement. 
+									<br><br>
+									<b>8. Copyright Complaints </b>
+									<br>
+									If you believe anything on the Site infringes upon any copyright which you own or control, you may file a notification of such infringement with our Designated Agent as set forth below. 
+									<br>
+									info@CryptREX.com 
+									<br>
+									Please see 17 U.S.C. §512(c)(3) for the requirements of a proper notification. You should note that if you knowingly misrepresent in your notification that the material or activity is infringing, you will be liable for any damages, including costs and attorneys’ fees, incurred by us or the alleged infringer as the result of our relying upon such misrepresentation in removing or disabling access to the material or activity claimed to be infringing. 
+									<br><br>
+									<b>9. Trademarks </b>
+									<br>
+									"CryptREX", the CryptREX logos and any other CryptREX product or service name, logo or slogan contained in the Site are trademarks or service marks of CryptREX (the "CryptREX Marks") and may not be copied, imitated or used, in whole or in part, except as expressly permitted in these Terms or on the Site or with the prior written permission of CryptREX. You may not use any meta tags or any other "hidden text" utilizing any CryptREX Marks without our prior written permission. In addition, the look and feel of the Site, including all page headers, custom graphics, button icons and scripts, is the service mark, trademark and/or trade dress of CryptREX and is part of the CryptREX Marks and may not be copied, imitated or used, in whole or in part, without our prior written permission except as expressly permitted herein or on the Site. All other trademarks, registered trademarks, product names and company names or logos mentioned in the Site are the property of their respective owners and may not be copied, imitated or used, in whole or in part, without the written permission of the applicable trademark holder. Reference to any products, services, processes or other information, by trade name, trademark, manufacturer, supplier or otherwise does not constitute or imply endorsement, sponsorship or recommendation thereof by us. 
+									<br><br>
+									<b>10. 51% and other CryptoCurrency Attacks </b>
+									<br>
+									CryptREX makes every attempt to help prevent and mitigate crypto currency attacks. However, should an attack occur and we are able to confirm it, then CryptREX will immediately halt trading, deposits, and withdrawals for that coin. If it is determined that such an attack caused the currency to greatly decrease in value, then CryptREX will discontinue trade activity on that currency entirely. Resolutions concerning deposits, withdrawals, and user balances for an attacked currency will be determined on a case by case basis. 
+									<br><br>
+									<b>11. Hyperlinks </b>
+									<br>
+									You are granted a limited, non-exclusive right to create a text hyperlink to the Site, provided such link does not portray CryptREX or any of our Site in a false, misleading, derogatory or otherwise defamatory manner and provided further that the linking site does not contain any adult or illegal material or any material that is offensive, harassing or otherwise objectionable, in our sole discretion. This limited right may be revoked at any time. You may not use any CryptREX Marks or other proprietary graphic of CryptREX to link to the Site without the express written permission of CryptREX. Further, you may not use, frame or utilize framing techniques to enclose any CryptREX trademark, logo or other proprietary information, including the images found on the Site, the content of any text or the layout/design of any page or form contained on a page of the Site without CryptREX’s express written consent. Except as noted above, you are not conveyed any right or license by implication, estoppel or otherwise in or under any patent, trademark, copyright or other proprietary right of CryptREX or any third party. 
+									<br><br>
+									<b>12. BSA / FinCEN </b>
+									<br>
+									CryptREX is registered with the BSA as an MSB (Money Services Business). CryptREX may be required to file details of account activity to this organization from time to time. 
+									<br><br>
+									<b>13. Third Party Content </b>
+									<br>
+									CryptREX and its users may provide third party content on the Site and may provide links to web pages and content that are not owned or controlled by CryptREX (collectively the "Third Party Content") as a service to those interested in this information. CryptREX does not control, endorse or adopt any Third Party Content and makes no representation or warranties of any kind regarding the Third Party Content, including without limitation regarding its accuracy or completeness. You acknowledge and agree that CryptREX is not responsible or liable in any manner for any Third Party Content and undertakes no responsibility to update or review any Third Party Content. Users use such Third Party Content contained therein at their own risk. Your business dealings or correspondence with, or participation in promotions of, any third parties, and any terms, conditions, warranties or representations associated with such dealings or promotions, are solely between you and such third parties. CryptREX is not responsible or liable for any loss or damage of any sort incurred as the result of any such dealings or promotions or as the result of the presence of such Third Party Content on the Site. 
+									<br><br>
+									<b>14. Feedback </b>
+									<br>
+									You acknowledge and agree that any materials, including but not limited to questions, comments, feedback, suggestions, ideas, plans, notes, drawings, original or creative materials or other information, regarding CryptREX or the Site (collectively, "Feedback") that are provided by you, whether by email, posting to the Site or otherwise, are non-confidential and will become the sole property of CryptREX. CryptREX will own exclusive rights, including all intellectual property rights, and will be entitled to the unrestricted use and dissemination of such Feedback for any purpose, commercial or otherwise, without acknowledgment or compensation to you. 
+									<br><br>
+									<b>15. User Conduct and Obligations </b>
+									<br>
+									Your license to access and use the Services is subject to the following restrictions and prohibitions on use ("User Conduct and Obligations"). You agree that you shall not: 
+									<br><br>
+									upload, post, transmit, share or otherwise make available through, or to, the Services any content that: 
+									<br><br>	
+									is unlawful, abusive, threatening, harmful, obscene, lewd, offensive, defamatory, or otherwise objectionable; 
+									<br><br>
+									might infringe the intellectual property rights, privacy rights, rights of publicity, or other proprietary rights of others; 
+									<br><br>
+									might violate any local, federal, or international law, or any rules of any securities exchange, either intentionally or unintentionally, or; 
+									<br><br>
+									contains any viruses, trojan horses, time bombs, cancelbots, or any other harmful or disruptive computer code, file, or program designed to interrupt, destroy, or limit the functionality of any computer software or hardware or telecommunications equipment; 
+									<br><br>
+									reproduce, copy, modify, distribute, market, display, transfer, sublicense, prepare derivative work(s) or adaptation(s) based on, sell, exchange, barter, transfer, or otherwise make available in any form or by any means, except for the express limited Permitted Uses, all or any portion of the Services or any Information And Content retrieved therefrom; 
+									<br><br>
+									disrupt, disable, place unreasonable burdens or excessive loads on, interfere with, or attempt to gain unauthorized access to any portion of the Services, or their computer systems, servers, or networks; 
+									<br><br>
+									post or provide any information that that you know (or ought to know) is false or misleading, provide false information about yourself, impersonate any other person, or otherwise attempt to mislead others about your identity, your affiliation with any person or entity, or the origin of any content, message, or other communication; 
+									<br><br>
+									upload, post, transmit, share, or otherwise make available any unsolicited or unauthorized advertising, solicitations, promotional materials, "junk mail", "spam", "chain letters", "pyramid schemes", or any other form of solicitation, bulk e-mail, or duplicative messages; 
+									<br><br>
+									use any automatic or manual process to collect, harvest, gather, or extract information about other visitors to or users of the Services, or otherwise systematically extract data or data fields, including without limitation any financial and/or currency data or e-mail addresses; 
+									<br><br>
+									use the Services for the purpose of gathering information for, or transmitting, unsolicited bulk commercial e-mail over the Internet to other users of the Services or to other third parties. Internet e-mail sent to, or through, the computer systems of the Services or to users of the Services or to other third parties containing invalid or forged headers, invalid or non-existent domain names, or other deceptive addressing is deemed counterfeit. SENDING, OR ATTEMPTING TO SEND, COUNTERFEIT E-MAIL TO, OR THROUGH, THE COMPUTER SYSTEMS OF THE SERVICES IS STRICTLY PROHIBITED; 
+									<br><br>
+									provide access to or use of any portion of the Services through any timesharing system, service bureau, the Internet, or any other technology now existing or developed in the future, except as specifically permitted in writing by CryptREX; 
+									<br><br>
+									redistribute any Information And Content, including but not limited to financial and currency data, in any manner whatsoever including without limitation by means of printed publication, fax broadcast, web pages, e-mail, web newsgroups or forums, or any other electronic or paper-based service or method, to any person, organization, corporation or other entity, including within your own organization or externally, except for the limited Permitted Uses; 
+									<br><br>
+									use any Information And Content, including but not limited to financial and currency data, for any purpose competitive with CryptREX's businesses which include, without limitation, providing raw currency data and currency rate conversion services; 
+									<br><br>
+									present, archive, cache, frame, scrape, or mirror any Information And Content from any part of the Services within another web site, except with express written permission from CryptREX; 
+									<br><br>
+									remove, obscure, or alter any notice of CryptREX's intellectual property rights present on or in the Services, including but not limited to copyright, trademark, and/or patent notices, 
+									<br><br>
+									copy, disassemble, decompile, translate, reverse engineer or otherwise reduce the Services software or use any network monitoring or discovery software to determine the network and/or computer architecture, except as permitted by mandatory rules of applicable law that cannot be dis-applied by contract; 
+									<br><br>
+									remove, disable, defeat, or change any functionality or appearance of the Services or intentionally alter the format in which financial and currency data is provided by CryptREX or otherwise circumvent the Services' regular interfaces to such data; and embed or import any financial and currency data provided in, on or through the Services into any information services (whether or not web-based), data files, or application software, including without limitation accounting and payroll systems, except as specifically permitted in writing by CryptREX. 
+									<br><br>
+									embed or import any financial and currency data provided in, on or through the Services into any information services (whether or not web-based), data files, or application software, including without limitation accounting and payroll systems, except as specifically permitted in writing by CryptREX. 
+									<br><br>
+									The foregoing prohibitions expressly include, but are not limited to, the practice of "screen scraping", or any other practice or activity the purpose of which is to obtain lists of data, portions of a database, or other lists or information from the Services, in any manner or in any quantities not authorized in writing by CryptREX. 
+									<br><br><b>
+									16. ELECTRONIC TRADING TERMS </b>
+									<br>
+									    a. Electronic Order entry for Market Orders equals Order execution 
+									    <br>
+									To enter an online order, you must access the Markets window, then click on "BUY/SELL" for the relevant market where you will enter the price and lot size. The order is filled shortly after you hit the submit order button provided you have sufficient funds in your Account. Orders may fail for several reasons including changing dealer prices, insufficient margin, unspecified lot size or unanticipated technical difficulties. 
+									<br><br>
+									    b. Access requirements 
+									    <br>
+									You will be responsible for providing the System to enable you to use an Electronic Service. 
+									<br><br>
+									    c. Use of information, data and software 
+									    <br>
+									In the event that you receive any data, information or software via an Electronic Service other than that which you are entitled to receive pursuant to this Agreement, you will immediately notify us and will not use, in any way whatsoever, such data, information or software. 
+									<br><br>
+									    d. Withdrawals 
+									    <br>
+									If you request a withdrawal of monies from your Account and we cannot comply with it without closing some part of your open positions, we will not comply with the request until you have closed sufficient positions to allow you to make the withdrawal. 
+									<br><br>
+									    e. Execution of orders 
+									    <br>
+									We shall use our reasonable endeavors to execute any order promptly, but in accepting your orders we do not represent or warrant that it will be possible to execute such order or that execution will be possible according to your instructions. If we encounter any material difficulty relevant to the proper carrying out of an order on your behalf we shall notify you promptly. 
+									<br><br>
+									    f. Authority 
+									    <br>
+									We shall be entitled to act for you upon instructions given or purporting to be given by you or any person authorized on your behalf without further inquiry as to the genuineness, authority or identity of the person giving or purporting to give such instructions provided such instruction is accompanied by your correct Account number and password. 
+									<br><br>
+									    g. Currency of Accounts 
+									    <br>
+									You will be able to open your trading Account(s) in USD or any currency that may be offered by CryptREX, including crypto currencies. Account(s) balances will be calculated and reported to you in the currency in which Account(s) are maintained. 
+									<br><br>
+									    h. System defects 
+									    <br>
+									In the event you become aware of a material defect, malfunction or virus in the System or in an Electronic Service, you will immediately notify us of such defect, malfunction or virus and cease all use of such Electronic Service until you have received permission from us to resume use. 
+									<br><br>
+									    i. Liability and Indemnity 
+									    <br>
+									Without prejudice to any other terms of this Agreement, relating to the limitation of liability and provision of indemnities, the following clauses shall apply to our Electronic Services. 
+									<br><br>
+									    j. System errors 
+									    <br>
+									We shall have no liability to you for damage which you may suffer as a result of transmission errors, technical faults, malfunctions, illegal intervention in network equipment, network overloads, malicious blocking of access by third parties, internet malfunctions, interruptions or other deficiencies on the part of internet service providers. You acknowledge that access to Electronic Services may be limited or unavailable due to such system errors, and that we reserve the right upon notice to suspend access to Electronic Services for this reason. 
+									<br><br>
+									    k. Delays 
+									    <br>
+									Neither we nor any third party software provider accepts any liability in respect of any delays, inaccuracies, errors or omissions in any data provided to you in connection with an Electronic Service. 
+									We do not accept any liability in respect of any delays, inaccuracies or errors in prices quoted to you if these delays, inaccuracies or errors are caused by third party service providers with which we may collaborate. 
+									We shall not be obliged to execute any instruction which has been identified that is based on errors caused by delays of the system to update prices provided by the system price feeder or the third party service providers. We do not accept any liability towards executed trades that have been based and have been the result of delays as described above. 
+									<br><br>
+									    l. Viruses from an Electronic Service 
+									    <br>
+									We shall have no liability to you (whether in contract or in tort, including negligence) in the event that any viruses, worms, software bombs or similar items are introduced into the System via an Electronic Service or any software provided by us to you in order to enable you to use the Electronic Service, provided that we have taken reasonable steps to prevent any such introduction. 
+									<br><br>
+									    m. Viruses from your System 
+									    <br>
+									You will ensure that no computer viruses, worms, software bombs or similar items are introduced into our computer system or network and will indemnify us on demand for any loss that we suffer arising as a result of any such introduction. 
+									<br><br>
+									    n. Unauthorized use 
+									    <br>
+									We shall not be liable for any loss, liability or cost whatsoever arising from any unauthorized use of the Electronic Service. You shall on demand indemnify, protect and hold us harmless from and against all losses, liabilities, judgements, suits, actions, proceedings, claims, damages and costs resulting from or arising out of any act or omission by any person using an Electronic Service by using your designated passwords, whether or not you authorized such use. 
+									<br><br>
+									    o. Markets 
+									    <br>
+									We shall not be liable for any act taken by or on the instruction of an exchange, clearing house or regulatory body. 
+									<br><br>
+									    p. Immediate suspension or permanent withdrawal 
+									    <br>
+									We have the right, unilaterally and with immediate effect, to suspend or withdraw permanently your ability to use any Electronic Service, or any part thereof, without notice, where we consider it necessary or advisable to do so, for example due to your non-compliance with the Applicable Regulations, breach of any provisions of this Agreement, on the occurrence of an Event of Default, network problems, failure of power supply, for maintenance, or to protect you when there has been a breach of security. In addition, the use of an Electronic Service may be terminated automatically, upon the termination (for whatever reason) of: 
+									<br>
+									  - any license granted to us which relates to the Electronic Service; or 
+									  - this Agreement. 
+									  <br>
+									    q. Effects of termination 
+									    <br>
+									In the event of a termination of the use of an Electronic Service for any reason, upon request by us, you shall, at our option, return to us or destroy all hardware, software and documentation we have provided you in connection with such Electronic Service and any copies thereof. 
+									<br><br><b>
+									17. CLIENT MONEY </b>
+									<br><br>
+									    a. Client Money 
+									    <br>
+									We treat money received from you or held by us on your behalf in accordance with the requirements of the Client Money Rules. 
+									<br><br>
+									    b. Interest 
+									    <br>
+									You, the client, acknowledge and confirm that no interest will be received on the balance of your account. 
+									<br><br>
+									    c. Unclaimed client money 
+									    <br>
+									You agree that we may cease to treat your money as client money if there has been no movement on your balance for six years. We shall write to you at your last known address informing you of our intention of no longer treating your balance as client money and giving you 28 days to make a claim. 
+									<br><br>
+									    d. Liability and Indemnity 
+									    <br>
+									You agree that we shall not be liable for any default of any counter-party, bank, custodian or other entity which holds money on your behalf or with or through whom transactions are conducted. The Company will not be liable for loss suffered by you in connection to your funds held by us, unless such loss directly arises from our gross negligence, willful default or fraud. 
+									<br><br><b>
+									18. Indemnification </b>
+									<br>
+									You agree to defend, indemnify and hold harmless CryptREX, its independent contractors, service providers and consultants, and their respective directors, employees and agents, from and against any claims, damages, costs, liabilities and expenses (including, but not limited to, reasonable attorneys’ fees) arising out of or related to: (a) your use of the Site; (b) any User Content or Feedback you provide; (c) your violation of these Terms; (d) your violation of any rights of another; or (e) your conduct in connection with the Site. Some jurisdictions limit consumer indemnities, so some or all of the indemnity provisions above may not apply to you. If you are obligated to indemnify us, we will have the right, in our sole and unfettered discretion, to control any action or proceeding and determine whether we wish to settle it, and if so, on what terms. 
+									<br><br>
+									19. Disclaimer of Warranties </b>
+									<br>
+									CryptREX PROVIDES NO GUARANTEE AS TO THE PERFORMANCE OR THE UNINTERRUPTED AVAILABILITY OF THE SITE OR THE CryptREX MATERIALS. THE SITE AND CryptREX MATERIALS ARE PROVIDED ON AN "AS IS," "AS AVAILABLE" BASIS WITHOUT WARRANTIES OF ANY KIND, EITHER EXPRESS OR IMPLIED. CryptREX DISCLAIMS ALL WARRANTIES, EXPRESS OR IMPLIED, INCLUDING, WITHOUT LIMITATION, IMPLIED WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, TITLE AND NON-INFRINGEMENT AS TO THE SITE AND THE INFORMATION, CONTENT AND MATERIALS CONTAINED THEREIN. CryptREX DOES NOT REPRESENT OR WARRANT THAT CryptREX MATERIALS OR THE SITE ARE ACCURATE, COMPLETE, RELIABLE, CURRENT OR ERROR-FREE. WHILE CryptREX ATTEMPTS TO MAKE YOUR ACCESS AND USE OF THE SITE SAFE, CryptREX CANNOT AND DOES NOT REPRESENT OR WARRANT THAT THE SITE OR ITS SERVER(S) ARE FREE OF VIRUSES OR OTHER HARMFUL COMPONENTS; THEREFORE, YOU SHOULD USE INDUSTRY-RECOGNIZED SOFTWARE TO DETECT AND DISINFECT VIRUSES FROM ANY DOWNLOAD. 
+									<br>
+									CryptREX reserves the right to change any and all content contained in the Site at any time without notice. Reference to any products, services, processes or other information, by trade name, trademark, manufacturer, supplier or otherwise does not constitute or imply endorsement, sponsorship or recommendation thereof, or any affiliation therewith, by CryptREX. 
+									<br>
+									SOME JURISDICTIONS DO NOT ALLOW THE DISCLAIMER OF IMPLIED TERMS IN CONTRACTS WITH CONSUMERS, SO SOME OR ALL OF THE DISCLAIMERS IN THIS SECTION MAY NOT APPLY TO YOU. 
+									<br><br><b>
+									20. Limitation of Liability </b>
+									<br>
+									IN NO EVENT WILL CryptREX, ITS DIRECTORS, EMPLOYEES OR AGENTS BE LIABLE FOR ANY DIRECT, SPECIAL, INDIRECT OR CONSEQUENTIAL DAMAGES, OR ANY OTHER DAMAGES OF ANY KIND, INCLUDING BUT NOT LIMITED TO LOSS OF USE, LOSS OF PROFITS OR LOSS OF DATA, WHETHER IN AN ACTION IN CONTRACT, TORT (INCLUDING BUT NOT LIMITED TO NEGLIGENCE) OR OTHERWISE, ARISING OUT OF OR IN ANY WAY CONNECTED WITH THE USE OF OR INABILITY TO USE THE SITE, THE CryptREX MATERIALS OR THE CONTENT OR THE MATERIALS CONTAINED IN OR ACCESSED THROUGH THE SITE, INCLUDING WITHOUT LIMITATION ANY DAMAGES CAUSED BY OR RESULTING FROM RELIANCE BY USER ON ANY INFORMATION OBTAINED FROM CryptREX, OR THAT RESULT FROM MISTAKES, OMISSIONS, INTERRUPTIONS, DELETION OF FILES OR EMAIL, ERRORS, DEFECTS, VIRUSES, DELAYS IN OPERATION OR TRANSMISSION OR ANY FAILURE OF PERFORMANCE, WHETHER OR NOT RESULTING FROM ACTS OF GOD, COMMUNICATIONS FAILURE, THEFT, DESTRUCTION OR UNAUTHORIZED ACCESS TO CryptREX’S RECORDS, PROGRAMS OR SITE. IN NO EVENT WILL THE AGGREGATE LIABILITY OF CryptREX, WHETHER IN CONTRACT, WARRANTY, TORT (INCLUDING NEGLIGENCE, WHETHER ACTIVE, PASSIVE OR IMPUTED), PRODUCT LIABILITY, STRICT LIABILITY OR OTHER THEORY, ARISING OUT OF OR RELATING TO THE USE OF OR INABILITY TO USE THE SITE EXCEED ANY COMPENSATION YOU PAY, IF ANY, TO CryptREX FOR ACCESS TO OR USE OF THE SITE. SOME JURISDICTIONS DO NOT ALLOW THE LIMITATION OF LIABILITY IN CONTRACTS WITH CONSUMERS, SO SOME OR ALL OF THESE LIMITATIONS OF LIABILITY MAY NOT APPLY TO YOU. 
+									<br><br><b>
+									21. Modifications to the Site </b>
+									<br>
+									CryptREX reserves the right to modify or discontinue, temporarily or permanently, the Site or any features or portions thereof without prior notice. You agree that CryptREX will not be liable for any modification, suspension or discontinuance of the Site or any part thereof. 
+									<br><br><b>
+									22. Applicable Law and Venue </b>
+									<br>
+									These Terms and your use of the Site will be governed by and construed in accordance with the laws of Florida, without resort to its conflict of law provisions. You agree that any action at law or in equity arising out of or relating to these Terms not subject to arbitration (as set forth below), will be filed only in the state and federal courts located in Palm Beach County, Florida and you hereby irrevocably and unconditionally consent and submit to the exclusive jurisdiction of such courts over any suit, action or proceeding arising out of these Terms. 
+									<br><br><b>
+									23. Arbitration </b>
+									<br>
+									PLEASE READ THE FOLLOWING PARAGRAPH CAREFULLY BECAUSE IT REQUIRES YOU TO ARBITRATE DISPUTES WITH PROJECT INVESTORS AND IT LIMITS THE MANNER IN WHICH YOU CAN SEEK RELIEF. 
+									<br>
+									Any controversy or claim arising out of or relating to these Terms, or the breach of these Terms, shall be settled by binding arbitration in accordance with the rules of net-ARB.com. The costs of arbitration shall be initially borne by the party initiating arbitration and later apportioned by the arbitrator. The arbitrator's decision will be binding and may not be appealed. A judgment of a court having jurisdiction may be entered upon the arbitrator's award. 
+									<br><br><b>
+									24. Termination and Suspension </b>
+									<br>
+									Notwithstanding any of these Terms, CryptREX reserves the right, without notice and in its sole discretion, to terminate or suspend your right to use the Site, and to block or prevent your future access to, and use of, the Site. 
+									<br><br><b>
+									25. Survival </b>
+									<br>
+									Sections 9 (Trademarks), 13 (Third Party Content), 14 (Feedback), 18 (Indemnification), 19 (Disclaimer of Warranties), 20 (Limitation on Liability), 22 (Applicable Law), 23 (Disputes), this Section 25 (Survival) and Section 26 (Severability) will survive any termination or expiration of these Terms. 
+									<br><br><b>
+									26. Severability </b>
+									<br>
+									If any provision of these Terms is deemed unlawful, void or for any reason unenforceable, then that provision shall be deemed severable from these Terms and will not affect the validity and enforceability of any remaining provisions. 
+									<br><br><b>
+									27. Changes </b>
+									<br>
+									You can review the most current version of the Terms of Service at any time at this page. We reserve the right, at our sole discretion, to update, change or replace any part of these Terms of Service by posting updates and changes to our website. It is your responsibility to check our website periodically for changes. Your continued use of or access to our website or the Service following the posting of any changes to these Terms of Service constitutes acceptance of those changes. 
+									<br><br><b>
+									28. Integration </b>
+									<br>
+									The failure of us to exercise or enforce any right or provision of these Terms of Service shall not constitute a waiver of such right or provision. These Terms of Service and any policies or operating rules posted by us constitutes the entire agreement and understanding between you and us and govern your use of the Service, superseding any prior or contemporaneous agreements, communications and proposals, whether oral or written, between you and us (including, but not limited to, any prior versions of the Terms of Service). Any ambiguities in the interpretation of these Terms of Service shall not be construed against the drafting party. 
+									<br><br><b>
+									29. Force Majeure </b>
+									<br>
+									In addition to applicable disclaimers stated above, CryptREX's performance under these Terms shall be excused in the event of interruption and/or delay due to, or resulting from, causes beyond its reasonable control, including but not limited to acts of God, acts of any government, war or other hostility, civil disorder, the elements, fire, flood, earthquake, explosion, embargo, acts of terrorism, power failure, equipment failure, industrial or labor disputes or controversies, acts of any third party data provider(s) or other third party information provider(s), third party software, or communication method interruptions. 
+									<br><br><b>
+									30. No Waiver </b>
+									<br>
+									CryptREX's failure to insist upon, or enforce, strict performance of any right or provision of these Terms of Use shall not constitute or be construed or deemed to be a waiver of such right or provision in the future or a waiver of any other right or provision under these Terms of Use. 
+									<br><br><b>
+									31. Governing Language and Translation </b>
+									<br>
+									You agree that these Terms of Use, CryptREX's Privacy Policy and other notices posted through the Services have been drawn up in English. Although translations in other languages of any of the foregoing documents may be available, such translations may not be up to date or complete. Accordingly, you agree that in the event of any conflict between the English language version of the foregoing documents and any other translations thereto, the English language version of such documents shall govern. 
+									<br><br><b>
+									32. Questions & Contact Information</b> 
+									<br>
+									Questions or comments about the Site or these Terms may be directed to CryptREX by emailing info@CryptREX.com.
+					  				</p>
+								</div>
+							</div>	
+							<div class="margin col-md-offset-2 col-md-4 panel panel-primary panel-inverted" style="padding:0">
+								<div class="panel-heading clearfix">
+									<span class="glyphicon glyphicon-book pull-left"></span><h3 class="panel-title pull-right">Privacy Policy</h3></div>
+					  			 <div class="panel-body" style="max-height:460px;overflow-y:auto;">
+					  				<p>
+					  					<b>CryptREX PRIVACY POLICY</b>
+					  					<br>
+										This Privacy Policy governs the manner in which CryptREX collects, uses, maintains and discloses information collected from users (each, a "User") of the www.cryptREX.com website ("Site"). This privacy policy applies to the Site and all products and services offered by CryptREX.
+										<br><br>
+										<b>Personal identification information</b>
+										<br>
+										We may collect personal identification information from Users in a variety of ways, including, but not limited to, when Users visit our site, register on the site, place an order, fill out a form, and in connection with other activities, services, features or resources we make available on our Site. Users may be asked for, as appropriate, name, email address, phone number. Users may, however, visit our Site anonymously. We will collect personal identification information from Users only if they voluntarily submit such information to us. Users can always refuse to supply personally identification information, except that it may prevent them from engaging in certain Site related activities.
+										<br><br>
+										<b>Non-personal identification information</b>
+										<br>
+										We may collect non-personal identification information about Users whenever they interact with our Site. Non-personal identification information may include the browser name, the type of computer and technical information about Users means of connection to our Site, such as the operating system and the Internet service providers utilized and other similar information.
+										<br><br>
+										<b>Web browser cookies</b>
+										<br>
+										Our Site may use "cookies" to enhance User experience. User's web browser places cookies on their hard drive for record-keeping purposes and sometimes to track information about them. User may choose to set their web browser to refuse cookies, or to alert you when cookies are being sent. If they do so, note that some parts of the Site may not function properly.
+										<br><br>
+										<b>How we use collected information</b>
+										<br>
+										CryptRex may collect and use Users personal information for the following purposes:
+										<br>
+										- To improve customer service
+										<br>
+										Information you provide helps us respond to your customer service requests and support needs more efficiently.
+										<br>
+										- To personalize user experience
+										<br>
+										We may use information in the aggregate to understand how our Users as a group use the services and resources provided on our Site.
+										<br>
+										- To improve our Site
+										<br>
+										We may use feedback you provide to improve our products and services.
+										<br>
+										- To process payments
+										<br>
+										We may use the information Users provide about themselves when placing an order only to provide service to that order. We do not share this information with outside parties except to the extent necessary to provide the service.
+										<br>
+										- To send periodic emails
+										<br>
+										We may use the email address to send User information and updates pertaining to their order. It may also be used to respond to their inquiries, questions, and/or other requests. If User decides to opt-in to our mailing list, they will receive emails that may include company news, updates, related product or service information, etc. If at any time the User would like to unsubscribe from receiving future emails, they may do so by contacting us via our Site.
+										<br><br>
+										<b>How we protect your information</b>
+										<br>
+										We adopt appropriate data collection, storage and processing practices and security measures to protect against unauthorized access, alteration, disclosure or destruction of your personal information, username, password, transaction information and data stored on our Site.
+										<br>
+										Sensitive and private data exchange between the Site and its Users happens over a SSL secured communication channel and is encrypted and protected with digital signatures. Our Site is also in compliance with PCI vulnerability standards in order to create as secure of an environment as possible for Users.
+										<br><br>
+										<b>Sharing your personal information</b>
+										<br>
+										We do not sell, trade, or rent Users personal identification information to others. We may share generic aggregated demographic information not linked to any personal identification information regarding visitors and users with our business partners, trusted affiliates and advertisers for the purposes outlined above.
+										<br><br>
+										<b>Third party websites</b>
+										<br>
+										Users may find advertising or other content on our Site that link to the sites and services of our partners, suppliers, advertisers, sponsors, licensors and other third parties. We do not control the content or links that appear on these sites and are not responsible for the practices employed by websites linked to or from our Site. In addition, these sites or services, including their content and links, may be constantly changing. These sites and services may have their own privacy policies and customer service policies. Browsing and interaction on any other website, including websites which have a link to our Site, is subject to that website's own terms and policies.
+										<br><br>
+										<b>Changes to this privacy policy</b>
+										<br>
+										CryptREX has the discretion to update this privacy policy at any time. When we do, we will revise the updated date at the bottom of this page. We encourage Users to frequently check this page for any changes to stay informed about how we are helping to protect the personal information we collect. You acknowledge and agree that it is your responsibility to review this privacy policy periodically and become aware of modifications.
+										<br><br>
+										<b>Your acceptance of these terms</b>
+										<br>
+										By using this Site, you signify your acceptance of this policy and terms of service. If you do not agree to this policy, please do not use our Site. Your continued use of the Site following the posting of changes to this policy will be deemed your acceptance of those changes.
+										<br><br>
+										<b>Contacting us</b>
+										<br>
+										If you have any questions about this Privacy Policy, the practices of this site, or your dealings with this site, please contact us at:
+
+					  				</p>
+								</div>
+							</div>	
+						</div>	
+				    </div>
 				  </div>
 				</div>
 	  				  
@@ -207,13 +593,15 @@
 					<li><a>About us</a></li>
 					<li><a>Tech</a></li>
 					<li><a>Blog</a></li> 
+					<li><a>Map</a></li> 
 					<li><a>Contact us</a></li>
 					</ul>
 
 				</div>
-				<div class="col-md-offset-6 col-md-2 ">
+				<div class="col-md-offset-4 col-md-4">
 					<ul>
 					<li class="pull-right" style="margin-right:10px">© CryptREX</li>
+					<li class="pull-right"><a index="6">Terms of Use | Privacy Policy</a></li>
 					</ul>	
 				</div>
 			</div>	
@@ -227,6 +615,8 @@
  	<script src="/public/javascripts/dev_js/tube.js"></script>
     <script src="/public/javascripts/dev_js/verification.js"></script>
     <script src="/public/javascripts/dev_js/selection.js"></script>
+    <script src='//api.tiles.mapbox.com/mapbox.js/v1.5.2/mapbox.js'></script>
+     <script src="/public/javascripts/dev_js/map.js"></script>
 
   </body>
 </html>

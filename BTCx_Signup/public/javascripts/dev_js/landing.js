@@ -76,7 +76,21 @@ $(document).ready(function()
 			$(this).addClass('active');
 			var li = $(this).parent();
 			var index = li.index();
+			if($(this).attr('index') != undefined) index = parseInt($(this).attr('index'));
 			$("#carousel-example-generic").carousel(index);
+			if(index == 4) 
+			{
+				if(streamMap == null) 
+					{
+						streamMap = L.mapbox.map('crypt-map', 'cryptrex.gobkj39b');
+		    			changeLocation(streamMap,[50.945, 9.009],10,function(coordinates)
+			    		{
+			    			var marker = {'coordinates':coordinates,'type':'shop','title':'CryptREX','description':'A cryptocurrency marketplace - built for a decentralized enconomy','active':true,'location':'Location','symbol':'shop','color':'#000','size':'large'}
+			    			addMarker(marker);
+			    			addLayer();
+			    		});
+			    	}	
+			}
 			$("#carousel-example-generic").carousel('pause');
 		});
 
