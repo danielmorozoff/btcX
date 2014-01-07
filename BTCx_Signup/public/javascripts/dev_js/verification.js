@@ -11,7 +11,7 @@ $(document).ready(function()
 			var postData = {};
 			var type = form.find('.type-selection').val();
 			console.debug(type);
-			form.find('.input-group:not(:hidden) input').each(function()
+			form.find('.input-group:not(:hidden) input, .input-group:not(:hidden) textarea').each(function()
 			{
 
 				var input = $(this);
@@ -43,6 +43,7 @@ $(document).ready(function()
 				{
 					val = input.is(':checked');
 					if(val) check = true;
+					if(input.attr('optional') != undefined) check = true;
 				}
 
 				input.closest('.input-group').next('.message-error').remove();
