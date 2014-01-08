@@ -26,7 +26,7 @@ $(document).ready(function()
 
 		if(typeof(callback) == 'function') callback([currentLocation[1],currentLocation[0]]);
 	}
-
+ 
 	getLocation = function(location,callback)
 	{
 		var url = 'http://maps.googleapis.com/maps/api/geocode/json?address='+encodeURI(location)+'&sensor=true';

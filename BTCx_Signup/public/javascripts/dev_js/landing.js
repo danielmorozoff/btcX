@@ -78,7 +78,7 @@ $(document).ready(function()
 			var index = li.index();
 			if($(this).attr('index') != undefined) index = parseInt($(this).attr('index'));
 			$("#carousel-example-generic").carousel(index);
-			if(index == 4) 
+			if(index == 3) 
 			{
 				if(streamMap == null) 
 					{
@@ -91,6 +91,13 @@ $(document).ready(function()
 			    		});
 			    	}	
 			}
+			$("#carousel-example-generic").carousel('pause');
+		});
+
+		$(".carousel-nav").click(function()
+		{
+			var index = parseInt($(this).attr('index'));
+			$("#carousel-example-generic").carousel(index);
 			$("#carousel-example-generic").carousel('pause');
 		});
 
