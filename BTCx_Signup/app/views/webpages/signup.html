@@ -95,7 +95,7 @@
 										  <input type="text" name="storeName" msg="Store name" class="form-control" placeholder="Store name">
 										</div>
 										<div class="input-group merchant" style="width:100%">
-										  <textarea type="text" placeholder="Store description" class="form-control" style="resize:none;" name="Description" msg="Description" rows="4"></textarea>
+										  <textarea type="text" placeholder="Store description" class="form-control" style="resize:none;" name="description" msg="Description" rows="4"></textarea>
 										</div>
 										<div class="checkbox input-group merchant">
 										   <label>
@@ -179,19 +179,20 @@
 							<div class="panel-heading clearfix">
 								<span class="glyphicon glyphicon-envelope pull-left"></span><h3 class="panel-title pull-right">Contact us</h3></div>
 				  			 <div class="panel-body">
-				  					<form>
+				  					<form name="contact">
 				  						<div class="input-group">
 										  <span class="input-group-addon">E</span>
-										  <input type="text" name="Email" msg="Email" class="form-control" placeholder="Email">
+										  <input type="text" name="email" msg="Email" class="form-control" placeholder="Email">
 										</div>
 										<div class="input-group">
 										  <span class="input-group-addon">S</span>
-										  <input type="text" name="Subject" msg="Subject" class="form-control" placeholder="Subject">
+										  <input type="text" name="subject" msg="Subject" class="form-control" placeholder="Subject">
 										</div>
 										<div class="input-group" style="width:100%">
-										  <textarea placeholder="Dear CryptREX, ..."class="form-control" style="resize:none;" name="Message" msg="Message" rows="4"></textarea>
+										  <textarea type="text" placeholder="Dear CryptREX, ..."class="form-control" style="resize:none;" name="message" msg="Message" rows="4"></textarea>
 										</div>
 										<hr>
+										<p class="contact-message" style="text-align:left;font-size:11px;margin:0"></p>
 										 <button type="button" class="btn btn-default btn-white pull-right" id="contactBtn">Send</button>
 				  					</form>
 							</div>

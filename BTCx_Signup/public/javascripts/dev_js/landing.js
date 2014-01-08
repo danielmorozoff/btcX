@@ -70,6 +70,11 @@ $(document).ready(function()
 			Verifier.verifyForm('signup');
 		});
 
+		$("#contactBtn").click(function()
+		{
+			Verifier.verifyForm('contact');
+		});
+
 		$(".footer ul li a").click(function()
 		{
 			$(".footer ul li a").removeClass('active');
@@ -80,15 +85,16 @@ $(document).ready(function()
 			$("#carousel-example-generic").carousel(index);
 			if(index == 3) 
 			{
-				if(streamMap == null) 
+				if(MapOperator == null) 
 					{
-						streamMap = L.mapbox.map('crypt-map', 'cryptrex.gobkj39b');
-		    			changeLocation(streamMap,[50.945, 9.009],10,function(coordinates)
+						MapOperator = new Map(L.mapbox.map('crypt-map', 'cryptrex.gobkj39b'));
+						MapOperator.setView([50.945, 9.009],10,function(coordinates)
 			    		{
 			    			var marker = {'coordinates':coordinates,'type':'shop','title':'CryptREX','description':'A cryptocurrency marketplace - built for a decentralized enconomy','active':true,'location':'Location','symbol':'shop','color':'#000','size':'large'}
-			    			addMarker(marker);
-			    			addLayer();
+			    			MapOperator.addMarker(marker);
+			    			MapOperator.finish();
 			    		});
+
 			    	}	
 			}
 			$("#carousel-example-generic").carousel('pause');

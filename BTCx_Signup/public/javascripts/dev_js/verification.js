@@ -6,20 +6,29 @@ $(document).ready(function()
 		this.verifyForm = function(formName)
 		{
 			var form = $('form[name='+formName+']');
+			var postData = {'request':formName};
 			var elements = 0;
 			var valid = 0;
-			var postData = {};
-			var type = form.find('.type-selection').val();
-			console.debug(type);
+
+			if(form.find('.type-selection').length > 0)
+			{
+				var type = form.find('.type-selection').val();
+				postData['type'] = type;
+			}
+			
 			form.find('.input-group:not(:hidden) input, .input-group:not(:hidden) textarea').each(function()
 			{
 
 				var input = $(this);
 				var type = input.attr('type');
 				var name = input.attr('name');
-				var val = input.val();
-				var check = false;
 				var msg = input.attr('msg');
+				var val = input.val();
+
+				var check = false;
+
+
+				input.closest('.input-group').next('.message-error').remove();
 
 				if(type == 'text')
 				{
@@ -43,10 +52,9 @@ $(document).ready(function()
 				{
 					val = input.is(':checked');
 					if(val) check = true;
-					if(input.attr('optional') != undefined) check = true;
 				}
 
-				input.closest('.input-group').next('.message-error').remove();
+				if(input.attr('optional') != undefined) check = true;
 
 				if(check) 
 				{
@@ -65,17 +73,26 @@ $(document).ready(function()
 			});
 			if(elements == valid)
 			{
-				$("."+formName+"-message").html('Processing...');
+				$("."+formName+"-message").text('Processing...');
 				
 				if(formName.indexOf('signup') >= 0) this.signup(JSON.stringify(postData));	
-				else if(formName.indexOf('login') >= 0) this.login(JSON.stringify(postData));	
+				else if(formName.indexOf('login') >= 0) this.login(JSON.stringify(postData));
+				else if(formName.indexOf('contact') >= 0) this.contact(JSON.stringify(postData));	
 			}
 		}
 		this.signup = function(postData)
 		{
+			console.debug(postData);
 			Tube.signup(postData,function(data)
 					{
-						$('.signup-message').html(data);
+						$('.signup-message').text(data.message);
+					});
+		}
+		this.contact = function(postData)
+		{
+			Tube.contact(postData,function(data)
+					{
+						$('.contact-message').text(data.message);
 					});
 		}
 	}

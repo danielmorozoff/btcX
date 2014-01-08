@@ -1,136 +1,42 @@
 //Map Functions
 
-var addMarker;
-var changeLocation;
-var getLocation;
-var initializeLayer;
-
-//Map
-var currentLocation;
-var pannedTo = [];
-var currentGeoJson = {  type: 'FeatureCollection', features: [] };
-var streamMap = null;
-var streamMapLayer = null;
-var mapzoom = 14;
-
-
+var MapOperator = null;
+//http://maps.googleapis.com/maps/api/geocode/json?address='+encodeURI(location)+'&sensor=true
 $(document).ready(function()
 {	
-	//changes Location on any given Map uses google api location LAT/LONG
-	changeLocation = function(map,coordinates,zoom,callback)
-	{		
-		if(map == null) map = streamMap;
-		currentLocation = coordinates;
-		map.setView(coordinates, zoom);
-		mapzoom = zoom;
-
-		if(typeof(callback) == 'function') callback([currentLocation[1],currentLocation[0]]);
-	}
- 
-	getLocation = function(location,callback)
+	Map = function(map)
 	{
-		var url = 'http://maps.googleapis.com/maps/api/geocode/json?address='+encodeURI(location)+'&sensor=true';
-		$.ajax({
-		  dataType: "json",
-		  url: url,
-		  }).done(function ( data ) {
-				if(typeof(callback) == 'function') callback([data.results[0].geometry.location.lng,data.results[0].geometry.location.lat]);
-		});
-	}
+		this.geoJSON = {  type: 'FeatureCollection', features: [] };
+		this.zoom = 14;
+		this.map = map;
+		this.markerLayer = null;
+		this.coordinates = [];
 
-
-	//Adds markers and initializes the map !currentGeoJson has to be complete before this call with addMarker()
-	addLayer = function()
-	{
-		streamMap.eachLayer( function(l) {if(l.hasOwnProperty('feature')) streamMap.removeLayer(l);  } );
-		streamMapLayer = L.mapbox.markerLayer(currentGeoJson);
-	
-		streamMapLayer.on('click',function(e) 
+		this.setView = function(coordinates,zoom,callback)
 		{
-			    var feature = e.layer.feature;
-			    var type = feature.properties.type;
-			    var title = feature.properties.title;
-
-				this.eachLayer(function(marker)
-		    	{
-		    		if(marker.feature != feature) 
-		    			{
-		    				marker.feature.properties.active = false;
-			    			currentGeoJson.features[marker.feature.properties.index].properties['active'] = false;
-		    			}
-		    	});
-
-		    	if(!feature.properties.active)
-		    		{
-		    			feature.properties.active = true;
-		    			
-		    			currentGeoJson.features[feature.properties.index].properties['marker-color'] = "#000";
-		    			currentGeoJson.features[feature.properties.index].properties['active'] = true;
-		    		}
-		    	else 
-		    		{
-		    			feature.properties.active = false;
-		    			currentGeoJson.features[feature.properties.index].properties['active'] = false;
-		    			e.layer.closePopup();
-		    		}
-
-		    		initializeLayer();
-
-		    		streamMapLayer.setGeoJSON(currentGeoJson);
-		    		
-			    	var coordinates = feature.geometry.coordinates;
-			    	streamMap.setView([parseFloat(coordinates[1]),parseFloat(coordinates[0])],mapzoom);
-					pannedTo = [parseFloat(coordinates[1]),parseFloat(coordinates[0])];
-
-		});	    
-		
-		initializeLayer();
-	    streamMapLayer.addTo(streamMap);
-    	streamMap.setView(currentLocation, mapzoom);
-	}
-	
-	openMarkerPopup = function(marker)
-	{
-		var feature = marker.feature;
-	    var popupContent =  '<div class="map-popup">';
-	   popupContent += ' <a><h5>' + feature.properties.title + '</h5></a>';
-	   popupContent += ' <h6>' + feature.properties.description + '</h6></div>';
-
-	    marker.bindPopup(popupContent,{
-	        closeButton: false,
-	        minWidth: 100
-	    });
-
-	    marker.openPopup();
-	}	
-	initializeLayer = function()
-	{
-		streamMapLayer.eachLayer( 
-		function(marker) 
+			try
 			{
-				openMarkerPopup(marker);
-			} 
-		);
-		streamMapLayer.on('mouseover', function(e) {
-				openMarkerPopup(e.layer);
-			});
-		streamMapLayer.on('mouseout', function(e) {
-				if(e.layer.feature.hasOwnProperty('properties'))
+				if(this.map != null)
 				{
-					if(!e.layer.feature.properties.active) e.layer.closePopup();
-				}		
-				else e.layer.closePopup();	
-			});
-	}
-
-	addMarker = function(marker)
-	{
-		var json = {
+					this.map.setView(coordinates,zoom);
+					this.zoom = zoom;
+					this.coordinates = coordinates;
+				}
+				if(typeof(callback) == 'function') callback([coordinates[1],coordinates[0]]);
+			}
+			catch(error)
+			{
+				if(typeof(callback) == 'function') callback(null);
+			}
+		}
+		this.addMarker = function(marker)
+		{	
+			var json = {
 				    type: 'Feature',
 				    "geometry": { "type": "Point", "coordinates": marker.coordinates},
 				    "properties": {
 				    	"type":marker.type,
-				    	"index":currentGeoJson.features.length,
+				    	"index":this.geoJSON.features.length,
 				    	"title":marker.title,
 				    	"description":marker.description,
 				    	"active":marker.active,
@@ -142,7 +48,90 @@ $(document).ready(function()
 				    }
 				};
 				
-		currentGeoJson.features.push(json);
+			this.geoJSON.features.push(json);
+		}
+		this.initializeMarkers = function()
+		{
+			this.markerLayer.eachLayer( 
+			function(marker) 
+				{
+					MapOperator.openMarkerPopup(marker);
+				} 
+			);
+			this.markerLayer.on('mouseover', function(e) {
+					MapOperator.openMarkerPopup(e.layer);
+				});
+			this.markerLayer.on('mouseout', function(e) {
+					if(e.layer.feature.hasOwnProperty('properties'))
+					{
+						if(!e.layer.feature.properties.active) e.layer.closePopup();
+					}		
+					else e.layer.closePopup();	
+				});
+		}
+		this.openMarkerPopup = function(marker)
+		{
+		   var feature = marker.feature;
+		   var popupContent =  '<div class="map-popup">';
+		   popupContent += ' <a><h5>' + feature.properties.title + '</h5></a>';
+		   popupContent += ' <h6>' + feature.properties.description + '</h6></div>';
+
+		    marker.bindPopup(popupContent,{
+		        closeButton: false,
+		        minWidth: 100
+		    });
+
+		    marker.openPopup();
+		}
+		this.finish = function()
+		{
+			this.map.eachLayer( function(l) {if(l.hasOwnProperty('feature')) this.map.removeLayer(l);  } );
+			this.markerLayer = L.mapbox.markerLayer(this.geoJSON);
+		
+			this.markerLayer.on('click',function(e) 
+			{
+				    var feature = e.layer.feature;
+				    var type = feature.properties.type;
+				    var title = feature.properties.title;
+
+					this.eachLayer(function(marker)
+			    	{
+			    		if(marker.feature != feature) 
+			    			{
+			    				marker.feature.properties.active = false;
+				    			this.geoJSON.features[marker.feature.properties.index].properties['active'] = false;
+			    			}
+			    	});
+
+			    	if(!feature.properties.active)
+			    		{
+			    			feature.properties.active = true;
+			    			
+			    			this.geoJSON.features[feature.properties.index].properties['marker-color'] = "#000";
+			    			this.geoJSON.features[feature.properties.index].properties['active'] = true;
+			    		}
+			    	else 
+			    		{
+			    			feature.properties.active = false;
+			    			this.geoJSON.features[feature.properties.index].properties['active'] = false;
+			    			e.layer.closePopup();
+			    		}
+
+			    		this.initializeMarkers();
+
+			    		this.markerLayer.setGeoJSON(this.geoJSON);
+			    		
+				    	var coordinates = feature.geometry.coordinates;
+				    	this.map.setView([parseFloat(coordinates[1]),parseFloat(coordinates[0])],this.zoom);
+
+			});	    
+			
+			this.initializeMarkers();
+		   	this.markerLayer.addTo(this.map);
+	    	this.map.setView(this.coordinates, this.zoom);
+		}
+
+
 	}
 
 });
