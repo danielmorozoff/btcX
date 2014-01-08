@@ -33,7 +33,7 @@ $(document).ready(function()
 	{
 		this.initialize = function()
 		{
-			this.tableHeader = ['Name','Last Trade','Highest Price','Lowest Price','Market Volume','Trade Frequency','Cancelable'];
+			this.tableHeader = ['Name','Last Trade','Highest Price','Lowest Price','Market Volume','Trade Frequency','Cancelable','',''];
 			this.exchanges = [
 			{'name':'MtGox','lt':'$741.61','hp':'$750.00','lp':'$687.55','mv':'9002 BTC','tf':'60%','cancel':'','additional':{'website':'http://wwww.mtgox.com'}},
 			{'name':'BTCe','lt':'$741.61','hp':'$750.00','lp':'$687.55','mv':'9002 BTC','tf':'60%','cancel':'','additional':{'website':'http://wwww.mtgox.com'}}
@@ -44,17 +44,17 @@ $(document).ready(function()
 			$("#exchanges-dropdown").empty();
 			$("#exchanges-table-header").empty();
 
-			// for(var i = 0; i < this.tableHeader.length;i++)
-			// {
-			// 	$("#exchanges-table-header").append('<th>'+this.tableHeader[i]+'</th>');
-			// }
+			//Generate Table head
+			for(var i = 0; i < this.tableHeader.length;i++)
+			{
+				$("#exchanges-table-header").append('<th>'+this.tableHeader[i]+'</th>');
+			}
 
 			for(var i = 0; i < this.exchanges.length;i++)
 			{
 				//Create Exchange Dropdown
 				var exchange = this.exchanges[i];
 				$("#exchanges-dropdown").append('<li><a index="'+i+'">'+exchange.name+'</a></li>');
-				//Generate Table head
 			}
 
 			
@@ -82,15 +82,7 @@ $(document).ready(function()
 			this.exchangesOrder.push(index);
 
 			//Append exchange information to table
-			var appendHtml = '<div id='+exchange.name+' class="table-entry"><table class="table no-margin">';
-				if(this.exchangesOrder.length == 1) appendHtml += '<thead><tr>';
-				else  appendHtml += '<thead style="opacity:0"><tr>';
-				for(var i = 0; i < this.tableHeader.length;i++)
-				{
-					appendHtml += '<th>'+this.tableHeader[i]+'</th>';
-				}
-				appendHtml += '</thead><tr>';
-				appendHtml += '<tbody><tr>';
+			var appendHtml = '<tr id="'+exchange.name+'">';
 				for(var key in exchange)
 				{
 					if(key == 'name') appendHtml += '<td class="left"><a class="link" data-toggle="collapse" href="#collapse-'+exchange.name+'">'+exchange.name+'</a></td>';
@@ -99,20 +91,22 @@ $(document).ready(function()
 				}
 				appendHtml += '<td><a class="info"><span index="'+index+'" class="glyphicon glyphicon-star"></span></a></td>';
 				appendHtml += '<td><a class="info"><span index="'+index+'" class="glyphicon glyphicon-trash trash"></span></a></td>';
-				appendHtml += '</tr></tbody></table>';
-				appendHtml += '<div id="collapse-'+exchange.name+'" class="panel-collapse collapse"><div class="panel-body">';
+				appendHtml += '</tr>';
+				appendHtml += '<tr><div id="collapse-'+exchange.name+'" class="panel-collapse collapse"><div class="panel-body">';
 				appendHtml += '<a class="link pull-right" href="'+exchange.additional.website+'">'+exchange.additional.website+'</a>';
-				appendHtml += '</div></div></div>';
+				appendHtml += '</div></div></tr>';
 				
 			//Get the new height for quicksand	
 			$.when($("#exchanges-table-entries").append(appendHtml)).then(function(){});
 
 			//Activate trash function
-			$(".trash").click(function()
+			$("li[data-id=Exchanges] .trash").click(function()
 			{
 				var index = parseInt($(this).attr('index'));
 				ExchangesPanel.remove(index);
 			});
+			$('li[data-id=Exchanges] .dropdown-toggle').dropdown();
+
 		}
 		this.remove = function(index)
 		{
@@ -195,15 +189,21 @@ $(document).ready(function()
 		  	this.data = this.elements.clone();
 		  	this.sortedData = this.data.find('li[filter-id="filter"]');
 	  	}
+	  	this.refresh = function()
+	  	{
+	  		
+	  	}
 
 		this.show = function(button) 
 		{
 			var panel = button.attr('panel'); //Get target Panel
 			var active = (button.attr('class').indexOf('active') >= 0) ? true : false; 
+
 	  	 	if(active) this.data.find("li[data-id=" + panel + "]").attr('filter-id','');
 	  	 	else this.data.find("li[data-id=" + panel + "]").attr('filter-id','filter');
 	 		this.sortedData = this.data.find('li[filter-id="filter"]');
-		     this.elements.quicksand(this.sortedData, {
+
+		    this.elements.quicksand(this.sortedData, {
 		      duration: 800,
 		      easing: 'easeInOutQuad'
 		    });
@@ -266,5 +266,7 @@ $(document).ready(function()
   	{
 		Menu.show($(this));
     });
+
+    $('.dropdown-toggle').dropdown();
     
 });
