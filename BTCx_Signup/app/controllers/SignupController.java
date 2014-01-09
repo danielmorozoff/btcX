@@ -13,18 +13,34 @@ import java.util.*;
 
 import jsonFormaters.SignupFormatter;
 
+import org.neo4j.graphdb.DynamicLabel;
 import org.neo4j.graphdb.GraphDatabaseService;
+import org.neo4j.graphdb.Label;
 import org.neo4j.graphdb.Node;
 import org.neo4j.graphdb.Transaction;
 import org.neo4j.shell.util.json.JSONException;
 import org.neo4j.shell.util.json.JSONObject;
+
+import api.WebpageAPI;
 
 import databases.BTCxDatabase;
 
 
 
 public class SignupController extends Controller {
-
+/************************************************************************************************/
+//Static values for server
+	public static String system_name = "";
+	public static String system_url = "";
+	public static String system_email = "";
+	
+	
+	
+	
+	
+	
+	
+/************************************************************************************************/	
 	/**
 	 * Startup code fo the server. Log instantiation, user file directories and DB activation.
 	 * @author danielmorozoff
@@ -108,8 +124,17 @@ public class SignupController extends Controller {
 		    		ServerLoggers.infoLog.info("***Storing new user -- count: "+userStoredCount+"***");
 		    		Node uNode = sDB.createNode();
 		    		
-		    		String type= (String) usrObj.get("userType"); 
-		    		uNode.setProperty("userType",type );
+		    		String privId = UUID.randomUUID().toString();
+		    		String pubId = UUID.randomUUID().toString();
+//		    		Create ids for node
+		    		uNode.setProperty("uniquePrivateId",privId );
+		    		uNode.setProperty("uniquePublicId", pubId);
+//		    		Add ids to index
+		    		BTCxDatabase.USER_INDEX.add(uNode, "privateId", privId);
+		    		BTCxDatabase.USER_INDEX.add(uNode, "publicId", pubId);
+		    		
+		    		String type= (String) usrObj.get("type"); 
+		    		uNode.setProperty("type",type );
 		    			uNode.setProperty("firstName", usrObj.get("firstName"));
 		    			uNode.setProperty("email", usrObj.get("email"));
 		    			if(type.equals("merchant")){
@@ -118,14 +143,39 @@ public class SignupController extends Controller {
 			    			uNode.setProperty("address", usrObj.get("address"));
 			    			uNode.setProperty("city", usrObj.get("city"));
 			    			uNode.setProperty("state", usrObj.get("state"));
+//			    			Convert to geo coordinates using google maps api
+				    			String fullAddress =  usrObj.get("address") +" "+ usrObj.get("city")+" "+usrObj.get("state");
+				    			JSONObject coordsObj = new JSONObject((String) new WebpageAPI(null).sendRequestToDataHub("http://maps.googleapis.com/maps/api/geocode/json?address="+fullAddress+"&sensor=true", "GET", "string", null));
+//				    			Stored as object:
+//				    			"location" : {
+//				                "lat" : 37.7353014,
+//				                "lng" : -122.4580463
+//				             }
+				    			String geoCoordsStr = ((JSONObject)((JSONObject)coordsObj.get("results")).get("geometry")).get("location").toString();
+				    			uNode.setProperty("geoCoords", geoCoordsStr);
 			    			uNode.setProperty("percentChargedByCC", usrObj.get("percentChargedByCC"));
-			    			uNode.setProperty("storeTitle", usrObj.get("storeTitle"));
-			    			uNode.setProperty("storeDescription", usrObj.get("storeDescription"));
-			    			uNode.setProperty("acceptsBTC", (Boolean) usrObj.get("acceptsBTC"));
+			    			uNode.setProperty("storeName", usrObj.get("storeName"));
+			    			uNode.setProperty("storeDescription", usrObj.get("description"));
+			    			uNode.setProperty("acceptsBTC", (Boolean) usrObj.get("acceptance"));
+			    			uNode.setProperty("acceptsTerms", (Boolean) usrObj.get("agreement"));
+			    			
+			    			
+//			    		Add Geo coords if store
+			    			BTCxDatabase.USER_INDEX.add(uNode, "geoCoords", geoCoordsStr);
+//			    		Add label Merchant 
+			    			Label merchantLabel = DynamicLabel.label("Merchant");
+			    			uNode.addLabel(merchantLabel);
 			    			
 		    			}
-		    			//Add email to index
-		    			BTCxDatabase.USER_INDEX.add(uNode, "email", usrObj.get("email"));	
+		    			else{
+//		    				Add trader label -- traders are not merchants
+			    			Label traderLabel = DynamicLabel.label("Trader");
+			    			uNode.addLabel(traderLabel);
+		    			}
+		    			
+//		    			Add email to index for all users.
+		    			BTCxDatabase.USER_INDEX.add(uNode, "email", usrObj.get("email"));
+		    			
 		    		
 		    		tx.success();
 		    		sFormatter.login = true;
