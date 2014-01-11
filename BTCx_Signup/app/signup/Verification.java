@@ -1,6 +1,9 @@
 package signup;
 
-import org.apache.commons.validator.EmailValidator;
+import javax.mail.internet.AddressException;
+import javax.mail.internet.InternetAddress;
+
+
 import org.neo4j.shell.util.json.JSONException;
 import org.neo4j.shell.util.json.JSONObject;
 
@@ -29,8 +32,14 @@ public class Verification {
 	 * @throws JSONException
 	 */
 	private boolean testBasicParams() throws JSONException{
-		EmailValidator eValid = EmailValidator.getInstance();
-		 boolean emailValid = eValid.isValid((String) signupUser.get("email"));
+		 boolean emailValid = true;  
+		try {
+		      InternetAddress emailAddr = new InternetAddress((String)signupUser.get("email"));
+		      emailAddr.validate();
+		   } catch (AddressException ex) {
+			   emailValid = false;
+		   }
+		
 		 boolean fNameValid  = ((String)signupUser.get("firstName")).length() >0;
 		if(fNameValid && emailValid ) return true;		 
 		return false;
