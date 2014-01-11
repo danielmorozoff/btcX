@@ -35,7 +35,7 @@ public class SignupController extends Controller {
 	public static String system_url = "";
 	public static String system_email = "";
 	
-	
+	public static final String DB_LOCATION ="Databases/BTCx-Signup-Database";
 	
 	
 	

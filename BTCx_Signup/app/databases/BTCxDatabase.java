@@ -15,6 +15,8 @@ import org.neo4j.graphdb.index.Index;
 import org.neo4j.graphdb.index.IndexHits;
 import org.neo4j.graphdb.index.IndexManager;
 
+import controllers.SignupController;
+
 import serverLoggers.ServerLoggers;
 
 
@@ -44,8 +46,13 @@ public class BTCxDatabase {
 		config.put( "string_block_size", "60" );
 		config.put( "array_block_size", "300" );
 		
-		 signupDB = new GraphDatabaseFactory()
-		    .newEmbeddedDatabaseBuilder( "Databases/BTCx-Signup-Database" ).newGraphDatabase();
+		if(!new File(SignupController.DB_LOCATION).exists()){
+			 signupDB = new GraphDatabaseFactory()
+			    .newEmbeddedDatabaseBuilder(SignupController.DB_LOCATION ).newGraphDatabase();
+			}
+			else{
+				signupDB = new GraphDatabaseFactory().newEmbeddedDatabase(SignupController.DB_LOCATION);
+			}
 //		    .setConfig(config)
 		 //Start the indexes
 		 signupDBIndex = signupDB.index();
