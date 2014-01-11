@@ -12,6 +12,10 @@ $(document).ready(function()
 		{
 			this.request('contact',data,callback);
 		}
+		this.markers = function(callback)
+		{
+			this.request('getMarkers','',callback);
+		}
 		this.request = function(url,postData,callback)
 		{
 			console.debug('Sending request: '+url+' '+postData);

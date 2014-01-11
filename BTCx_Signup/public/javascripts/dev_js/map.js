@@ -12,6 +12,31 @@ $(document).ready(function()
 		this.markerLayer = null;
 		this.coordinates = [];
 
+		this.getMarkers = function()
+		{
+			Tube.markers(function(data)
+				{
+					var markers = data.markers;
+					for(var i = 0; i < markers.length;i++)
+					{
+						var marker = markers[i];
+						marker['type'] = 'shop';
+						marker['active']=true;
+						marker['location']='Location';
+						marker['symbol']='shop';
+						marker['color']='#000';
+						marker['size']='large';
+
+						MapOperator.setView(marker.coordinates,10,function(coordinates)
+			    		{
+			    				marker['coordinates'] = coordinates;
+			    				MapOperator.addMarker(marker);
+			    		});
+					}
+
+					MapOperator.finish();
+				});
+		}
 		this.setView = function(coordinates,zoom,callback)
 		{
 			try
@@ -130,8 +155,8 @@ $(document).ready(function()
 		   	this.markerLayer.addTo(this.map);
 	    	this.map.setView(this.coordinates, this.zoom);
 		}
-
-
+		
+		this.getMarkers();
 	}
 
 });

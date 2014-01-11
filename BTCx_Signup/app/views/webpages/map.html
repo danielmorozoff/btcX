@@ -47,19 +47,15 @@
      <script type="text/javascript"> window.jQuery || document.write('<script src="js/jquery-1.10.2.min.js">\x3C/script>')</script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
     <script src="/public/javascripts/dev_js/bootstrap.min.js"></script>
+          <script src="/public/javascripts/dev_js/tube.js"></script>
+
     <script src='//api.tiles.mapbox.com/mapbox.js/v1.5.2/mapbox.js'></script>
      <script src="/public/javascripts/dev_js/map.js"></script>
 
     <script>
     $(document).ready(function()
     {
-    	streamMap = L.mapbox.map('crypt-map', 'cryptrex.gobkj39b');
-    	changeLocation(streamMap,[50.945, 9.009],10,function(coordinates)
-    		{
-    			var marker = {'coordinates':coordinates,'type':'shop','title':'Dan','description':'Is a lil winy bitch','active':true,'location':'Location','symbol':'shop','color':'#000','size':'large'}
-    			addMarker(marker);
-    			addLayer();
-    		});
+          MapOperator = new Map(L.mapbox.map('crypt-map', 'cryptrex.gobkj39b'));
 			//,{zoomControl: false}
 			// map.dragging.disable();
 			// map.touchZoom.disable();	

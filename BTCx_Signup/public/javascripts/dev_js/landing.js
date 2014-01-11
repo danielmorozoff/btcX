@@ -88,13 +88,6 @@ $(document).ready(function()
 				if(MapOperator == null) 
 					{
 						MapOperator = new Map(L.mapbox.map('crypt-map', 'cryptrex.gobkj39b'));
-						MapOperator.setView([50.945, 9.009],10,function(coordinates)
-			    		{
-			    			var marker = {'coordinates':coordinates,'type':'shop','title':'CryptREX','description':'A cryptocurrency marketplace - built for a decentralized enconomy','active':true,'location':'Location','symbol':'shop','color':'#000','size':'large'}
-			    			MapOperator.addMarker(marker);
-			    			MapOperator.finish();
-			    		});
-
 			    	}	
 			}
 			$("#carousel-example-generic").carousel('pause');
