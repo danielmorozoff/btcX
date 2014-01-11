@@ -20,6 +20,7 @@ import org.neo4j.graphdb.Node;
 import org.neo4j.graphdb.Transaction;
 import org.neo4j.shell.util.json.JSONException;
 import org.neo4j.shell.util.json.JSONObject;
+import org.neo4j.shell.util.json.JSONArray;
 
 import api.WebpageAPI;
 
@@ -145,17 +146,20 @@ public class SignupController extends Controller {
 			    			uNode.setProperty("state", usrObj.get("state"));
 //			    			Convert to geo coordinates using google maps api
 				    			String fullAddress =  usrObj.get("address") +" "+ usrObj.get("city")+" "+usrObj.get("state");
+				    			fullAddress = fullAddress.replaceAll(" ", "%20");
 				    			JSONObject coordsObj = new JSONObject((String) new WebpageAPI(null).sendRequestToDataHub("http://maps.googleapis.com/maps/api/geocode/json?address="+fullAddress+"&sensor=true", "GET", "string", null));
 //				    			Stored as object:
 //				    			"location" : {
 //				                "lat" : 37.7353014,
 //				                "lng" : -122.4580463
 //				             }
-				    			String geoCoordsStr = ((JSONObject)((JSONObject)coordsObj.get("results")).get("geometry")).get("location").toString();
+				    			JSONArray results = (JSONArray) coordsObj.get("results");
+				    			JSONObject result = (JSONObject) results.get(0);
+				    			String geoCoordsStr = ((JSONObject)result.get("geometry")).get("location").toString();
 				    			uNode.setProperty("geoCoords", geoCoordsStr);
 			    			uNode.setProperty("percentChargedByCC", usrObj.get("percentChargedByCC"));
 			    			uNode.setProperty("storeName", usrObj.get("storeName"));
-			    			uNode.setProperty("storeDescription", usrObj.get("description"));
+			    			uNode.setProperty("storeDescription", usrObj.get("storeDescription"));
 			    			uNode.setProperty("acceptsBTC", (Boolean) usrObj.get("acceptance"));
 			    			uNode.setProperty("acceptsTerms", (Boolean) usrObj.get("agreement"));
 			    			
@@ -179,8 +183,10 @@ public class SignupController extends Controller {
 		    		
 		    		tx.success();
 		    		sFormatter.login = true;
+		    		sFormatter.message = "Thank you for signing up!";
 		    	}catch(RuntimeException e){
 		    		sFormatter.login = false;
+		    		sFormatter.message = "We are sorry try again later.";
 		    		e.printStackTrace();
 		    		ServerLoggers.errorLog.error("!Failed storing user in DB. SignupController.storeUserData!");
 		    	}
@@ -190,7 +196,7 @@ public class SignupController extends Controller {
 	    		    sFormatter.message = "You have already registered";
 	    	}
     	}
-    	return sFormatter.returnedJSONObj;
+    	return sFormatter.loadSignupFormatter();
     }
 
 }

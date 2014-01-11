@@ -85,15 +85,22 @@ $(document).ready(function()
 			console.debug(postData);
 			Tube.signup(postData,function(data)
 					{
-						$('.signup-message').text(data.message);
+						Verifier.message('signup-message',data.pass,data.message);
 					});
 		}
 		this.contact = function(postData)
 		{
 			Tube.contact(postData,function(data)
 					{
-						$('.contact-message').text(data.message);
+						Verifier.message('contact-message',data.pass,data.message);
 					});
+		}
+		this.message = function(msgclass,pass,message)
+		{
+			$('.'+msgclass).attr('class',msgclass);
+			if(pass) $('.'+msgclass).addClass('success');
+			else $('.'+msgclass).addClass('error');
+			$('.'+msgclass).text(message);
 		}
 	}
 

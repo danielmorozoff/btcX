@@ -14,12 +14,11 @@ public class SignupFormatter extends JSONFormatter {
 	 * @param msg
 	 * @return
 	 */
-	public JSONObject loadSignupFormatter(boolean login, String msg){
+	public JSONObject loadSignupFormatter(){
 		JSONObject rtObj = super.returnedJSONObj;
 			try {
 				rtObj.put("pass", this.login);
-				if(login)rtObj.put("message", this.message);
-				else rtObj.put("message", "Error signing up");
+				rtObj.put("message", this.message);
 			} catch (JSONException e) {
 				e.printStackTrace();
 				ServerLoggers.errorLog.error("!Failed signing up user in DB. SignupFormatter.loadSignupFormatter!");
