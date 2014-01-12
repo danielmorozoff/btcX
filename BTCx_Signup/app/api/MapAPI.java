@@ -6,7 +6,7 @@ import org.neo4j.graphdb.index.IndexHits;
 import org.neo4j.shell.util.json.JSONArray;
 import org.neo4j.shell.util.json.JSONException;
 import org.neo4j.shell.util.json.JSONObject;
-
+import org.neo4j.graphdb.Transaction;
 import databases.BTCxDatabase;
 
 public class MapAPI {
@@ -23,8 +23,10 @@ public class MapAPI {
 	public JSONObject getCoordsForAllStores() throws JSONException{
 		JSONObject retObj = new JSONObject();
 		JSONArray markers = new JSONArray();
-			
+
+		Transaction tx = BTCxDatabase.signupDB.beginTx();	
 		IndexHits hits = BTCxDatabase.USER_INDEX.query("geoCoords","*");
+		if(hits!=null){	
 			while(hits.hasNext()){
 				JSONObject marker = new JSONObject();
 				Node storeNode = (Node) hits.next();
@@ -39,7 +41,8 @@ public class MapAPI {
 				markers.put(marker);
 			}
 		retObj.put("markers",markers);		
-			
+		}
+		tx.success();  	
 		return retObj;
 	}
 	/**

@@ -1,3 +1,4 @@
+
 $(document).ready(function()
 {
 	$("#loginBtn").click(function()
@@ -57,8 +58,15 @@ $(document).ready(function()
 		} 
 		console.debug(index)
 		$("#carousel-example-generic").carousel(index);
+		$('.footer ul li a').removeClass('active');
+		obj.addClass('active');
+		$("#carousel-example-generic").carousel('pause');
 	}, false);
-
+	
+	$('#carousel-example-generic').carousel({
+  interval:false
 });
+
+	});
 
 	    
