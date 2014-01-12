@@ -3,6 +3,12 @@ body
 	background-color: #ecf0f1;
 /*	background-color:rgba(149, 165, 166,1.0);
 */}
+@font-face {
+  font-family: 'Iceland';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Iceland'), local('Iceland-Regular'), url(/public/font/9IfvfpywPgvB2I8dssFjDgLUuEpTyoUstqEm5AMlJo4.woff) format('woff');
+}
 header 
 {
 	font-family: 'Iceland', cursive;

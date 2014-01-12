@@ -4,6 +4,16 @@ $(document).ready(function()
 {
 	Tube  = function()
 	{
+		this.userip = function(callback)
+		{
+			//http://smart-ip.net/geoip-json?callback=?
+			this.request('userIp','',callback);
+		}
+		this.userlocation = function(callback)
+		{
+			//http://freegeoip.net/json/ip'
+			this.request('userLocation','',callback);
+		}
 		this.signup = function(data,callback)
 		{
 			this.request('signupUser',data,callback);
