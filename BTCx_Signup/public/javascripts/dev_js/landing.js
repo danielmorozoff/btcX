@@ -85,9 +85,10 @@ $(document).ready(function()
 			$("#carousel-example-generic").carousel(index);
 			if(index == 3) 
 			{
-				if(MapOperator == null) 
+				if(MapOperator.map == null) 
 					{
-						MapOperator = new Map(L.mapbox.map('crypt-map', 'cryptrex.gobkj39b'));
+						MapOperator.map = L.mapbox.map('crypt-map', 'cryptrex.gobkj39b');
+						MapOperator.getMarkers();
 			    	}	
 			}
 			$("#carousel-example-generic").carousel('pause');
@@ -99,6 +100,9 @@ $(document).ready(function()
 			$("#carousel-example-generic").carousel(index);
 			$("#carousel-example-generic").carousel('pause');
 		});
+
+		MapOperator = new Map();
+        MapOperator.getUserLocation();
 
    	
 

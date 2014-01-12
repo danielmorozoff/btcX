@@ -55,7 +55,13 @@
     <script>
     $(document).ready(function()
     {
-          MapOperator = new Map(L.mapbox.map('crypt-map', 'cryptrex.gobkj39b'));
+          MapOperator = new Map();
+          MapOperator.getUserLocation(function()
+          {
+              MapOperator.map = L.mapbox.map('crypt-map', 'cryptrex.gobkj39b');
+              MapOperator.getMarkers(); 
+          })
+        
 			//,{zoomControl: false}
 			// map.dragging.disable();
 			// map.touchZoom.disable();	

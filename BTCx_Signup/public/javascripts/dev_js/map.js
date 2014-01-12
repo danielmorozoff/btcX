@@ -4,17 +4,19 @@ var MapOperator = null;
 //http://maps.googleapis.com/maps/api/geocode/json?address='+encodeURI(location)+'&sensor=true
 $(document).ready(function()
 {	
-	Map = function(map)
+	Map = function()
 	{
 		this.geoJSON = {  type: 'FeatureCollection', features: [] };
 		this.zoom = 14;
-		this.map = map;
+		this.map = null;
 		this.markerLayer = null;
 		this.coordinates = [];
+		this.userip = "";
+		this.usercoordinates = [];
 
 		this.getMarkers = function()
 		{
-			this.getUserLocation();
+			this.setView(this.usercoordinates,11,function(){});
 			Tube.markers(function(data)
 				{
 					var markers = data.markers;
@@ -40,16 +42,16 @@ $(document).ready(function()
 					}
 				});
 		}
-		this.getUserLocation = function()
+		this.getUserLocation = function(callback)
 		{
 			$.getJSON( "http://smart-ip.net/geoip-json?callback=?",function(data)
 			{
-				var ip = data.host;	
-				$.get('http://freegeoip.net/json/'+ip,function(response)
+				MapOperator.userip = data.host;	
+				$.get('http://freegeoip.net/json/'+MapOperator.userip,function(response)
 				{
-					var coordinates = [response.latitude,response.longitude];
-					MapOperator.setView(coordinates,11,function(){});
-				});
+					MapOperator.usercoordinates = [response.latitude,response.longitude];
+					if(typeof(callback) == 'function') callback();
+ 				});
 			});
 		}
 		this.setView = function(coordinates,zoom,callback)
@@ -170,8 +172,6 @@ $(document).ready(function()
 		   	this.markerLayer.addTo(this.map);
 	    	this.map.setView(this.coordinates, this.zoom);
 		}
-		
-		this.getMarkers();
 	}
 
 });
