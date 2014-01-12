@@ -34,7 +34,7 @@ $(document).ready(function()
 							marker['coordinates'] = [coordinates[1],coordinates[0]];
 
 				    		MapOperator.addMarker(marker);
-						}
+						}	
 
 						MapOperator.finish();
 					}
@@ -42,16 +42,15 @@ $(document).ready(function()
 		}
 		this.getUserLocation = function()
 		{
-			  if (navigator.geolocation)
-			    {
-			    navigator.geolocation.getCurrentPosition(function(position)
-			    	{
-			    		var lat = position.coords.latitude; 
-			  			var lng = position.coords.longitude;
-
-			  			MapOperator.setView([lat,lng],11,function(){});
-			    	});
-			    }
+			$.getJSON( "http://smart-ip.net/geoip-json?callback=?",function(data)
+			{
+				var ip = data.host;	
+				$.get('http://freegeoip.net/json/'+ip,function(response)
+				{
+					var coordinates = [response.latitude,response.longitude];
+					MapOperator.setView(coordinates,11,function(){});
+				});
+			});
 		}
 		this.setView = function(coordinates,zoom,callback)
 		{
