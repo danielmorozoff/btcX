@@ -160,7 +160,6 @@ public class SignupController extends Controller {
 		    			String geoCoordsStr = ((JSONObject)result.get("geometry")).get("location").toString();
 		    			uNode.setProperty("geoCoords", geoCoordsStr);
 
-		    			uNode.setProperty("percentChargedByCC", usrObj.get("percentChargedByCC"));
 		    			uNode.setProperty("storeName", usrObj.get("storeName"));
 		    			uNode.setProperty("storeDescription", usrObj.get("storeDescription"));
 		    			uNode.setProperty("acceptsBTC", (Boolean) usrObj.get("acceptance"));

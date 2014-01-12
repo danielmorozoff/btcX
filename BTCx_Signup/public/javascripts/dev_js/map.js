@@ -35,7 +35,8 @@ $(document).ready(function()
 							var coordinates = marker['coordinates'];
 							marker['coordinates'] = [coordinates[1],coordinates[0]];
 
-				    		MapOperator.addMarker(marker);
+				    		if(marker.acceptsBTC) MapOperator.addBitcoinMarker(marker);
+				    		else MapOperator.addMarker(marker);
 						}	
 
 						MapOperator.finish();
@@ -70,6 +71,31 @@ $(document).ready(function()
 			{
 				if(typeof(callback) == 'function') callback(null);
 			}
+		}
+		this.addBitcoinMarker = function(marker)
+		{
+			
+        	var json = {
+				    type: 'Feature',
+				    "geometry": { "type": "Point", "coordinates": marker.coordinates},
+				    "properties": {
+				    	"icon": 
+				    	{ "iconUrl": "../public/images/dev_imgs/bmark.png",
+			            "iconSize": [25, 35], // size of the icon
+			            "iconAnchor": [25, 25], // point of the icon which will correspond to marker's location
+			            "popupAnchor": [-10, -25], // point from which the popup should open relative to the iconAnchor
+			            "className": "dot"
+			        	},
+				    	"type":marker.type,
+				    	"index":this.geoJSON.features.length,
+				    	"title":marker.title,
+				    	"description":marker.description,
+				    	"active":marker.active,
+				    	"location":marker.location
+				    }
+				};
+				
+			this.geoJSON.features.push(json);
 		}
 		this.addMarker = function(marker)
 		{	
@@ -122,7 +148,10 @@ $(document).ready(function()
 		        closeButton: false,
 		        minWidth: 100
 		    });
-
+		    if(feature.properties.hasOwnProperty('icon'))
+		    {
+		  	  marker.setIcon(L.icon(feature.properties.icon));
+		    }
 		    marker.openPopup();
 		}
 		this.finish = function()
@@ -166,8 +195,8 @@ $(document).ready(function()
 				    	var coordinates = feature.geometry.coordinates;
 				    	this.map.setView([parseFloat(coordinates[1]),parseFloat(coordinates[0])],this.zoom);
 
-			});	    
-			
+			});	   
+
 			this.initializeMarkers();
 		   	this.markerLayer.addTo(this.map);
 	    	this.map.setView(this.coordinates, this.zoom);
