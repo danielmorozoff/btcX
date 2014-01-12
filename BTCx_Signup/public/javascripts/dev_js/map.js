@@ -44,14 +44,14 @@ $(document).ready(function()
 		}
 		this.getUserLocation = function(callback)
 		{
-			Tube.userip(function(data)
+			$.getJSON( "https://smart-ip.net/geoip-json?callback=?",function(data)
 			{
 				MapOperator.userip = data.host;	
-				Tube.userlocation(function(response)
+				$.get('https://freegeoip.net/json/'+MapOperator.userip,function(response)
 				{
 					MapOperator.usercoordinates = [response.latitude,response.longitude];
 					if(typeof(callback) == 'function') callback();
-				});
+ 				});
 			});
 		}
 		this.setView = function(coordinates,zoom,callback)
