@@ -53,7 +53,7 @@ $(document).ready(function()
 			index = parent.index(); 
 		}
 		else{
-			index = obj.attr('index');
+			index = parseInt(obj.attr('index'));
 		} 
 		console.debug(index)
 		$("#carousel-example-generic").carousel(index);
