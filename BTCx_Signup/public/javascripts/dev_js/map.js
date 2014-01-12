@@ -14,28 +14,44 @@ $(document).ready(function()
 
 		this.getMarkers = function()
 		{
+			this.getUserLocation();
 			Tube.markers(function(data)
 				{
 					var markers = data.markers;
-					for(var i = 0; i < markers.length;i++)
+					if(markers != null)
 					{
-						var marker = markers[i];
-						marker['type'] = 'shop';
-						marker['active']=true;
-						marker['location']='Location';
-						marker['symbol']='shop';
-						marker['color']='#000';
-						marker['size']='large';
+						for(var i = 0; i < markers.length;i++)
+						{
+							var marker = markers[i];
+							marker['type'] = 'shop';
+							marker['active']=true;
+							marker['location']='Location';
+							marker['symbol']='shop';
+							marker['color']='#000';
+							marker['size']='large';
 
-						MapOperator.setView(marker.coordinates,10,function(coordinates)
-			    		{
-			    				marker['coordinates'] = coordinates;
-			    				MapOperator.addMarker(marker);
-			    		});
+							var coordinates = marker['coordinates'];
+							marker['coordinates'] = [coordinates[1],coordinates[0]];
+
+				    		MapOperator.addMarker(marker);
+						}
+
+						MapOperator.finish();
 					}
-
-					MapOperator.finish();
 				});
+		}
+		this.getUserLocation = function()
+		{
+			  if (navigator.geolocation)
+			    {
+			    navigator.geolocation.getCurrentPosition(function(position)
+			    	{
+			    		var lat = position.coords.latitude; 
+			  			var lng = position.coords.longitude;
+
+			  			MapOperator.setView([lat,lng],11,function(){});
+			    	});
+			    }
 		}
 		this.setView = function(coordinates,zoom,callback)
 		{
