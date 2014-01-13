@@ -356,3 +356,19 @@ a
 	-webkit-border:none;
 	-moz-border:none;
 }
+/*
+Map marker CSS
+*/
+.marker-title{
+	font-size:16px;
+	color:#27ae60
+}
+.marker-description{
+	font-size:10px;
+	margin-top:0px;
+	line-height:10px;
+}
+.marker-phone-number{
+	font-size:10px;
+}
+}

@@ -41,29 +41,29 @@ public class BTCxDatabase {
 		if(!folder.exists())folder.mkdirs();
 			
 		
-		Map<String, String> config = new HashMap<String, String>();
-		config.put( "neostore.nodestore.db.mapped_memory", "10M" );
-		config.put( "string_block_size", "60" );
-		config.put( "array_block_size", "300" );
+//		Map<String, String> config = new HashMap<String, String>();
+//		config.put( "neostore.nodestore.db.mapped_memory", "10M" );
+//		config.put( "string_block_size", "60" );
+//		config.put( "array_block_size", "300" );
 		
-		if(!new File(SignupController.DB_LOCATION).exists()){
-			 signupDB = new GraphDatabaseFactory()
-			    .newEmbeddedDatabaseBuilder(SignupController.DB_LOCATION ).newGraphDatabase();
-			}
-			else{
-				signupDB = new GraphDatabaseFactory().newEmbeddedDatabase(SignupController.DB_LOCATION);
-			}
-//		    .setConfig(config)
-		 //Start the indexes
-		 signupDBIndex = signupDB.index();
+
+   		 System.out.println(" DB LOADED...");
+		 signupDB = new GraphDatabaseFactory().newEmbeddedDatabase(SignupController.DB_LOCATION);
+
 		 
-		 Transaction tx = signupDB.beginTx();
-			 USER_INDEX = signupDBIndex.forNodes("users");
-		 tx.success();
-		
-		 registerShutdownHook(signupDB);
+		 try(Transaction tx = signupDB.beginTx()){
+				System.out.println("number of emails stored: "+signupDB.index().forNodes("users").query("email", "*").size());
+				tx.success();
+			}
+	
+//		    .setConfig(config)
+			
+//			 registerShutdownHook(signupDB);
+		 
+
+		 
 	}
-	private static void registerShutdownHook( final GraphDatabaseService graphDb )
+	public static void registerShutdownHook( final GraphDatabaseService graphDb )
 	{
 	    // Registers a shutdown hook for the Neo4j instance so that it
 	    // shuts down nicely when the VM exits (even if you "Ctrl-C" the
@@ -72,8 +72,10 @@ public class BTCxDatabase {
 	    {
 	        @Override
 	        public void run()
-	        {	        
+	        {	
+	        	System.out.println("DB SHUTTING DOWN..."); 
 	        	signupDB.shutdown();
+	        	System.out.println("DB SHUTDOWN");
 	        }
 	    } );
 	}

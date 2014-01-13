@@ -90,6 +90,7 @@ $(document).ready(function()
 				    	"index":this.geoJSON.features.length,
 				    	"title":marker.title,
 				    	"description":marker.description,
+				    	"phoneNumber":marker.phoneNumber,
 				    	"active":marker.active,
 				    	"location":marker.location
 				    }
@@ -107,6 +108,7 @@ $(document).ready(function()
 				    	"index":this.geoJSON.features.length,
 				    	"title":marker.title,
 				    	"description":marker.description,
+				    	"phoneNumber": marker.phoneNumber,
 				    	"active":marker.active,
 				    	"location":marker.location,
 				        "marker-symbol": marker.symbol,
@@ -141,8 +143,9 @@ $(document).ready(function()
 		{
 		   var feature = marker.feature;
 		   var popupContent =  '<div class="map-popup">';
-		   popupContent += ' <a><h5>' + feature.properties.title + '</h5></a>';
-		   popupContent += ' <h6>' + feature.properties.description + '</h6></div>';
+		   popupContent += ' <div class="marker-title">' + feature.properties.title + '</div>';
+		   popupContent += '<div class="marker-phone-number">'+feature.properties.phoneNumber+'</div>';
+		   popupContent += ' <div class="marker-description">' + feature.properties.description + '</div></div>';
 
 		    marker.bindPopup(popupContent,{
 		        closeButton: false,

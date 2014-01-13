@@ -18,6 +18,7 @@ import org.neo4j.graphdb.GraphDatabaseService;
 import org.neo4j.graphdb.Label;
 import org.neo4j.graphdb.Node;
 import org.neo4j.graphdb.Transaction;
+import org.neo4j.graphdb.index.IndexHits;
 import org.neo4j.shell.util.json.JSONException;
 import org.neo4j.shell.util.json.JSONObject;
 import org.neo4j.shell.util.json.JSONArray;
@@ -42,6 +43,9 @@ public class SignupController extends Controller {
 	
 	
 /************************************************************************************************/	
+	public static  GraphDatabaseService sDB = BTCxDatabase.signupDB;
+	public static long userStoredCount = 0;
+	
 	/**
 	 * Startup code fo the server. Log instantiation, user file directories and DB activation.
 	 * @author danielmorozoff
@@ -53,20 +57,10 @@ public class SignupController extends Controller {
 		    	ServerLoggers.infoLog.info("SIGNUP SERVER HAS STARTED");
 		    	new BTCxDatabase();
 		    	ServerLoggers.infoLog.info("SIGNUP DB STARTED");
-		    	//Add Shutdown hool
-		    	Runtime.getRuntime().addShutdownHook( new Thread()
-			    {
-			        @Override
-			        public void run()
-			        {
-			        	BTCxDatabase.signupDB.shutdown();
-			        }
-			    });
+		    	BTCxDatabase.registerShutdownHook(sDB);
 		    }    
 		}
 		
-	public static GraphDatabaseService sDB = BTCxDatabase.signupDB;
-	public static long userStoredCount = 0;
 	
 	/**
 	 * Method routes the request to the proper page
@@ -117,13 +111,14 @@ public class SignupController extends Controller {
     	
     	JSONObject usrObj = new JSONObject(usrStr);
     	SignupFormatter sFormatter = new SignupFormatter();
+
+    		
     	if(new Verification(usrObj).verifySignupObject())
     	{
-	    	if(BTCxDatabase.USER_INDEX.get("email", usrObj.get("email")).getSingle()==null)
+    		try(Transaction tx = sDB.beginTx())
 	    	{
-		    	try
+		    	if(sDB.index().forNodes("users").get("email", usrObj.get("email")).getSingle()==null)
 		    	{
-		    		Transaction tx = sDB.beginTx();
 		    		userStoredCount++;
 		    		ServerLoggers.infoLog.info("***Storing new user -- count: "+userStoredCount+"***");
 		    		Node uNode = sDB.createNode();
@@ -134,8 +129,8 @@ public class SignupController extends Controller {
 		    		uNode.setProperty("uniquePrivateId",privId );
 		    		uNode.setProperty("uniquePublicId", pubId);
 //		    		Add ids to index
-		    		BTCxDatabase.USER_INDEX.add(uNode, "privateId", privId);
-		    		BTCxDatabase.USER_INDEX.add(uNode, "publicId", pubId);
+		    		BTCxDatabase.signupDB.index().forNodes("users").add(uNode, "privateId", privId);
+		    		BTCxDatabase.signupDB.index().forNodes("users").add(uNode, "publicId", pubId);
 		    		
 		    		String type= (String) usrObj.get("type"); 
 		    		uNode.setProperty("type",type );
@@ -167,7 +162,7 @@ public class SignupController extends Controller {
 			    			
 			    			
 //			    		Add Geo coords if store
-			    		BTCxDatabase.USER_INDEX.add(uNode, "geoCoords", geoCoordsStr);
+		    			sDB.index().forNodes("users").add(uNode, "geoCoords", geoCoordsStr);
 //			    		Add label Merchant 
 		    			Label merchantLabel = DynamicLabel.label("Merchant");
 		    			uNode.addLabel(merchantLabel);
@@ -181,25 +176,24 @@ public class SignupController extends Controller {
 	    			}
 		    			
 //		    		Add email to index for all users.
-	    			BTCxDatabase.USER_INDEX.add(uNode, "email", usrObj.get("email"));
-		    			
+	    			 
+	    			sDB.index().forNodes("users").add(uNode, "email", usrObj.get("email"));
+
 		    		
-		    		tx.success();
 		    		sFormatter.login = true;
 		    		sFormatter.message = "Thank you for signing up!";
 		    	}
-		    	catch(RuntimeException e)
-		    	{
-		    		sFormatter.login = false;
-		    		sFormatter.message = "We are sorry try again later.";
-		    		e.printStackTrace();
-		    		ServerLoggers.errorLog.error("!Failed storing user in DB. SignupController.storeUserData!");
+		    	else{
+		    		    sFormatter.login = true;
+		    		    sFormatter.message = "You have already registered";
 		    	}
-	    	}
-	    	else{
-	    		    sFormatter.login = true;
-	    		    sFormatter.message = "You have already registered";
-	    	}
+		    	tx.success();
+	    	}catch(RuntimeException e){
+    		sFormatter.login = false;
+    		sFormatter.message = "We are sorry try again later.";
+    		e.printStackTrace();
+    		ServerLoggers.errorLog.error("!Failed storing user in DB. SignupController.storeUserData!");
+    		}
     	}
     	else
     	{

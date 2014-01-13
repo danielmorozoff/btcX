@@ -1,5 +1,7 @@
 package controllers;
 
+import org.neo4j.shell.util.json.JSONObject;
+
 import emailers.ContactUsEmailer;
 import play.mvc.Controller;
 
@@ -12,7 +14,17 @@ public class EmailController extends Controller {
 	 * @param message
 	 * @throws Exception
 	 */
-	public static void sendContactUsEmail(String request, String email, String subject, String message) throws Exception{
+	public static void sendContactUsEmail(String usrStr) throws Exception{
+		JSONObject usrObj = new JSONObject(usrStr);
+		String request = usrObj.getString("request");
+		System.out.println("Request: "+request);
+		String email = usrObj.getString("email");
+		System.out.println("email: "+email);
+		String subject = usrObj.getString("subject");
+		System.out.println("subject: "+subject);
+		String message = usrObj.getString("message");
+		System.out.println("message: "+message);
+		
 		if(request.equals("contact")) new ContactUsEmailer().sendSignupEmail(email, subject, message);
 	}
 }
