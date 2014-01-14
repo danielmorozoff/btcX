@@ -14,6 +14,10 @@ $(document).ready(function()
 		this.userip = "";
 		this.usercoordinates = [];
 
+		//calculates height of map
+		var height = $(document).height()-parseInt($(".footer").css('height'))-parseInt($(".navbar-fixed").css('height'))-11;
+		$("#crypt-map-container").css('height',height+'px');
+
 		this.getMarkers = function()
 		{
 			this.setView(this.usercoordinates,11,function(){});

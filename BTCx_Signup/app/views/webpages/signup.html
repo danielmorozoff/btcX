@@ -21,6 +21,18 @@
   		<div class="navbar-inner clearfix">
   			<a class="navbar-brand" href="/">CryptREX</a>
   			<div class='navbar-right pull-right info '>A cryptocurrency marketplace -  built for a decentralized economy</div>
+  			<div class="btn-group mobile pull-right">
+				  <a class="dropdown-toggle" data-toggle="dropdown">
+				    <span class="no-icon glyphicon glyphicon-align-justify"></span>
+				  </a>
+				  <ul class="dropdown-menu" role="menu">
+				    	<li><a href='#signup'  class="active">Sign up</a></li>
+						<li><a href='#aboutus'>About us</a></li>
+						<li><a href='#tech'>Tech</a></li>
+						<li><a href='#map'>Map</a></li> 
+						<li><a href='#contact'>Contact us</a></li>
+				  </ul>
+			</div>
   		</div>	
 
 
@@ -142,16 +154,16 @@
 								<br> 
 								Compatibility and future scalability led us to choose Java as a primary language to support the bitcoin protocol.</p>
 				  				<div class="row">
-				  					<div class="col-md-3" style="margin-top:20px">
+				  					<div class="image-container col-md-3" style="margin-top:20px">
 				  						<img src="../public/images/dev_imgs/tech1.png"/>
 				  					</div>
-				  					<div class="col-md-3" style="margin-top:20px">
+				  					<div class="image-container col-md-3" style="margin-top:20px">
 				  						<img src="../public/images/dev_imgs/tech2.png"/>
 				  					</div>
-				  					<div class="col-md-3" style="margin-top:20px">
+				  					<div class="image-container col-md-3" style="margin-top:20px">
 				  						<img src="../public/images/dev_imgs/tech4.png"/>
 				  					</div>
-				  					<div class="col-md-3">
+				  					<div class="image-container col-md-3">
 				  						<img src="../public/images/dev_imgs/tech3.png"/>
 				  					</div>
 				  				</div>
@@ -159,7 +171,7 @@
 						</div>	
 				    </div>
 				    <div class="item">
-					      <div class=" panel panel-primary panel-inverted" style="padding:0;width:100%;height:570px">
+					      <div id="crypt-map-container" class=" panel panel-primary panel-inverted" style="padding:0;width:100%;">
 							<div class="panel-heading clearfix">
 								<span class="glyphicon glyphicon-globe pull-left"></span><h3 class="panel-title pull-right">Map</h3></div>
 				  			 <div class="panel-body" id="crypt-map" style="height:100%">
@@ -573,22 +585,27 @@
 		</div>	
 		<div class="footer">
 			<div class="row">
-				<div class="col-md-4">
-					<ul>
-					<li><a href='#signup'  class="active">Sign up</a></li>
-					<li><a href='#aboutus'>About us</a></li>
-					<li><a href='#tech'>Tech</a></li>
-					<li><a href='#map'>Map</a></li> 
-					<li><a href='#contact'>Contact us</a></li>
-					</ul>
+				<div class="not-mobile">
+					<div class="col-md-4">
+						<ul>
+						<li><a href='#signup'  class="active">Sign up</a></li>
+						<li><a href='#aboutus'>About us</a></li>
+						<li><a href='#tech'>Tech</a></li>
+						<li><a href='#map'>Map</a></li> 
+						<li><a href='#contact'>Contact us</a></li>
+						</ul>
 
-				</div>
-				<div class="col-md-offset-4 col-md-4">
-					<ul>
-					<li class="pull-right" style="margin-right:10px">© CryptREX</li>
-					<li class="pull-right"><a href='#termsandprivacy' index="5">Terms of Use | Privacy Policy</a></li>
-					</ul>	
-				</div>
+					</div>
+				</div>	
+					<div class="col-md-offset-4 col-md-4">
+						<ul>
+						<li class="pull-right" style="margin-right:10px">© CryptREX</li>
+						<div class="not-mobile">
+							<li class="pull-right"><a href='#termsandprivacy' index="5">Terms of Use | Privacy Policy</a></li>
+						</div>
+						</ul>	
+					</div>
+				
 			</div>	
 		</div>
     <script src="/public/javascripts/dev_js/jquery-1.10.2.min.js" type="text/javascript"></script>

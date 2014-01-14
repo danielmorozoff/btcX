@@ -16,9 +16,9 @@ $(document).ready(function()
 			Verifier.verifyForm('contact');
 		});
 
-		$(".footer ul li a").click(function()
+		$("a[href]").click(function()
 		{
-			$(".footer ul li a").removeClass('active');
+			$("a[href]").removeClass('active');
 			$(this).addClass('active');
 			var li = $(this).parent();
 			var index = li.index();
