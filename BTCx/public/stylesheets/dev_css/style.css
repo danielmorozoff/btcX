@@ -3,6 +3,12 @@ body
 	background-color: #ecf0f1;
 /*	background-color:rgba(149, 165, 166,1.0);
 */}
+@font-face {
+  font-family: 'Iceland';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Iceland'), local('Iceland-Regular'), url(/public/font/9IfvfpywPgvB2I8dssFjDgLUuEpTyoUstqEm5AMlJo4.woff) format('woff');
+}
 header 
 {
 	font-family: 'Iceland', cursive;
@@ -12,7 +18,7 @@ ul
 	list-style: none;
 	padding:0;
 }
-textarea:focus, input[type="text"]:focus, input[type="password"]:focus, input[type="datetime"]:focus, input[type="datetime-local"]:focus, input[type="date"]:focus, input[type="month"]:focus, input[type="time"]:focus, input[type="week"]:focus, input[type="number"]:focus, input[type="email"]:focus, input[type="url"]:focus, input[type="search"]:focus, input[type="tel"]:focus, input[type="color"]:focus, .uneditable-input:focus, .btn:focus 
+textarea:focus,textarea.form-control:focus,input[type="text"]:focus, input[type="password"]:focus, input[type="datetime"]:focus, input[type="datetime-local"]:focus, input[type="date"]:focus, input[type="month"]:focus, input[type="time"]:focus, input[type="week"]:focus, input[type="number"]:focus, input[type="email"]:focus, input[type="url"]:focus, input[type="search"]:focus, input[type="tel"]:focus, input[type="color"]:focus, .uneditable-input:focus, .btn:focus 
 {   
 /*border-color: rgba(126, 239, 104, 0.8);
 box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset, 0 0 8px rgba(126, 239, 104, 0.6);*/
@@ -45,11 +51,16 @@ header
 	height:64px;
 	background: #2c3e50;
 	background: #fff;
-	padding:0px 70px;
+	padding:0px 10px 0px 70px;
 }
+.navbar-right{
+	font-size:14pt;
+	line-height:60px;
+
+} 
 a:hover
 {
-	text-decoration: none;
+	text-decoration: underline;
 	cursor: pointer;
 	color:#2ecc71;
 }
@@ -124,10 +135,6 @@ a
 	background: transparent;
 	color:#000;
 	vertical-align: middle;
-}
-.glyphicon-ban-circle
-{
-	cursor: default;
 }
 .page
 {
@@ -220,10 +227,12 @@ a
 	border-color:#000;
 	-webkit-border-color:#000;
 	-moz-border-color:#000;
+	height: 45px;
 }
 .panel-inverted .panel-title
 {
 	color:#fff;
+	color:#2ecc71;
 }
 .panel-inverted .panel-body .input-group 
 {
@@ -347,12 +356,19 @@ a
 	-webkit-border:none;
 	-moz-border:none;
 }
-.btn-group.open .dropdown-toggle
-{
-	-webkit-box-shadow: none;
-	box-shadow: none;
+/*
+Map marker CSS
+*/
+.marker-title{
+	font-size:16px;
+	color:#27ae60
 }
-.nav .open>a, .nav .open>a:hover, .nav .open>a:focus
-{
-	background:transparent;
+.marker-description{
+	font-size:10px;
+	margin-top:0px;
+	line-height:10px;
+}
+.marker-phone-number{
+	font-size:10px;
+}
 }

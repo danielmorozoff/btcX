@@ -6,17 +6,30 @@ $(document).ready(function()
 		this.verifyForm = function(formName)
 		{
 			var form = $('form[name='+formName+']');
+			var postData = {'request':formName};
 			var elements = 0;
 			var valid = 0;
-			var text = '';
-			var postData = {'elements':[]};
-			form.find('input[name]').each(function()
+
+			if(form.find('.type-selection').length > 0)
 			{
+				var type = form.find('.type-selection').val();
+				postData['type'] = type;
+			}
+			
+			form.find('.input-group:not(:hidden) input, .input-group:not(:hidden) textarea').each(function()
+			{
+
 				var input = $(this);
 				var type = input.attr('type');
 				var name = input.attr('name');
+				var msg = input.attr('msg');
 				var val = input.val();
+
 				var check = false;
+
+
+				input.closest('.input-group').next('.message-error').remove();
+
 				if(type == 'text')
 				{
 					if(name == 'email')
@@ -34,60 +47,68 @@ $(document).ready(function()
 					var pass2 = pass1;
 					if(form.find('input[name=reppassword]').length > 0) pass2 = form.find('input[name=reppassword]');
 					if(pass1.val().length >= 2 && (pass1.val() == pass2.val())) check = true;
-					else
-					{
-						pass1.next('.addon-right').find('span').attr('class','glyphicon glyphicon-remove');	
-						if(form.find('input[name=reppassword]').length > 0) pass2.next('.addon-right').find('span').attr('class','glyphicon glyphicon-remove');	
-					}
 				}
 				else if(type == 'checkbox')
 				{
 					val = input.is(':checked');
 					if(val) check = true;
 				}
+
+				if(input.attr('optional') != undefined) check = true;
+
 				if(check) 
 				{
-					var postObj = {'name':name,'type':type,'value':val};
-					postData.elements.push(postObj);
-
-					input.next('.addon-right').find('span').attr('class','glyphicon glyphicon-ok');
+					input.removeClass('has-error');
+					postData[name] = val;
 					valid++;
 				}
 				else
 				{
-					if(type != 'checkbox') text += 'Please provide a valid '+name+'<br>';
-					else text += 'Agree to our Terms of Use and Privacy Policy';
-
-					input.next('.addon-right').find('span').attr('class','glyphicon glyphicon-remove');	
+					input.addClass('has-error');
+					input.closest('.input-group').after('<p class="message-error">Please check '+msg+'</p>');
 				}
+
 				elements++;
+				
 			});
 			if(elements == valid)
 			{
-				$("#"+formName+"-message").html('Processing...');
+				$("."+formName+"-message").text('Processing...');
 				
 				if(formName.indexOf('signup') >= 0) this.signup(JSON.stringify(postData));	
-				else if(formName.indexOf('login') >= 0) this.login(JSON.stringify(postData));	
-			}
-			else
-			{
-				$("#"+formName+"-message").html(text);
+				else if(formName.indexOf('login') >= 0) this.login(JSON.stringify(postData));
+				else if(formName.indexOf('contact') >= 0) this.contact(JSON.stringify(postData));	
 			}
 		}
 		this.login = function(postData)
 		{
+			console.debug(postData);
 			Tube.login(postData,function(data)
 					{
-						if(!data.pass) $('#login-message').html(data.message);
-						else window.location.href = "/";
+						Verifier.message('login-message',data.pass,data.message);
 					});
 		}
 		this.signup = function(postData)
 		{
+			console.debug(postData);
 			Tube.signup(postData,function(data)
 					{
-						$('#signup-message').html(data.message);
+						Verifier.message('signup-message',data.pass,data.message);
 					});
+		}
+		this.contact = function(postData)
+		{
+			Tube.contact(postData,function(data)
+					{
+						Verifier.message('contact-message',data.pass,data.message);
+					});
+		}
+		this.message = function(msgclass,pass,message)
+		{
+			$('.'+msgclass).attr('class',msgclass);
+			if(pass) $('.'+msgclass).addClass('success');
+			else $('.'+msgclass).addClass('error');
+			$('.'+msgclass).text(message);
 		}
 	}
 

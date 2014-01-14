@@ -4,23 +4,28 @@ $(document).ready(function()
 {
 	Tube  = function()
 	{
-		this.getPanel = function(panel,callback)
-		{	
-			this.request('get'+panel+'Panel',{},callback);
-		}
 		this.login = function(data,callback)
 		{
-			this.request('login',data,callback);
+			this.request('signin',data,callback);
 		}
 		this.signup = function(data,callback)
 		{
 			this.request('signup',data,callback);
 		}
-		this.request = function(url,data,callback)
+		this.contact = function(data,callback)
 		{
+			this.request('contact',data,callback);
+		}
+		this.markers = function(callback)
+		{
+			this.request('getMarkers','',callback);
+		}
+		this.request = function(url,postData,callback)
+		{
+			console.debug('Sending request: '+url+' '+postData);
 			try
 			{
-				$.post(url,data,function(data)
+				$.post(url,{ usrStr: postData},function(data)
 				{
 					if(data != null)
 					{

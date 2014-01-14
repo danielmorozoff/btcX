@@ -49,7 +49,7 @@ public static GraphDatabaseService bDB = BTCxDatabase.bDB;
 	 * @param password
 	 */
 	 
-	public static void logIntoSite(String userName, String password){
+	public static void logIntoSite(String userStr){
 		UserLoginAndSignup entranceClass = new UserLoginAndSignup();
 		//Double check the Cache.
 			if(Cache.get(session.getAuthenticityToken())==null){
