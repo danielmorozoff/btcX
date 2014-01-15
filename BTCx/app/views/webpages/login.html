@@ -52,8 +52,8 @@
 				  			 <div class="panel-body">
 				  					<form name="login">
 				  						<div class="input-group">
-										  <span class="input-group-addon">E</span>
-										  <input type="text" name="email" msg="Email" class="form-control" placeholder="Email">
+										  <span class="input-group-addon">U</span>
+										  <input type="text" name="userName" msg="Username" class="form-control" placeholder="Username">
 										</div>
 										<div class="input-group">
 										  <span class="input-group-addon">P</span>
@@ -73,79 +73,41 @@
 							   	<div class="row">
 							   		<form name="signup">
 							   		<div id="panel-trader" class="col-md-12">
-							  			<div class='type-selection-wrapper'>
-								  		<select class="form-control type-selection" >
-										  <option value="trader">Trader</option>
-										  <option value="merchant">Merchant</option>
-										</select>
-										</div>
-								      	<div class="input-group trader">
+							      		<div class="input-group">
 										  <span class="input-group-addon">E</span>
-										  <input type="text" name="email" msg="Email" class="form-control" placeholder="Email">
+										  <input type="text" name="email" class="form-control" msg="Email" placeholder="Email">
 										</div>
-										<div class="input-group trader">
+										<div class="input-group">
+										  <span class="input-group-addon">U</span>
+										  <input type="text" name="userName" msg="Username" class="form-control" placeholder="Username">
+										</div>
+										<div class="input-group">
 										  <span class="input-group-addon">F</span>
-										  <input type="text" name="firstName" msg="First Name" class="form-control" placeholder="First Name">
+										  <input type="text" name="firstName" msg="Firstname" class="form-control" placeholder="Firstname">
 										</div>
-										<div class="input-group merchant" style="display: none;">
+										<div class="input-group">
 										  <span class="input-group-addon">L</span>
-										  <input type="text" name="lastName" msg="Last Name" class="form-control" placeholder="Last Name">
+										  <input type="text" name="lastName" msg="Lastname" class="form-control" placeholder="Lastname">
 										</div>
-										<div class="input-group merchant" style="display: none;">
+									  	<div class="input-group">
 										  <span class="input-group-addon">P</span>
-										  <input type="text" name="phoneNumber" msg="Phone" class="form-control" placeholder="Phone">
+										  <input type="password" name="password" class="form-control" placeholder="Password" msg="Password">
 										</div>
-										<div class="input-group merchant" style="display: none;">
-										  <span class="input-group-addon">A</span>
-										  <input type="text" name="address" msg="Address" class="form-control" placeholder="Address">
+										<div class="input-group">
+										  <span class="input-group-addon">P</span>
+										  <input type="password" name="reppassword" class="form-control" placeholder="Rep. Password" msg="Rep. Password">
 										</div>
-										<div class="input-group merchant" style="display: none;"> 
-										  <span class="input-group-addon">C</span>
-										  <input type="text" name="city" msg="City" class="form-control" placeholder="City">
-										</div>
-										<div class="input-group merchant" style="display: none;">
-										  <span class="input-group-addon">S</span>
-										  <input type="text" name="state" msg="State" class="form-control" placeholder="State">
-										</div>
-										<div class="trader-fade">
-											<div class="checkbox input-group trader">
-											   <label>
-											      <input type="checkbox" name="agreement" msg="agreement to Terms of Use and Privacy Policy"> I read and accept the <a href='#termsandprivacy' index="6" class="carousel-nav" >Terms of Use</a> and <a href='#termsandprivacy' class="carousel-nav" index="6">Privacy Policy</a>
-											   </label>
-											</div>
-											<hr>
-											 <p class="signup-message" style="text-align:left;font-size:11px;margin:0"></p>
-							    			<button type="button" class="signupBtn btn btn-default btn-white pull-right">Submit</button>
-									   </div> 
-									</div>
-									<div class="col-md-6 merchant" style="display:none">
-										<div class="input-group merchant">
-										  <span class="input-group-addon">S</span>
-										  <input type="text" name="storeName" msg="Store name" class="form-control" placeholder="Store name">
-										</div>
-										<div class="input-group merchant" style="width:100%">
-										  <textarea type="text" placeholder="Store description" class="form-control" style="resize:none;" name="storeDescription" msg="Description" rows="4"></textarea>
-										</div>
-										<div class="checkbox input-group merchant">
+										<div class="checkbox input-group">
 										   <label>
-										      <input type="checkbox" name="acceptance" optional> I am currently accepting Bitcoin*
-										   </label>
-										</div>
-										<div class="checkbox input-group merchant">
-										   <label>
-										      <input type="checkbox" name="agreement" msg="agreement to Terms of Use and Privacy Policy"> I read and accept the <a  href='#termsandprivacy' class="carousel-nav" index="6">Terms of Use</a> and <a href='#termsandprivacy' class="carousel-nav" index="6">Privacy Policy</a>
+										      <input type="checkbox" name="agreement" msg="agreement to Terms of Use and Privacy Policy"> I read and accept the <a href='#termsandprivacy' index="6" class="carousel-nav" >Terms of Use</a> and <a href='#termsandprivacy' class="carousel-nav" index="6">Privacy Policy</a>
 										   </label>
 										</div>
 										<hr>
 										 <p class="signup-message" style="text-align:left;font-size:11px;margin:0"></p>
 						    			<button type="button" class="signupBtn btn btn-default btn-white pull-right">Submit</button>
-									    <span style="font-size:8px;width:75%" class="pull-left">
-									    	* Your information will be displayed on our map with your store name, description and its contact information. If you leave this box unchecked your store will be displayed as a potential Bitcoin accepter.</span>
-									    </span>
-									</div> 
+									</div>
 									</form>
-
-								</div> 
+								</div>	
 							</div>
 						</div>	
 				    </div>
