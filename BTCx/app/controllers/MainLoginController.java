@@ -12,6 +12,7 @@ import org.mindrot.jbcrypt.BCrypt;
 import org.neo4j.graphdb.GraphDatabaseService;
 import org.neo4j.graphdb.Node;
 import org.neo4j.graphdb.Transaction;
+import org.neo4j.shell.util.json.JSONException;
 import org.neo4j.shell.util.json.JSONObject;
 import databases.BTCxDatabase;
 import databases.objects.User;
@@ -47,15 +48,19 @@ public static GraphDatabaseService bDB = BTCxDatabase.bDB;
 	 * Beginning of Login flow
 	 * @param username
 	 * @param password
+	 * @throws JSONException 
 	 */
 	 
-	public static void logIntoSite(String userStr){
+	public static void logIntoSite(String userStr) throws JSONException{
 		UserLoginAndSignup entranceClass = new UserLoginAndSignup();
 		//Double check the Cache.
-			if(Cache.get(session.getAuthenticityToken())==null){
+			if(Cache.get(session.getAuthenticityToken())==null && userStr!=null ){
+				JSONObject userObj = new JSONObject(userStr);
+				String userName = (String) userObj.get("userName");
 				if(userName!=null){
 					Node curNode = BTCxDatabase.USER_INDEX.get("userName", userName).getSingle();	
 					if(curNode!=null){
+						String password = (String) userObj.get("password");
 						//Login with email.
 						/*
 							if(!(Boolean) curNode.getProperty("emailVerified")){
