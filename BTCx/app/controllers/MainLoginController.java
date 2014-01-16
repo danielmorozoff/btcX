@@ -52,6 +52,7 @@ public static GraphDatabaseService bDB = BTCxDatabase.bDB;
 	 * @throws JSONException 
 	 */
 	 
+	 //ADD email verification ERROR
 	public static void logIntoSite(String userStr) throws JSONException{
 		UserLoginAndSignup entranceClass = new UserLoginAndSignup();
 		//Double check the Cache.
@@ -133,7 +134,7 @@ public static GraphDatabaseService bDB = BTCxDatabase.bDB;
 							Node userNode =  BTCxDatabase.USER_INDEX.get("userName", userName).getSingle();
 							ServerLoggers.infoLog.info("***Sending "+newUser.userName+" email verifcation code ***");
 //							new SignupEmailer().sendSignupEmail(email, userName,(String)userNode.getProperty("firstName"),(String)userNode.getProperty("uniqueEmailVerificationString"));
-							message = "Thank you for signing up!";
+							message = "Thank you for signing up! Check your inbox please.";
 							response.put("login",true);
 						}
 					}catch(IOError e){
