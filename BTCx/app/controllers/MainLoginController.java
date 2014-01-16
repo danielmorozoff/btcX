@@ -1,5 +1,6 @@
 package controllers;
 
+import java.io.IOError;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.UUID;
@@ -103,9 +104,9 @@ public static GraphDatabaseService bDB = BTCxDatabase.bDB;
 	 * @return
 	 * @throws Exception 
 	 */
-	public static String signupUser(String userStr) throws Exception{
-		JSONObject userObj = new JSONObject(userStr);
-		if(userObj.get("password1").equals(userObj.get("password2"))){
+	public static String signupUser(String usrStr) throws Exception{
+		JSONObject userObj = new JSONObject(usrStr);
+		if(userObj.get("password").equals(userObj.get("reppassword")) && ((Boolean) userObj.get("agreement"))){
 			UserLoginAndSignup uEnter = new UserLoginAndSignup();
 			String userExistsTestResult = uEnter.checkIfUserExistsInDb((String)userObj.get("userName"), (String)userObj.get("email"),"userName");
 			//Currently only enforcing unique usernames.
@@ -116,19 +117,23 @@ public static GraphDatabaseService bDB = BTCxDatabase.bDB;
 				String userName=(String)userObj.get("userName"),
 						password=(String)userObj.get("password"),
 						email=(String)userObj.get("email"),
-						fName=(String)userObj.get("fName"),
-						lName=(String)userObj.get("lName");
+						fName=(String)userObj.get("firstName"),
+						lName=(String)userObj.get("lastName");
 					
 					//Loads User class for creation. Generates unique ids, encrypts password and creates salt
 					newUser.loadUserClassForSignup(userName, password, email,fName,lName);
-						//Stores and verifies user in DB
+					try{	
+					//Stores and verifies user in DB
 						if(uEnter.makeNewUser(newUser)){
 							Node userNode =  BTCxDatabase.USER_INDEX.get("userName", userName).getSingle();
 							ServerLoggers.infoLog.info("***Sending "+newUser.userName+" email verifcation code ***");
-							new SignupEmailer().sendSignupEmail(email, userName,(String)userNode.getProperty("fName"),(String)userNode.getProperty("uniqueEmailVerificationString"));
+//							new SignupEmailer().sendSignupEmail(email, userName,(String)userNode.getProperty("firstName"),(String)userNode.getProperty("uniqueEmailVerificationString"));
 							return "userCreated_"+newUser.public_uniqueId;
 						}
 						else return "User was not stored - error occured";
+					}catch(IOError e){
+						e.printStackTrace();
+					}
 			}
 			else{
 				return "Username exists";

@@ -148,6 +148,7 @@ public class UserLoginAndSignup {
 					if(hit.getProperty("userName").equals(userName)){
 						userExists = "Username exists";
 						setErrorMessage("Username exists");
+						ServerLoggers.infoLog.info("***User account not created, userName exists***");
 					}
 				}
 		}
@@ -157,6 +158,7 @@ public class UserLoginAndSignup {
 				if(emailHit.getProperty("email").equals(email)){
 					userExists = "Email exists";
 					setErrorMessage("Email exists");
+					ServerLoggers.infoLog.info("***User account not created, email exists***");
 				}
 			}
 		}

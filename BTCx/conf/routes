@@ -8,7 +8,7 @@ GET     /                                      MainLoginController.logIntoSite
 # Index page
 GET     /index								   MainSystemController.renderIndexPage
 POST	/signin								   MainLoginController.logIntoSite
-POST	/singup								   MainLoginController.signupUser
+POST	/signup								   MainLoginController.signupUser
 
 # Ignore favicon requests
 GET     /favicon.ico                            404

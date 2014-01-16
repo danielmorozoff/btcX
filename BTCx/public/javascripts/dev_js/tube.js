@@ -6,19 +6,19 @@ $(document).ready(function()
 	{
 		this.login = function(data,callback)
 		{
-			this.request('signin',data,callback);
+			this.request('/signin',data,callback);
 		}
 		this.signup = function(data,callback)
 		{
-			this.request('signup',data,callback);
+			this.request('/signup',data,callback);
 		}
 		this.contact = function(data,callback)
 		{
-			this.request('contact',data,callback);
+			this.request('/contact',data,callback);
 		}
 		this.markers = function(callback)
 		{
-			this.request('getMarkers','',callback);
+			this.request('/getMarkers','',callback);
 		}
 		this.request = function(url,postData,callback)
 		{
