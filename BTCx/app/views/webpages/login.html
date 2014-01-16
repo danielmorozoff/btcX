@@ -50,7 +50,7 @@
 							<div class="panel-heading clearfix">
 								<span class="glyphicon glyphicon-log-in pull-left"></span><h3 class="panel-title pull-right">Sign in</h3></div>
 				  			 <div class="panel-body">
-				  					<form name="login">
+				  					<form name="login" method="POST" action="/signin">
 				  						<div class="input-group">
 										  <span class="input-group-addon">U</span>
 										  <input type="text" name="userName" msg="Username" class="form-control" placeholder="Username">
@@ -59,8 +59,10 @@
 										  <span class="input-group-addon">P</span>
 										  <input type="password" name="password" msg="Password" class="form-control" placeholder="Password">
 										</div>
+										<input name="userStr" id="userStr" type="text" hidden optional/>
 										<hr>
-										<p class="login-message" style="text-align:left;font-size:11px;margin:0"></p>
+										<p class="login-message" style="text-align:left;font-size:11px;margin:0">${flash.error}</p>
+
 										 <button type="button" class="btn btn-default btn-white pull-right" id="loginBtn">Login</button>
 				  					</form>
 							</div>

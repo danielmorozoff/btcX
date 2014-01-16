@@ -105,6 +105,11 @@ public static GraphDatabaseService bDB = BTCxDatabase.bDB;
 	 * @throws Exception 
 	 */
 	public static String signupUser(String usrStr) throws Exception{
+		JSONObject response = new JSONObject();
+		response.put("message","Try again later.");
+		response.put("login",false);
+		String message = "";
+
 		JSONObject userObj = new JSONObject(usrStr);
 		if(userObj.get("password").equals(userObj.get("reppassword")) && ((Boolean) userObj.get("agreement"))){
 			UserLoginAndSignup uEnter = new UserLoginAndSignup();
@@ -128,18 +133,23 @@ public static GraphDatabaseService bDB = BTCxDatabase.bDB;
 							Node userNode =  BTCxDatabase.USER_INDEX.get("userName", userName).getSingle();
 							ServerLoggers.infoLog.info("***Sending "+newUser.userName+" email verifcation code ***");
 //							new SignupEmailer().sendSignupEmail(email, userName,(String)userNode.getProperty("firstName"),(String)userNode.getProperty("uniqueEmailVerificationString"));
-							return "userCreated_"+newUser.public_uniqueId;
+							message = "Thank you for signing up!";
+							response.put("login",true);
 						}
-						else return "User was not stored - error occured";
 					}catch(IOError e){
 						e.printStackTrace();
 					}
 			}
 			else{
-				return "Username exists";
+				message = "Username exists";
 			}
 		}
-		return "Passwords do not match";
+		else
+		{
+			message = "Passwords do not match";
+		}
+		response.put("message",message);
+		return response.toString();
 	}
 //	/**
 //	 * Method for verifying provided email

@@ -76,7 +76,11 @@ $(document).ready(function()
 				$("."+formName+"-message").text('Processing...');
 				
 				if(formName.indexOf('signup') >= 0) this.signup(JSON.stringify(postData));	
-				else if(formName.indexOf('login') >= 0) this.login(JSON.stringify(postData));
+				else if(formName.indexOf('login') >= 0)
+				{
+					$("#userStr").val(JSON.stringify(postData));
+					form.submit();
+				} 
 				else if(formName.indexOf('contact') >= 0) this.contact(JSON.stringify(postData));	
 			}
 		}
