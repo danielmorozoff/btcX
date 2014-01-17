@@ -34,7 +34,7 @@ public class BTCxObject {
 	 * @param byteAr
 	 * @return
 	 */
-	static public HashMap <String, Double> deserializeToHashMap(byte[] byteAr){
+	 public HashMap <String, Double> deserializeToHashMap(byte[] byteAr){
 		ByteArrayInputStream bis = new ByteArrayInputStream(byteAr);
 		 ObjectInputStream ois =null;
 		 HashMap<String,Double> map=null;
@@ -60,7 +60,7 @@ public class BTCxObject {
 	 * @param map
 	 * @return
 	 */
-	static public byte[] serializeHashMap(HashMap <String, Double> map){
+	 public byte[] serializeHashMap(HashMap <String, Double> map){
 		// Since neo4j does not support storing of non primitives wrote serializer of hashmap for exchange rates. and byte storage
 		ByteArrayOutputStream bos = new ByteArrayOutputStream();
 		ObjectOutputStream serializeExchangeRates =null;
@@ -89,8 +89,7 @@ public class BTCxObject {
 	/**
 	 * Node to Object conversion. Supports an exception list if certain properties you do not want or are private
 	 */
-	static public Object convertNodeToObject(Node  node, ArrayList <String> listOfExceptions  ){
-		Object objToReturn  = new Object();
+	 public Object convertNodeToObject(Node  node, ArrayList <String> listOfExceptions , Object objToReturn  ){
 		Iterable <String> keys = node.getPropertyKeys();
 		for (String key:keys){
 			try{
@@ -135,7 +134,7 @@ public class BTCxObject {
 	 * @param relType
 	 * @return
 	 */
-	public static int createRelationshipBetweenObjects(Object obj1,Object obj2, String relType){
+	public  int createRelationshipBetweenObjects(Object obj1,Object obj2, String relType){
 		if(obj1!=null && obj2!=null){
 			Exchange ex2= null; //ex1 = null not supported since ex1 is never a start node
 			Transaction tx1= null,tx2 = null;

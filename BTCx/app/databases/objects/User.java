@@ -27,7 +27,7 @@ import login.UserLoginAndSignup;
  * @author danielmorozoff
  *
  */
-public class User {
+public class User extends Object {
 
 	public String email;
 	public String private_uniqueId;
@@ -42,6 +42,7 @@ public class User {
 	public long signupDate;
 	public boolean accountActive;
 	public String emailVerificationStr;
+	public String codeToValidateEmail;
 	public boolean emailValidated;
 	
 	/**

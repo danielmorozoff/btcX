@@ -46,15 +46,20 @@ public class BTCxDatabase {
 		config.put( "array_block_size", "300" );
 		
 		 bDB = new GraphDatabaseFactory()
-		    .newEmbeddedDatabaseBuilder( "Databases/BTCx-Databse" ).newGraphDatabase();
+		    .newEmbeddedDatabase( "Databases/BTCx-Database" );
+		 try(Transaction tx = bDB.beginTx()){
+				System.out.println("number of users stored: "+bDB.index().forNodes("users").query("userName", "*").size());
+				tx.success();
+			}
 //		    .setConfig(config)
 		 //Start the indexes
-		 bDBIndex = bDB.index();
-		 Transaction tx = bDB.beginTx();
+		try( Transaction tx = bDB.beginTx()){
+		 	 bDBIndex = bDB.index();
 			 EXCHANGE_INDEX = bDBIndex.forNodes("exchanges");
 			 USER_INDEX = bDBIndex.forNodes("users");
 			 TRANSACTION_INDEX = bDBIndex.forNodes("transactions");
-		 tx.success();
+			 tx.success();
+		}
 		registerShutdownHook(bDB);
 	}
 	private static void registerShutdownHook( final GraphDatabaseService graphDb )
@@ -66,9 +71,9 @@ public class BTCxDatabase {
 	    {
 	        @Override
 	        public void run()
-	        {	        
-        		serverLoggers.ServerLoggers.infoLog.info("***BTCx Database Shutdown***");
+	        {
 	        	bDB.shutdown();
+	        	serverLoggers.ServerLoggers.infoLog.info("***BTCx Database Shutdown***");
 	        }
 	    } );
 	}

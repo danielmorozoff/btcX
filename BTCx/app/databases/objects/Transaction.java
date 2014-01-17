@@ -17,7 +17,7 @@ package databases.objects;
  * @author danielmorozoff
  *
  */
-public class Transaction {
+public class Transaction extends Object {
 	
 	public double numberOfBTC;
 	public String uniqueId;

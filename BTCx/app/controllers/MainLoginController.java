@@ -60,32 +60,34 @@ public static GraphDatabaseService bDB = BTCxDatabase.bDB;
 				JSONObject userObj = new JSONObject(userStr);
 				String userName = (String) userObj.get("userName");
 				if(userName!=null){
-					Node curNode = BTCxDatabase.USER_INDEX.get("userName", userName).getSingle();	
-					if(curNode!=null){
-						String password = (String) userObj.get("password");
-						//Login with email.
-						/*
-							if(!(Boolean) curNode.getProperty("emailVerified")){
-								//Render Validation page
-								System.out.println("Need to Validate Email");
-								String userFName = (String) curNode.getProperty("fName");
-								String userEmail = (String) curNode.getProperty("email");
-								String userPubId = (String) curNode.getProperty("publicId");
-								
-								renderTemplate("app/views/Application/EmailValidation.html",userFName, userEmail,userPubId );
+					try(Transaction tx = bDB.beginTx()){
+						Node curNode = BTCxDatabase.USER_INDEX.get("userName", userName).getSingle();	
+						if(curNode!=null){
+							String password = (String) userObj.get("password");
+							//Login with email.
+							/*
+								if(!(Boolean) curNode.getProperty("emailVerified")){
+									//Render Validation page
+									System.out.println("Need to Validate Email");
+									String userFName = (String) curNode.getProperty("fName");
+									String userEmail = (String) curNode.getProperty("email");
+									String userPubId = (String) curNode.getProperty("publicId");
+									
+									renderTemplate("app/views/Application/EmailValidation.html",userFName, userEmail,userPubId );
+								}
+							*/
+							if(entranceClass.testLoginInfo(userName, password, "userName")){
+								ServerLoggers.infoLog.info("***Logging in: "+userName+" ***");
+								//Set Cache for logged in User
+								Cache.set(session.getAuthenticityToken(), userName);
+								}
+								//Add page to render
+								MainSystemController.renderIndexPage();
 							}
-						*/
-						if(entranceClass.testLoginInfo(userName, password, "userName")){
-							ServerLoggers.infoLog.info("***Logging in: "+userName+" ***");
-							//Set Cache for logged in User
-							Cache.set(session.getAuthenticityToken(), userName);
+							else{
+								flash.error("Username or Password Incorrect");//entranceClass.errorString
+								MainSystemController.renderLoginPage();
 							}
-							//Add page to render
-							MainSystemController.renderIndexPage();
-						}
-						else{
-							flash.error("Username or Password Incorrect");//entranceClass.errorString
-							MainSystemController.renderLoginPage();
 						}
 					}
 				else{
@@ -93,6 +95,7 @@ public static GraphDatabaseService bDB = BTCxDatabase.bDB;
 					flash.error("Username or Password Incorrect");
 					MainSystemController.renderLoginPage();
 				}
+				
 		}
 		else{
 			//No auth token
@@ -131,11 +134,18 @@ public static GraphDatabaseService bDB = BTCxDatabase.bDB;
 					try{	
 					//Stores and verifies user in DB
 						if(uEnter.makeNewUser(newUser)){
-							Node userNode =  BTCxDatabase.USER_INDEX.get("userName", userName).getSingle();
-							ServerLoggers.infoLog.info("***Sending "+newUser.userName+" email verifcation code ***");
-//							new SignupEmailer().sendSignupEmail(email, userName,(String)userNode.getProperty("firstName"),(String)userNode.getProperty("uniqueEmailVerificationString"));
-							message = "Thank you for signing up! Check your inbox please.";
-							response.put("login",true);
+							
+							try(Transaction tx =bDB.beginTx()){
+								Node userNode =  BTCxDatabase.USER_INDEX.get("userName", userName).getSingle();
+								
+								userNode.setProperty("codeToValidateEmail", newUser.emailVerificationStr);
+								BTCxDatabase.USER_INDEX.add(userNode,"codeToValidateEmail",newUser.emailVerificationStr);
+								
+								ServerLoggers.infoLog.info("***Sending "+newUser.userName+" email verifcation code ***");
+								new SignupEmailer().sendSignupEmail(email, userName,(String)userNode.getProperty("firstName"),(String)userNode.getProperty("emailVerificationStr"));
+								message = "Thank you for signing up! Check your inbox please.";
+								response.put("login",true);
+							}
 						}
 					}catch(IOError e){
 						e.printStackTrace();

@@ -27,7 +27,7 @@ public void sendSignupEmail(String emailAddress, String inputedUsername, String 
 	    Session session = Session.getDefaultInstance(props);	
 	    
 	    MimeMessage msg = new MimeMessage(session); 
-	   	msg.setFrom(new InternetAddress("***SOME INTERNET ADDRESS"));
+	   	msg.setFrom(new InternetAddress(Emailer.username));
 	   	
 	   	InternetAddress[] addresses = {new InternetAddress(emailAddress),};
         msg.setRecipients(Message.RecipientType.TO, addresses);
@@ -37,8 +37,10 @@ public void sendSignupEmail(String emailAddress, String inputedUsername, String 
 
         // Set message content
         msg.setText(fName+" welcome to "+MainSystemController.system_name+"!\n \n" +
-        		"Thank you for registering for a pre-Alpha account. Just link back to "+MainSystemController.system_url+" and sign-in. Once you confirm your email, by providing us with this key: " +secretEmailKey+"\n"+
-        		"You will have full access to the "+MainSystemController.system_name+" system. "+
+        		"Thank you for registering for a Alpha account. \n\n" +
+        		"Just click the link back to "+MainSystemController.system_url+"/verifyEmail?code=" +secretEmailKey+"\n\n" +
+        		"Or just visit "+MainSystemController.system_url+" and provide us with this key: " +secretEmailKey+"\n"+	
+        		"You will have full access to the "+MainSystemController.system_name+" system. \n\n "+
         			"If you run into any issues or problems, please contact us at: "+
         			""+MainSystemController.system_email+" \n" +
         			"Or if you prefer, you may leave us annonymous feedback through our website. \n \n"+

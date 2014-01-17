@@ -39,33 +39,34 @@ public class UserLoginAndSignup {
 	public boolean makeNewUser(User userClass){
 //		If traffic gets bigger will need to do batchInserter methods instead of transactions
 		boolean userSaved = false;
-		try{
-		Transaction transaction = bDB.beginTx();
-		Node userNode = bDB.createNode();
-		Index<Node> userNameIndex = BTCxDatabase.USER_INDEX;
-		ServerLoggers.infoLog.info("***Loading User params for "+userClass.userName+".***");
-		
-		Field[] userFields = userClass.getClass().getDeclaredFields();
-			for(int i=0; i<userFields.length;i++){
-				if(userFields[i].get(userClass)!=null){
-					userNode.setProperty(userFields[i].getName(), userFields[i].get(userClass));
-				}
-				else{
-					userNode.setProperty(userFields[i].getName(), "");
-				}
-			}
+		try(Transaction transaction = bDB.beginTx()){
 			
-			System.out.println("Adding "+userClass.userName+" to index via "+ userNode);
-			//Adding user to indices
-			userNameIndex.add(userNode, "userName", userClass.userName);
-			userNameIndex.add(userNode, "public_uniqueId", userClass.public_uniqueId);
-			userNameIndex.add(userNode, "private_uniqueId", userClass.private_uniqueId);
-			userNameIndex.add(userNode, "email", userClass.email);
+			Node userNode = bDB.createNode();
+			Index<Node> userNameIndex = BTCxDatabase.USER_INDEX;
+			ServerLoggers.infoLog.info("***Loading User params for "+userClass.userName+".***");
 			
-			transaction.success();
-		
-			ServerLoggers.infoLog.info("***User creation success "+userNode.getProperty("userName")+".***");
-			userSaved = true;
+			Field[] userFields = userClass.getClass().getDeclaredFields();
+				for(int i=0; i<userFields.length;i++){
+					if(userFields[i].get(userClass)!=null){
+						userNode.setProperty(userFields[i].getName(), userFields[i].get(userClass));
+					}
+					else{
+						userNode.setProperty(userFields[i].getName(), "");
+					}
+				}
+				
+				System.out.println("Adding "+userClass.userName+" to index via "+ userNode + " into index: "+userNameIndex.getName());
+				
+				//Adding user to indices
+				userNameIndex.add(userNode, "userName", userClass.userName);
+				userNameIndex.add(userNode, "public_uniqueId", userClass.public_uniqueId);
+				userNameIndex.add(userNode, "private_uniqueId", userClass.private_uniqueId);
+				userNameIndex.add(userNode, "email", userClass.email);
+				
+				transaction.success();
+			
+				ServerLoggers.infoLog.info("***User creation success "+userNode.getProperty("userName")+".***");
+				userSaved = true;
 		}
 		catch(Exception e){
 			ServerLoggers.errorLog.error("!!! Failed to store user in DB. Method UserLoginAndSignup.makeNewUser !!!");
@@ -112,7 +113,8 @@ public class UserLoginAndSignup {
 					
 						if (BCrypt.checkpw(encryptedInputPass, hashedDbPass)){
 							enter = true;
-							loggedInUser =(User) new BTCxObject().convertNodeToObject(curNode, new ArrayList <String>());
+							System.out.println(new BTCxObject().convertNodeToObject(curNode, null, new User()).getClass());
+							loggedInUser =(User) new BTCxObject().convertNodeToObject(curNode, null, new User());
 							ServerLoggers.infoLog.info("***User "+userName+" granted access***");
 						}
 						else{
@@ -130,6 +132,7 @@ public class UserLoginAndSignup {
 					errorString="User not found.";
 				}
 		}
+		System.out.println("ERROR STRING: "+errorString);
 		errorString="Server Error.";
 		return enter;
 	 }
@@ -141,28 +144,33 @@ public class UserLoginAndSignup {
 	 */
 	public String checkIfUserExistsInDb(String userName, String email, String enforcement){
 		String userExists ="false";
-		IndexManager userIndex = bDB.index();
-		Node hit =  userIndex.forNodes( "users" ).get("userName", userName).getSingle();
-		if(enforcement.contains("userName")){
-			if(hit!=null){
-					if(hit.getProperty("userName").equals(userName)){
-						userExists = "Username exists";
-						setErrorMessage("Username exists");
-						ServerLoggers.infoLog.info("***User account not created, userName exists***");
+		try(Transaction tx = bDB.beginTx()){
+			IndexManager userIndex = bDB.index();
+			Node hit =null;
+			System.out.println("index :"+ userIndex);
+			System.out.println("exists index "+userIndex.existsForNodes("users"));
+				if(userIndex.existsForNodes("users")) hit=  userIndex.forNodes( "users" ).get("userName", userName).getSingle();
+			if(enforcement.contains("userName")){
+				if(hit!=null){
+						if(hit.getProperty("userName").equals(userName)){
+							userExists = "Username exists";
+							setErrorMessage("Username exists");
+							ServerLoggers.infoLog.info("***User account not created, userName exists***");
+						}
+					}
+			}
+			if(enforcement.contains("email")){
+			Node emailHit = userIndex.forNodes( "users" ).get("email", email).getSingle();
+				if(emailHit!=null){
+					if(emailHit.getProperty("email").equals(email)){
+						userExists = "Email exists";
+						setErrorMessage("Email exists");
+						ServerLoggers.infoLog.info("***User account not created, email exists***");
 					}
 				}
-		}
-		if(enforcement.contains("email")){
-		Node emailHit = userIndex.forNodes( "users" ).get("email", email).getSingle();
-			if(emailHit!=null){
-				if(emailHit.getProperty("email").equals(email)){
-					userExists = "Email exists";
-					setErrorMessage("Email exists");
-					ServerLoggers.infoLog.info("***User account not created, email exists***");
-				}
 			}
+			 return userExists;
 		}
-		 return userExists;
 	 }
 
 	public String encryptPassword(String password,String operation,Node potentialNode, String pSalt,String cond) throws Exception{

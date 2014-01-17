@@ -29,7 +29,7 @@ public class ForgotPassEmailer extends Emailer{
 		if(allowToReset){   
 			Node userNode = BTCxDatabase.USER_INDEX.get("email", email).getSingle();
 			if(userNode!=null){
-				User userObj = (User) new BTCxObject().convertNodeToObject(userNode, null);
+				User userObj = (User) new BTCxObject().convertNodeToObject(userNode, null, new User());
 				
 				Properties props = new Properties();
 				props.put("mail.smtp.host", Emailer.host);

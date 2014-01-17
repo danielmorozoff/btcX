@@ -10,9 +10,9 @@ import serverLoggers.ServerLoggers;
 public class MainSystemController extends Controller {
 /************************************************************************************************/
 //Static values for server
-	public static String system_name = "";
-	public static String system_url = "";
-	public static String system_email = "";
+	public static String system_name = "CryptRex";
+	public static String system_url = "http://cryptrex.com";
+	public static String system_email = "info@cryptrex.com";
 	
 	
 	

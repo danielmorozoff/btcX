@@ -9,6 +9,7 @@ GET     /                                      MainLoginController.logIntoSite
 GET     /index								   MainSystemController.renderIndexPage
 POST	/signin								   MainLoginController.logIntoSite
 POST	/signup								   MainLoginController.signupUser
+GET		/verifyEmail						   EmailController.emailVerification
 
 # Ignore favicon requests
 GET     /favicon.ico                            404

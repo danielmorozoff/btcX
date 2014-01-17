@@ -26,7 +26,7 @@ import serverLoggers.ServerLoggers;
  * @author danielmorozoff
  *
  */
-public class Exchange  {
+public class Exchange extends Object  {
 	
 	public  String name;
 	public  String uniqueId;
@@ -41,7 +41,7 @@ public class Exchange  {
 	public Exchange(String nodeId){
 		if(nodeId!=null){
 			Node exNode = (Node)BTCxDatabase.EXCHANGE_INDEX.get("id", nodeId).getSingle();
-				Exchange retObj = (Exchange) BTCxObject.convertNodeToObject(exNode, null);
+				Exchange retObj = (Exchange) new BTCxObject().convertNodeToObject(exNode, null, new Exchange(null));
 				this.name = retObj.name;
 				this.uniqueId = retObj.uniqueId;
 				this.website = retObj.website;
@@ -73,7 +73,7 @@ public class Exchange  {
 					exchangeNode.setProperty("name", assignName);
 					String uniqueId = UUID.randomUUID().toString();
 					exchangeNode.setProperty("uniqueId", uniqueId);
-					exchangeNode.setProperty("exchangeRates",(byte[])BTCxObject.serializeHashMap(assignExchangeRates));
+					exchangeNode.setProperty("exchangeRates",(byte[]) new BTCxObject().serializeHashMap(assignExchangeRates));
 					exchangeNode.setProperty("website", assignWebsite);
 					exchangeNode.setProperty("rating", assignRating);
 					exchangeNode.setProperty("summary", assignSummary);
@@ -96,7 +96,7 @@ public class Exchange  {
 			if(returnType.equals("node")){
 				return (Node) exchangeNode;
 			}
-			else return BTCxObject.convertNodeToObject((Node)exchangeNode, null);
+			else return new BTCxObject().convertNodeToObject((Node)exchangeNode, null ,new Exchange(null));
 		}
 		return null;
 	}
@@ -106,7 +106,7 @@ public class Exchange  {
 			if(returnType.equals("node")){
 				return (Node) exchangeNode;
 			}
-			else return BTCxObject.convertNodeToObject((Node)exchangeNode, null);
+			else return new BTCxObject().convertNodeToObject((Node)exchangeNode, null, new Exchange(null));
 		}
 		return null;
 	}
