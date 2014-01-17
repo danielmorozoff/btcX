@@ -15,7 +15,7 @@ h1
 	color:#fff;
 }
 .input-group{
-	width:290px;
+	min-width:290px;
 }
 
 .bk {

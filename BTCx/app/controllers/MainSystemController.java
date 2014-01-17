@@ -11,14 +11,8 @@ public class MainSystemController extends Controller {
 /************************************************************************************************/
 //Static values for server
 	public static String system_name = "CryptRex";
-	public static String system_url = "http://cryptrex.com";
-	public static String system_email = "info@cryptrex.com";
-	
-	
-	
-	
-	
-	
+	public static String system_url = "http://localhost:9000"; //NEED TO CHANGE http://cryptrex.com
+	public static String system_email = "info@cryptrex.com";	
 	
 /************************************************************************************************/	
 /**
@@ -36,11 +30,11 @@ public class MainSystemController extends Controller {
 	    	new BTCxDatabase();
 	    	//Create User file Stores
 	    	File userImageStore = new File("UserFiles/");
-	    	if(!userImageStore.exists()){
+	    	if(!userImageStore.exists())
+	    	{
 	    		System.out.println("Making User file Stores...");
 	    		userImageStore.mkdirs();
 	    	}
-	    	
 	    	//Add Shutdown hool
 	    	Runtime.getRuntime().addShutdownHook( new Thread()
 		    {
@@ -64,9 +58,16 @@ public class MainSystemController extends Controller {
 	/**
 	 * Default rendering for pages
 	 */
+	
+	/**
+	 * Renders Login page for login and signup 
+	 */
 	public static void renderLoginPage(){
 		renderTemplate("app/views/webpages/login.html");
 	}
+	/**
+	 * Renders Index page of the application
+	 */
 	public static void renderIndexPage(){
 		renderTemplate("app/views/webpages/index.html");
 	}

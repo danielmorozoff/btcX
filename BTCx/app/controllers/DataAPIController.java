@@ -3,6 +3,7 @@ package controllers;
 
 
 
+import api.MapAPI;
 import play.Play;
 import play.cache.Cache;
 import play.mvc.Before;
@@ -17,6 +18,21 @@ public class DataAPIController extends Controller {
 	public static void authentify(){
 		if(Cache.get(session.getAuthenticityToken())==null){
 			renderTemplate("");
+		}
+	}
+	/**
+	 * Retrieve all store markers for mapbox map display
+	 * @return
+	 * @throws JSONException
+	 */
+	public static String getAllCurrentMapMarkers(){
+		try
+		{
+		return new MapAPI().getCoordsForAllStores();
+		}
+		catch(Exception e)
+		{
+			return "{'markers':[]}";
 		}
 	}
 	

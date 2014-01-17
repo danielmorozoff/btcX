@@ -20,6 +20,10 @@ $(document).ready(function()
 		{
 			this.request('/getMarkers','',callback);
 		}
+		this.verification = function(data,callback)
+		{	
+			this.request('/sendVerificationEmail',data,callback);
+		}
 		this.request = function(url,postData,callback)
 		{
 			console.debug('Sending request: '+url+' '+postData);

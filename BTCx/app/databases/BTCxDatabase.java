@@ -38,7 +38,7 @@ public class BTCxDatabase {
 		File folder = new File("Databases");
 		if(!folder.exists())folder.mkdirs();
 		System.out.println("***BTCx Server Started****");
-			serverLoggers.ServerLoggers.infoLog.info("***BTCx Server Started***");
+		serverLoggers.ServerLoggers.infoLog.info("***BTCx Server Started***");
 		
 		Map<String, String> config = new HashMap<String, String>();
 		config.put( "neostore.nodestore.db.mapped_memory", "10M" );

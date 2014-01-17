@@ -86,6 +86,7 @@ $(document).ready(function()
 
 				} 
 				else if(formName.indexOf('contact') >= 0) this.contact(JSON.stringify(postData));	
+				else if(formName.indexOf('verification') >= 0) this.verification(JSON.stringify(postData));	
 			}
 		}
 		this.login = function(postData)
@@ -93,7 +94,8 @@ $(document).ready(function()
 			console.debug(postData);
 			Tube.login(postData,function(data)
 					{
-						Verifier.message('login-message',data.pass,data.message);
+						if(data.success) $('form[name=login]').find('.input-group input').val('');
+						Verifier.message('login-message',data.success,data.message);
 					});
 		}
 		this.signup = function(postData)
@@ -101,21 +103,30 @@ $(document).ready(function()
 			console.debug(postData);
 			Tube.signup(postData,function(data)
 					{
-						if(data.pass) $('form[name=signup]').find('.input-group input').val('');
-						Verifier.message('signup-message',data.pass,data.message);
+						if(data.success) $('form[name=signup]').find('.input-group input').val('');
+						Verifier.message('signup-message',data.success,data.message);
 					});
 		}
 		this.contact = function(postData)
 		{
 			Tube.contact(postData,function(data)
 					{
-						Verifier.message('contact-message',data.pass,data.message);
+						if(data.success) $('form[name=contact]').find('.input-group input, .input-group textarea').val('');
+						Verifier.message('contact-message',data.success,data.message);
 					});
 		}
-		this.message = function(msgclass,pass,message)
+		this.verification = function(postData)
+		{
+			Tube.contact(postData,function(data)
+					{
+						if(data.success) $('form[name=verification]').find('.input-group input').val('');
+						Verifier.message('verification-message',data.success,data.message);
+					});
+		}
+		this.message = function(msgclass,success,message)
 		{
 			$('.'+msgclass).attr('class',msgclass);
-			if(pass) $('.'+msgclass).addClass('success');
+			if(success) $('.'+msgclass).addClass('success');
 			else $('.'+msgclass).addClass('error');
 			$('.'+msgclass).text(message);
 		}

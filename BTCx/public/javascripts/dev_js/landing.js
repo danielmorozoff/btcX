@@ -16,6 +16,11 @@ $(document).ready(function()
 			Verifier.verifyForm('contact');
 		});
 
+		$("#verificationBtn").click(function()
+		{
+			Verifier.verifyForm('verification');
+		});
+
 		$("a[href]").click(function()
 		{
 			$("a[href]").removeClass('active');

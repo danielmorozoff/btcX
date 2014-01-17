@@ -43,7 +43,7 @@ public class UserLoginAndSignup {
 			
 			Node userNode = bDB.createNode();
 			Index<Node> userNameIndex = BTCxDatabase.USER_INDEX;
-			ServerLoggers.infoLog.info("***Loading User params for "+userClass.userName+".***");
+			//ServerLoggers.infoLog.info("***Loading User params for "+userClass.userName+".***");
 			
 			Field[] userFields = userClass.getClass().getDeclaredFields();
 				for(int i=0; i<userFields.length;i++){
@@ -65,7 +65,7 @@ public class UserLoginAndSignup {
 				
 				transaction.success();
 			
-				ServerLoggers.infoLog.info("***User creation success "+userNode.getProperty("userName")+".***");
+				//ServerLoggers.infoLog.info("***User creation success "+userNode.getProperty("userName")+".***");
 				userSaved = true;
 		}
 		catch(Exception e){

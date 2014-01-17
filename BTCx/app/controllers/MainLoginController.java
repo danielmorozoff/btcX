@@ -15,10 +15,11 @@ import org.neo4j.graphdb.Node;
 import org.neo4j.graphdb.Transaction;
 import org.neo4j.shell.util.json.JSONException;
 import org.neo4j.shell.util.json.JSONObject;
+
 import databases.BTCxDatabase;
 import databases.objects.User;
 import emailers.SignupEmailer;
-
+import frontend.Response;
 import play.cache.Cache;
 import play.mvc.Before;
 import play.mvc.Controller;
@@ -32,14 +33,16 @@ final static  String accessCode="";
 public static GraphDatabaseService bDB = BTCxDatabase.bDB;
 
 	@Before(unless={"resetPassword","linkToResetPassword","forgotEmail","signupUser"})
-	
+	/**
+	 * Test if user has previously logged in
+	 * If AuthenticityToken is present user is logged in and index page is rendered
+	 */
 	public static void authentify(){
-		//Test if user has previously logged in
-		if(Cache.get(session.getAuthenticityToken())!=null){
+		//
+		if(Cache.get(session.getAuthenticityToken())!=null)
+		{
 			System.out.println("Logging in: "+session.getAuthenticityToken());
-			//User has already logged in
 			Cache.set(session.getAuthenticityToken(), Cache.get(session.getAuthenticityToken()));
-			//Render index page
 			MainSystemController.renderIndexPage();
 		}
 	}
@@ -53,51 +56,74 @@ public static GraphDatabaseService bDB = BTCxDatabase.bDB;
 	 */
 	 
 	 //ADD email verification ERROR
-	public static void logIntoSite(String userStr) throws JSONException{
+	public static void logIntoSite(String userStr){
 		UserLoginAndSignup entranceClass = new UserLoginAndSignup();
-		//Double check the Cache.
-			if(Cache.get(session.getAuthenticityToken())==null && userStr!=null ){
-				JSONObject userObj = new JSONObject(userStr);
-				String userName = (String) userObj.get("userName");
-				if(userName!=null){
-					try(Transaction tx = bDB.beginTx()){
+		flash.clear();
+			//Double check the Cache.
+			if(Cache.get(session.getAuthenticityToken())== null && userStr !=null && userStr != "")
+			{
+				try
+				{
+					JSONObject userObj = new JSONObject(userStr);
+					String userName = (String) userObj.get("userName");
+					if(userName != null && userName != "")
+					{
+					try(Transaction tx = bDB.beginTx())
+					{
 						Node curNode = BTCxDatabase.USER_INDEX.get("userName", userName).getSingle();	
-						if(curNode!=null){
+						if(curNode != null)
+						{
 							String password = (String) userObj.get("password");
-							//Login with email.
-							/*
-								if(!(Boolean) curNode.getProperty("emailVerified")){
-									//Render Validation page
-									System.out.println("Need to Validate Email");
-									String userFName = (String) curNode.getProperty("fName");
-									String userEmail = (String) curNode.getProperty("email");
-									String userPubId = (String) curNode.getProperty("publicId");
-									
-									renderTemplate("app/views/Application/EmailValidation.html",userFName, userEmail,userPubId );
-								}
-							*/
-							if(entranceClass.testLoginInfo(userName, password, "userName")){
-								ServerLoggers.infoLog.info("***Logging in: "+userName+" ***");
+							boolean emailVerified = (Boolean) curNode.getProperty("emailVerified");
+							if(!emailVerified)
+							{
+								//Did not verify Email
+								flash.error("Please verify your email.");
+								MainSystemController.renderLoginPage();
+							}
+							else if(entranceClass.testLoginInfo(userName, password, "userName"))
+							{
 								//Set Cache for logged in User
+								ServerLoggers.infoLog.info("***Logging in: "+userName+" ***");
 								Cache.set(session.getAuthenticityToken(), userName);
-								}
-								//Add page to render
 								MainSystemController.renderIndexPage();
 							}
-							else{
-								flash.error("Username or Password Incorrect");//entranceClass.errorString
+							else
+							{
 								MainSystemController.renderLoginPage();
 							}
 						}
+						else
+						{
+							flash.error("Username or Password Incorrect");//entranceClass.errorString
+							MainSystemController.renderLoginPage();
+						}
 					}
-				else{
+					catch(Exception e )
+					{
+						//Transaction Exception
+						System.out.println("Transaction exception");
+						flash.error("Please try again later");
+						MainSystemController.renderLoginPage();
+					}
+					}
+				else
+				{
 					//Username null
 					flash.error("Username or Password Incorrect");
 					MainSystemController.renderLoginPage();
-				}
-				
+				}	
+			}
+			catch(Exception e)
+			{
+				//JSON Exception
+				System.out.println("JSON exception");
+				flash.error("Please try again later");
+				MainSystemController.renderLoginPage();
+			}
 		}
-		else{
+		else
+		{
 			//No auth token
 			MainSystemController.renderLoginPage();
 		}
@@ -109,10 +135,8 @@ public static GraphDatabaseService bDB = BTCxDatabase.bDB;
 	 * @throws Exception 
 	 */
 	public static String signupUser(String usrStr) throws Exception{
-		JSONObject response = new JSONObject();
-		response.put("message","Try again later.");
-		response.put("login",false);
-		String message = "";
+		Response response = new Response();
+		Response.method = "Signup";
 
 		JSONObject userObj = new JSONObject(usrStr);
 		if(userObj.get("password").equals(userObj.get("reppassword")) && ((Boolean) userObj.get("agreement"))){
@@ -143,23 +167,23 @@ public static GraphDatabaseService bDB = BTCxDatabase.bDB;
 								
 								ServerLoggers.infoLog.info("***Sending "+newUser.userName+" email verifcation code ***");
 								new SignupEmailer().sendSignupEmail(email, userName,(String)userNode.getProperty("firstName"),(String)userNode.getProperty("emailVerificationStr"));
-								message = "Thank you for signing up! Check your inbox please.";
-								response.put("login",true);
+								Response.message = "Thank you for signing up! Check your inbox please.";
+								Response.success = true;
 							}
 						}
 					}catch(IOError e){
 						e.printStackTrace();
+						response.standard();
 					}
 			}
 			else{
-				message = "Username exists";
+				Response.message = "Username exists already";
 			}
 		}
 		else
 		{
-			message = "Passwords do not match";
+			Response.message = "Passwords do not match";
 		}
-		response.put("message",message);
 		return response.toString();
 	}
 //	/**

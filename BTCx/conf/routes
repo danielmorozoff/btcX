@@ -3,13 +3,22 @@
 # ~~~~
 #***DEVELOPER ROUTES***#
 # Login page
-	
+
+# Login Controller	
 GET     /                                      MainLoginController.logIntoSite
-# Index page
-GET     /index								   MainSystemController.renderIndexPage
 POST	/signin								   MainLoginController.logIntoSite
 POST	/signup								   MainLoginController.signupUser
+
+# Main System Controller
+GET     /index								   MainSystemController.renderIndexPage
+
+# Email Controller
 GET		/verifyEmail						   EmailController.emailVerification
+POST	/sendVerificationEmail				   EmailController.sendVerificationEmail
+POST	/contact							   EmailController.sendContactUsEmail
+
+#	Map API
+POST /getMarkers								DataAPIController.getAllCurrentMapMarkers
 
 # Ignore favicon requests
 GET     /favicon.ico                            404
