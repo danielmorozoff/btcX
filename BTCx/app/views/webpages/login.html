@@ -62,8 +62,12 @@
 										<input name="userStr" id="userStr" type="text" hidden optional/>
 										<hr>
 										<p class="login-message" style="text-align:left;font-size:11px;margin:0">${flash.error}</p>
+										#{if flash.error == 'Please verify your email.'}
 										<a data-toggle="modal" data-target="#modal"style="text-align:left;font-size:10px;margin:0 0 10px 0">Resend verification</a>
-										
+										#{/if}
+										#{else}
+										<a data-toggle="modal" data-target="#modal"style="text-align:left;font-size:10px;margin:0 0 10px 0">Forgot password?</a>
+										#{/else}
 										 <button type="button" class="btn btn-default btn-white pull-right" id="loginBtn">Login</button>
 				  					</form>
 							</div>
@@ -615,18 +619,33 @@
 	    <div class="modal-content panel-inverted">
 	      <div class="panel-heading clearfix modal-header">
 	        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-	        <span class="glyphicon glyphicon-lock pull-left"></span><h3 class="panel-title pull-right">Verification</h3>
+	        <span class="glyphicon glyphicon-lock pull-left"></span><h3 class="panel-title pull-right">	#{if flash.error == 'Please verify your email.'} Verification #{/if}
+	        #{else}Reset Password #{/else}
+	      </h3>
 	      </div>
 	      <div class="modal-body panel-body">
+	      	#{if flash.error == 'Please verify your email.'}
 	        <form name="verification">
-	        	<p>Please enter your username so we can send you another verification email.</p>
+        	<p>Please enter your username so we can send you another verification email.</p>
+	        #{/if}
+	        #{else}
+	        <form name="resetPassword">
+	        <p>Please enter your username so we can send you an email to reset your password.</p>
+	        #{/else}
+	        	
 				<div class="input-group">
 			  	 <span class="input-group-addon">U</span>
 			 	 <input type="text" name="userName" msg="Username" class="form-control" placeholder="Username">
 				</div>
 				<hr>
+				#{if flash.error == 'Please verify your email.'}
 				<p class="verification-message" style="text-align:left;font-size:11px;margin:0"></p>
 				<button type="button" class="btn btn-default btn-white pull-right" id="verificationBtn">Send</button> 
+				#{/if}
+				#{else}
+				<p class="resetPassword-message" style="text-align:left;font-size:11px;margin:0"></p>
+				<button type="button" class="btn btn-default btn-white pull-right" id="resetPasswordBtn">Send</button> 
+				 #{/else}
 			</form>
 	      </div>
 	    </div><!-- /.modal-content -->

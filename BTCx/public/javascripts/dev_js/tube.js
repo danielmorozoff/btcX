@@ -24,6 +24,9 @@ $(document).ready(function()
 		{	
 			this.request('/sendVerificationEmail',data,callback);
 		}
+		this.resetPassword = function (data,callback) {
+			this.request('/resetPassword',data,callback);
+		}
 		this.request = function(url,postData,callback)
 		{
 			console.debug('Sending request: '+url+' '+postData);

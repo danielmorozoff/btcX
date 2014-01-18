@@ -87,6 +87,7 @@ $(document).ready(function()
 				} 
 				else if(formName.indexOf('contact') >= 0) this.contact(JSON.stringify(postData));	
 				else if(formName.indexOf('verification') >= 0) this.verification(JSON.stringify(postData));	
+				else if(formName.indexOf('resetPassword') >= 0)  this.resetPassword(JSON.stringify(postData));	
 			}
 		}
 		this.login = function(postData)
@@ -121,6 +122,14 @@ $(document).ready(function()
 					{
 						if(data.success) $('form[name=verification]').find('.input-group input').val('');
 						Verifier.message('verification-message',data.success,data.message);
+					});
+		}
+		this.resetPassword = function(postData)
+		{
+			Tube.resetPassword(postData,function(data)
+					{
+						if(data.success) $('form[name=resetPassword]').find('.input-group input').val('');
+						Verifier.message('resetPassword-message',data.success,data.message);
 					});
 		}
 		this.message = function(msgclass,success,message)
