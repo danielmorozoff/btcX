@@ -32,7 +32,7 @@ final static String currentServerURL = "";
 final static  String accessCode="";	
 public static GraphDatabaseService bDB = BTCxDatabase.bDB;
 
-	@Before(unless={"resetPassword","linkToResetPassword","forgotEmail","signupUser"})
+	@Before(unless={"resetPassword","linkToResetPassword","forgotEmail","signupUser","logoutUser"})
 	
 	public static void authentify(){
 		//Test if user has previously logged in
@@ -128,6 +128,15 @@ public static GraphDatabaseService bDB = BTCxDatabase.bDB;
 			//No auth token
 			MainSystemController.renderLoginPage();
 		}
+	}
+
+	/**
+	* Log out the user
+	*/
+	public static void logoutUser()
+	{
+		Cache.delete(session.getAuthenticityToken());
+		MainSystemController.renderLoginPage();
 	}
 	/**
 	 * Create new user in DB

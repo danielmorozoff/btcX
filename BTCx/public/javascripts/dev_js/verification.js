@@ -117,7 +117,7 @@ $(document).ready(function()
 		}
 		this.verification = function(postData)
 		{
-			Tube.contact(postData,function(data)
+			Tube.verification(postData,function(data)
 					{
 						if(data.success) $('form[name=verification]').find('.input-group input').val('');
 						Verifier.message('verification-message',data.success,data.message);

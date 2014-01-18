@@ -8,6 +8,7 @@
 GET     /                                      MainLoginController.logIntoSite
 POST	/signin								   MainLoginController.logIntoSite
 POST	/signup								   MainLoginController.signupUser
+GET     /logout								   MainLoginController.logoutUser
 
 # Main System Controller
 GET     /index								   MainSystemController.renderIndexPage

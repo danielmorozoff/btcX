@@ -56,15 +56,15 @@ public class EmailController extends Controller {
 		try
 		{
 			JSONObject userObj = new JSONObject(usrStr);
-			String email = (String) userObj.get("email");
-			if(email != null && email != "")
+			String userName = (String) userObj.get("userName");
+			if(userName != null && userName != "")
 			{
 				GraphDatabaseService bDB = BTCxDatabase.bDB;
 				Transaction tx = bDB.beginTx();
-				Node uNode = BTCxDatabase.USER_INDEX.get("email", email).getSingle();
+				Node uNode = BTCxDatabase.USER_INDEX.get("userName", userName).getSingle();
 				if(uNode != null)
 				{
-					String userName = (String)uNode.getProperty("userName");
+					String email = (String)uNode.getProperty("email");
 					String firstName = (String)uNode.getProperty("firstName");
 					String emailVerificationStr = (String)uNode.getProperty("emailVerificationStr");
 					
@@ -75,17 +75,18 @@ public class EmailController extends Controller {
 				}
 				else
 				{
-					response.message = "Email not found."; 	
+					response.message = "Username not found."; 	
 				}
 				tx.success();
 			}
 			else
 			{
-				response.message = "Invalid email."; 	
+				response.message = "Invalid username."; 	
 			}
 		}
 		catch(Exception e)
 		{
+			e.printStackTrace();
 			response.standard();
 		}
 		return response.toString();
@@ -104,12 +105,14 @@ public class EmailController extends Controller {
 			if(uNode!=null){
 				if(uNode.getProperty("codeToValidateEmail").equals(sCode.substring(5))){
 					
+					String userName = (String) uNode.getProperty("userName");
 					uNode.setProperty("emailValidated", true);
 					uNode.removeProperty("emailVerificationStr");
 					BTCxDatabase.USER_INDEX.remove(uNode, "codeToValidateEmail");
 					tx.success();
 					
 					System.out.println("Validated: "+uNode.getProperty("emailValidated"));
+					Cache.set(session.getAuthenticityToken(), userName);
 					MainSystemController.renderIndexPage();
 				}			
 			}
