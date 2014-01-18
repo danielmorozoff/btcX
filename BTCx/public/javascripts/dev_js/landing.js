@@ -21,6 +21,10 @@ $(document).ready(function()
 			Verifier.verifyForm('verification');
 		});
 
+		$("#resetPasswordEmailBtn").click(function()
+		{
+			Verifier.verifyForm('resetPasswordEmail');
+		});
 		$("#resetPasswordBtn").click(function()
 		{
 			Verifier.verifyForm('resetPassword');

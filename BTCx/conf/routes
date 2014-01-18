@@ -12,15 +12,18 @@ GET     /logout								   MainLoginController.logoutUser
 
 # Main System Controller
 GET     /index								   MainSystemController.renderIndexPage
-GET     /resetPassword                         MainSystemController.renderPasswordResetPage
+GET     /reset			                       MainSystemController.renderPasswordResetPage
 
 # Email Controller
 GET		/verifyEmail						   EmailController.emailResponseVerification
 POST	/sendVerificationEmail				   EmailController.sendVerificationEmail
 POST	/contact							   EmailController.sendContactUsEmail
+POST	/resetPasswordEmail					   EmailController.sendPasswordResetEmail
+POST	/resetPassword					   	   EmailController.passwordReset
+
 
 #	Map API
-POST /getMarkers								DataAPIController.getAllCurrentMapMarkers
+POST 	/getMarkers								DataAPIController.getAllCurrentMapMarkers
 
 # Ignore favicon requests
 GET     /favicon.ico                            404

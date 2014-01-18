@@ -111,15 +111,33 @@ public class EmailController extends Controller {
 	 * @throws AddressException
 	 * @throws MessagingException
 	 */
-	public static void sendPasswordResetEmail(String userName) throws AddressException, MessagingException{
-		Node userNode = BTCxDatabase.USER_INDEX.get("userName", userName).getSingle();
-		if(userNode!=null){
-			String hashedKey = BCrypt.hashpw(UUID.randomUUID().toString(), BCrypt.gensalt());
-			//Add key to Cache under the userName -- set to 10 mins
-			Cache.add(hashedKey, userName,"10mn");
-			//Send reset email
-			new PasswordResetEmailer().sendPasswordResetEmail((String)userNode.getProperty("email"),userName, hashedKey );
+	public static String sendPasswordResetEmail(String usrStr) throws Exception{
+		JSONObject usrObj = new JSONObject(usrStr);
+		String userName = (String) usrObj.get("userName");
+		Response response = new Response();
+		response.method = "Password Reset Email";
+
+		try(Transaction tx= BTCxDatabase.bDB.beginTx())
+		{
+			Node userNode = BTCxDatabase.USER_INDEX.get("userName", userName).getSingle();
+			tx.success();
+			
+			if(userNode!=null)
+			{
+				String hashedKey = BCrypt.hashpw(UUID.randomUUID().toString(), BCrypt.gensalt());
+				//Add key to Cache under the userName -- set to 10 mins
+				Cache.add(hashedKey, userName,"10mn");
+				//Send reset email
+				new PasswordResetEmailer().sendPasswordResetEmail((String)userNode.getProperty("email"),userName, hashedKey );
+				response.message = "Please check your inbox for the email.";
+				response.success = true;
+			}
+			else
+			{
+				response.message = "Invalid username.";
+			}
 		}
+		return response.toString();
 	}
 	/**
 	 * The actual function that does property resetting
@@ -129,10 +147,19 @@ public class EmailController extends Controller {
 	 * @param key
 	 * @throws Exception
 	 */
-	public static void passwordReset(String userName, String password, String repPassword, String key ) throws Exception{
-		if(password.equals(repPassword)){
+	public static String passwordReset(String usrStr) throws Exception{
+		JSONObject usrObj = new JSONObject(usrStr);
+		String userName = (String) usrObj.get("userName"),
+		 password = (String) usrObj.get("password"), 
+		 repPassword = (String) usrObj.get("reppassword"),
+		 key = (String) usrObj.get("key");
+		 Response response = new Response();
+		 response.method = "Password Reset";
+		if(password.equals(repPassword))
+		{
 			String retrievedUserName = (String) Cache.get(key);
-			if(retrievedUserName.equals(userName)){
+			if(retrievedUserName.equals(userName))
+			{
 				try(Transaction tx= BTCxDatabase.bDB.beginTx()){
 					
 					Node uNode = BTCxDatabase.USER_INDEX.get("userName", userName).getSingle();
@@ -140,11 +167,26 @@ public class EmailController extends Controller {
 					String hPass = new UserLoginAndSignup().encryptPassword(password, "userCreation", null, salt,"2wayEncryption");
 					uNode.setProperty("password", hPass);
 					uNode.setProperty("salt", salt);
-					
+						
+					response.message = "Your password was reset.";
+					response.success = true;	
 					tx.success();
 				}
+				catch(Exception e)
+				{
+					response.message = "Please try again later.";
+				}
+			}
+			else
+			{
+				response.message = "Invalid username.";
 			}
 		}
+		else
+		{
+			response.message = "Passwords do not match.";
+		}
+		return response.toString();
 	}
 	/**
 	 * Method that routes a user's click on email link to verify email

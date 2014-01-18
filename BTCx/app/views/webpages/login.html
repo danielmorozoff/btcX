@@ -612,7 +612,7 @@
     <script src="/public/javascripts/dev_js/map.js"></script>
     <script src="/public/javascripts/dev_js/landing.js"></script>
 
-
+    
     <!-- Modal -->
 	<div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 	  <div class="modal-dialog">
@@ -629,7 +629,7 @@
         	<p>Please enter your username so we can send you another verification email.</p>
 	        #{/if}
 	        #{else}
-	        <form name="resetPassword">
+	        <form name="resetPasswordEmail">
 	        <p>Please enter your username so we can send you an email to reset your password.</p>
 	        #{/else}
 	        	
@@ -643,8 +643,8 @@
 				<button type="button" class="btn btn-default btn-white pull-right" id="verificationBtn">Send</button> 
 				#{/if}
 				#{else}
-				<p class="resetPassword-message" style="text-align:left;font-size:11px;margin:0"></p>
-				<button type="button" class="btn btn-default btn-white pull-right" id="resetPasswordBtn">Send</button> 
+				<p class="resetPasswordEmail-message" style="text-align:left;font-size:11px;margin:0"></p>
+				<button type="button" class="btn btn-default btn-white pull-right" id="resetPasswordEmailBtn">Send</button> 
 				 #{/else}
 			</form>
 	      </div>

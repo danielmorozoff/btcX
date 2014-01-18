@@ -12,6 +12,9 @@ import play.mvc.Before;
 import play.mvc.Controller;
 import serverLoggers.ServerLoggers;
 
+import play.cache.Cache;
+
+
 public class MainSystemController extends Controller {
 /************************************************************************************************/
 //Static values for server
@@ -80,17 +83,44 @@ public class MainSystemController extends Controller {
 		System.out.println("Verifying Password reset hash: "+code);
 		System.out.println("Verifying Password reset uName: "+uName);
 		GraphDatabaseService bDB = BTCxDatabase.bDB;
-		try(Transaction tx = bDB.beginTx()){
+		try(Transaction tx = bDB.beginTx())
+		{
 		//If server shuts down cache is cleared.
-		 uNode = BTCxDatabase.USER_INDEX.get("resetPasswordRequest", code).getSingle();
-			if(uNode!=null){
-				if(uNode.getProperty("userName").equals(uName)){
-					//Render Email reset modal/page pass parameters
-					
-				}			
+			if(Cache.get(code) != null)
+			{
+				 uNode = BTCxDatabase.USER_INDEX.get("userName", Cache.get(code)).getSingle();
+				 tx.success();
+					if(uNode!=null)
+					{
+						if(uNode.getProperty("userName").equals(uName))
+						{
+							//Render Email reset modal/page pass parameters
+							renderTemplate("app/views/webpages/reset.html",uName,code);
+						}		
+						else
+						{
+							ServerLoggers.errorLog.error("***Wrong username for code***");
+							flash.error("Invalid username.");
+							renderLoginPage();
+						}	
+					}
+					else
+					{
+						ServerLoggers.errorLog.error("***Code does not exist***");
+						flash.error("This code has expired.");
+						renderLoginPage();	
+					}
+			}
+			else
+			{
+				ServerLoggers.errorLog.error("***Cache expired***");
+				flash.error("This code has expired.");
+				renderLoginPage();
 			}
 		}catch(Exception e){
+			e.printStackTrace();
 			ServerLoggers.errorLog.error("***Error in verifying email. EmailController.emailVerificationResponse  ***");
+			renderLoginPage();
 		}
 	}
 	

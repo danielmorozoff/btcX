@@ -35,7 +35,7 @@ public class PasswordResetEmailer extends Emailer {
         msg.setText(
         		"Hi There!\n" +
         		"We heard you were trying to reset your password. We have generated a unique link for you to do so. It's right below \n\n" +
-        		MainSystemController.system_url+"/resetPassword?code="+secretResetKey+"&uName="+inputedUserName+" \n\n"+
+        		MainSystemController.system_url+"/reset?code="+secretResetKey+"&uName="+inputedUserName+" \n\n"+
         		"If you did not request this email, please ignore it.\n" +
         		"The CryptRex Team"
         		);      			
