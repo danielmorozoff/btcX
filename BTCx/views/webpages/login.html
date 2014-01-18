@@ -62,7 +62,8 @@
 										<input name="userStr" id="userStr" type="text" hidden optional/>
 										<hr>
 										<p class="login-message" style="text-align:left;font-size:11px;margin:0">${flash.error}</p>
-
+										<a data-toggle="modal" data-target="#modal"style="text-align:left;font-size:10px;margin:0">Resend verification email</a>
+										
 										 <button type="button" class="btn btn-default btn-white pull-right" id="loginBtn">Login</button>
 				  					</form>
 							</div>
@@ -607,6 +608,30 @@
     <script src="/public/javascripts/dev_js/map.js"></script>
     <script src="/public/javascripts/dev_js/landing.js"></script>
 
+
+    <!-- Modal -->
+	<div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	  <div class="modal-dialog">
+	    <div class="modal-content panel-inverted">
+	      <div class="panel-heading clearfix modal-header">
+	        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+	        <span class="glyphicon glyphicon-lock pull-left"></span><h3 class="panel-title pull-right">Verification</h3>
+	      </div>
+	      <div class="modal-body panel-body">
+	        <form name="verification">
+	        	<p>Please enter your email so we can send you another verification email.</p>
+				<div class="input-group">
+			  	 <span class="input-group-addon">E</span>
+			 	 <input type="text" name="email" msg="Email" class="form-control" placeholder="Email">
+				</div>
+				<hr>
+				<p class="verification-message" style="text-align:left;font-size:11px;margin:0"></p>
+				<button type="button" class="btn btn-default btn-white pull-right" id="verificationBtn">Send</button> 
+			</form>
+	      </div>
+	    </div><!-- /.modal-content -->
+	  </div><!-- /.modal-dialog -->
+	</div><!-- /.modal -->
 
   </body>
 </html>

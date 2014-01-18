@@ -13,7 +13,7 @@ POST	/signup								   MainLoginController.signupUser
 GET     /index								   MainSystemController.renderIndexPage
 
 # Email Controller
-GET		/verifyEmail						   EmailController.emailVerification
+GET		/verifyEmail						   EmailController.emailVerificationResponse
 POST	/sendVerificationEmail				   EmailController.sendVerificationEmail
 POST	/contact							   EmailController.sendContactUsEmail
 

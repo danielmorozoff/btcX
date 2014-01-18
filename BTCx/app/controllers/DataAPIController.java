@@ -20,6 +20,7 @@ public class DataAPIController extends Controller {
 			renderTemplate("");
 		}
 	}
+	
 	/**
 	 * Retrieve all store markers for mapbox map display
 	 * @return
@@ -35,7 +36,6 @@ public class DataAPIController extends Controller {
 			return "{'markers':[]}";
 		}
 	}
-	
 	
 
 

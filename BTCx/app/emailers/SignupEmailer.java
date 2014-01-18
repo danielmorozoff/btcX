@@ -2,7 +2,6 @@ package emailers;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Properties;
-
 import javax.mail.Message;
 import javax.mail.MessagingException;
 import javax.mail.Session;
@@ -11,23 +10,17 @@ import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
-import org.neo4j.graphdb.GraphDatabaseService;
-import org.neo4j.graphdb.Node;
-import org.neo4j.graphdb.Transaction;
-
 import controllers.MainSystemController;
-import databases.BTCxDatabase;
+
 import play.mvc.Http.Request;
 import serverLoggers.ServerLoggers;
 
 public class SignupEmailer extends Emailer {
 
-
-
 	
 public void sendSignupEmail(String emailAddress, String inputedUsername, String fName, String secretEmailKey) throws Exception{
 	   
-
+	
 		Properties props = new Properties();
 	    props.put("mail.smtps.auth", "true");
 	    
@@ -39,13 +32,13 @@ public void sendSignupEmail(String emailAddress, String inputedUsername, String 
 	   	InternetAddress[] addresses = {new InternetAddress(emailAddress),};
         msg.setRecipients(Message.RecipientType.TO, addresses);
         
-        msg.setSubject("CryptREX Signup Information");
+        msg.setSubject("CryptRex Signup Information");
         msg.setSentDate(new Date());
 
         // Set message content
         msg.setText(fName+" welcome to "+MainSystemController.system_name+"!\n \n" +
-        		"Thank you for registering for an Alpha account. \n\n" +
-        		"Just click the link back to "+MainSystemController.system_url+"/verifyEmail?code=" +secretEmailKey+"\n\n" +
+        		"Thank you for registering for a Alpha account. \n\n" +
+        		"Just click the link back to "+MainSystemController.system_url+"/verifyEmail?code=" +secretEmailKey+"   \n\n" +
         		"Or just visit "+MainSystemController.system_url+" and provide us with this key: " +secretEmailKey+"\n"+	
         		"You will have full access to the "+MainSystemController.system_name+" system. \n\n "+
         			"If you run into any issues or problems, please contact us at: "+

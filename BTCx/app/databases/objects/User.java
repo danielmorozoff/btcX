@@ -22,6 +22,7 @@ import login.UserLoginAndSignup;
 + LoginDate: Long
 + SignupDate: Long
 + ActiveAccount: boolean
++ EmailVerificationStr: String -- temporary then deleted
 + emailValidated: boolean
  
  * @author danielmorozoff
@@ -42,7 +43,6 @@ public class User extends Object {
 	public long signupDate;
 	public boolean accountActive;
 	public String emailVerificationStr;
-	public String codeToValidateEmail;
 	public boolean emailValidated;
 	
 	/**
@@ -72,6 +72,8 @@ public class User extends Object {
 		this.firstName = fName;
 		this.lastName=lName;
 		this.country="";
+		
+		this.emailValidated  =false;
 		
 		long curTime = System.currentTimeMillis();
 		this.signupDate  = curTime;

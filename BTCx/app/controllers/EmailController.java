@@ -6,11 +6,13 @@ import org.neo4j.graphdb.Transaction;
 import org.neo4j.shell.util.json.JSONObject;
 
 import databases.BTCxDatabase;
+
 import emailers.ContactUsEmailer;
 import emailers.SignupEmailer;
 import frontend.Response;
 import play.cache.Cache;
 import play.mvc.Controller;
+import serverLoggers.ServerLoggers;
 
 public class EmailController extends Controller {
 	/**
@@ -21,25 +23,24 @@ public class EmailController extends Controller {
 	 * @param message
 	 * @throws Exception
 	 */
-	public static String sendContactUsEmail(String usrStr) {
+	public static String sendContactUsEmail(String usrStr) throws Exception{
 		Response response = new Response();
 		response.method = "Contact";
-		try
-		{
-		JSONObject usrObj = new JSONObject(usrStr);
-		String request = usrObj.getString("request");
-		System.out.println("Request: "+request);
-		String email = usrObj.getString("email");
-		System.out.println("email: "+email);
-		String subject = usrObj.getString("subject");
-		System.out.println("subject: "+subject);
-		String message = usrObj.getString("message");
-		System.out.println("message: "+message);
+		try{
 		
-		if(request.equals("contact")) new ContactUsEmailer().sendSignupEmail(email, subject, message);
+			JSONObject usrObj = new JSONObject(usrStr);
+			String request = usrObj.getString("request");
+			System.out.println("Request: "+request);
+			String email = usrObj.getString("email");
+			System.out.println("email: "+email);
+			String subject = usrObj.getString("subject");
+			System.out.println("subject: "+subject);
+			String message = usrObj.getString("message");
+			System.out.println("message: "+message);
 		
-		response.message = "Thank your for contacting us!";
-		response.success = true;
+			if(request.equals("contact")) new ContactUsEmailer().sendSignupEmail(email, subject, message);
+			response.message = "Thank your for contacting us!";
+			response.success = true;
 		
 		}
 		catch(Exception e )
@@ -48,7 +49,6 @@ public class EmailController extends Controller {
 		}
 		return response.toString();
 	}
-	
 	public static String sendVerificationEmail(String usrStr) 
 	{
 		Response response = new Response();
@@ -90,24 +90,32 @@ public class EmailController extends Controller {
 		}
 		return response.toString();
 	}
-	
-	public static void emailVerification(){
+	/**
+	 * Method that routes a user's click on email link to verify email
+	 */
+	public static void emailVerificationResponse(){
 		String sCode = request.querystring;
+		Node uNode=null;
 		System.out.println("Verifying Email: "+sCode.substring(5));
 		GraphDatabaseService bDB = BTCxDatabase.bDB;
 		try(Transaction tx = bDB.beginTx()){
 		//If server shuts down cache is cleared.
-		Node uNode = BTCxDatabase.USER_INDEX.get("codeToValidateEmail", sCode).getSingle();
-		if(uNode!=null){
-				
-			System.out.println("Usernode: "+uNode);
+		 uNode = BTCxDatabase.USER_INDEX.get("codeToValidateEmail", sCode.substring(5)).getSingle();
 			if(uNode!=null){
-				uNode.setProperty("emailValidated", true);
-				uNode.removeProperty("emailValidation");
-				MainSystemController.renderIndexPage();
+				if(uNode.getProperty("codeToValidateEmail").equals(sCode.substring(5))){
+					
+					uNode.setProperty("emailValidated", true);
+					uNode.removeProperty("emailVerificationStr");
+					BTCxDatabase.USER_INDEX.remove(uNode, "codeToValidateEmail");
+					tx.success();
+					
+					System.out.println("Validated: "+uNode.getProperty("emailValidated"));
+					MainSystemController.renderIndexPage();
+				}			
 			}
-		}
-			tx.success();
+			
+		}catch(Exception e){
+			ServerLoggers.errorLog.error("***Error in verifying email. EmailController.emailVerificationResponse  ***");
 		}
 	}
 }
