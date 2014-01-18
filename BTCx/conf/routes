@@ -12,9 +12,10 @@ GET     /logout								   MainLoginController.logoutUser
 
 # Main System Controller
 GET     /index								   MainSystemController.renderIndexPage
+GET     /resetPassword                         MainSystemController.renderPasswordResetPage
 
 # Email Controller
-GET		/verifyEmail						   EmailController.emailVerificationResponse
+GET		/verifyEmail						   EmailController.emailResponseVerification
 POST	/sendVerificationEmail				   EmailController.sendVerificationEmail
 POST	/contact							   EmailController.sendContactUsEmail
 

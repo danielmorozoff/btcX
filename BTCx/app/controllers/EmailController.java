@@ -1,5 +1,13 @@
 package controllers;
 
+import java.util.UUID;
+
+import javax.mail.MessagingException;
+import javax.mail.internet.AddressException;
+
+import login.UserLoginAndSignup;
+
+import org.mindrot.jbcrypt.BCrypt;
 import org.neo4j.graphdb.GraphDatabaseService;
 import org.neo4j.graphdb.Node;
 import org.neo4j.graphdb.Transaction;
@@ -8,6 +16,7 @@ import org.neo4j.shell.util.json.JSONObject;
 import databases.BTCxDatabase;
 
 import emailers.ContactUsEmailer;
+import emailers.PasswordResetEmailer;
 import emailers.SignupEmailer;
 import frontend.Response;
 import play.cache.Cache;
@@ -49,6 +58,11 @@ public class EmailController extends Controller {
 		}
 		return response.toString();
 	}
+	/**
+	 * Send email verification 
+	 * @param usrStr
+	 * @return
+	 */
 	public static String sendVerificationEmail(String usrStr) 
 	{
 		Response response = new Response();
@@ -92,9 +106,50 @@ public class EmailController extends Controller {
 		return response.toString();
 	}
 	/**
+	 * Send password reset email
+	 * @param userName
+	 * @throws AddressException
+	 * @throws MessagingException
+	 */
+	public static void sendPasswordResetEmail(String userName) throws AddressException, MessagingException{
+		Node userNode = BTCxDatabase.USER_INDEX.get("userName", userName).getSingle();
+		if(userNode!=null){
+			String hashedKey = BCrypt.hashpw(UUID.randomUUID().toString(), BCrypt.gensalt());
+			//Add key to Cache under the userName -- set to 10 mins
+			Cache.add(hashedKey, userName,"10mn");
+			//Send reset email
+			new PasswordResetEmailer().sendPasswordResetEmail((String)userNode.getProperty("email"),userName, hashedKey );
+		}
+	}
+	/**
+	 * The actual function that does property resetting
+	 * @param userName
+	 * @param password
+	 * @param repPassword
+	 * @param key
+	 * @throws Exception
+	 */
+	public static void passwordReset(String userName, String password, String repPassword, String key ) throws Exception{
+		if(password.equals(repPassword)){
+			String retrievedUserName = (String) Cache.get(key);
+			if(retrievedUserName.equals(userName)){
+				try(Transaction tx= BTCxDatabase.bDB.beginTx()){
+					
+					Node uNode = BTCxDatabase.USER_INDEX.get("userName", userName).getSingle();
+					String salt= BCrypt.hashpw(UUID.randomUUID().toString(),BCrypt.gensalt());
+					String hPass = new UserLoginAndSignup().encryptPassword(password, "userCreation", null, salt,"2wayEncryption");
+					uNode.setProperty("password", hPass);
+					uNode.setProperty("salt", salt);
+					
+					tx.success();
+				}
+			}
+		}
+	}
+	/**
 	 * Method that routes a user's click on email link to verify email
 	 */
-	public static void emailVerificationResponse(){
+	public static void emailResponseVerification(){
 		String sCode = request.querystring;
 		Node uNode=null;
 		System.out.println("Verifying Email: "+sCode.substring(5));

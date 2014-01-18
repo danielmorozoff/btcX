@@ -1,5 +1,10 @@
 package controllers;
 import java.io.File;
+
+import org.neo4j.graphdb.GraphDatabaseService;
+import org.neo4j.graphdb.Node;
+import org.neo4j.graphdb.Transaction;
+
 import databases.BTCxDatabase;
 import play.jobs.Job;
 import play.jobs.OnApplicationStart;
@@ -63,6 +68,30 @@ public class MainSystemController extends Controller {
 	}
 	public static void renderIndexPage(){
 		renderTemplate("app/views/webpages/index.html");
+	}
+	/**
+	 * Method that routes a user's click on email link to reset password
+	 */
+	public static void renderPasswordResetPage(){
+		Node uNode=null;
+		String[] paramAr = request.querystring.split("&");
+		String code = paramAr[0].substring(5);
+		String uName = paramAr[1].substring(6);
+		System.out.println("Verifying Password reset hash: "+code);
+		System.out.println("Verifying Password reset uName: "+uName);
+		GraphDatabaseService bDB = BTCxDatabase.bDB;
+		try(Transaction tx = bDB.beginTx()){
+		//If server shuts down cache is cleared.
+		 uNode = BTCxDatabase.USER_INDEX.get("resetPasswordRequest", code).getSingle();
+			if(uNode!=null){
+				if(uNode.getProperty("userName").equals(uName)){
+					//Render Email reset modal/page pass parameters
+					
+				}			
+			}
+		}catch(Exception e){
+			ServerLoggers.errorLog.error("***Error in verifying email. EmailController.emailVerificationResponse  ***");
+		}
 	}
 	
 }
