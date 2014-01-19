@@ -11,6 +11,9 @@ import signup.Verification;
 import java.io.File;
 import java.util.*;
 
+import javax.mail.MessagingException;
+import javax.mail.internet.AddressException;
+
 import jsonFormaters.SignupFormatter;
 
 import org.neo4j.graphdb.DynamicLabel;
@@ -26,6 +29,7 @@ import org.neo4j.shell.util.json.JSONArray;
 import api.WebpageAPI;
 
 import databases.BTCxDatabase;
+import emailers.WelcomeEmailer;
 
 
 
@@ -105,8 +109,10 @@ public class SignupController extends Controller {
      * @param usrStr
      * @return
      * @throws JSONException
+     * @throws MessagingException 
+     * @throws AddressException 
      */
-    public static JSONObject storeUserData(String usrStr) throws JSONException{
+    public static JSONObject storeUserData(String usrStr) throws JSONException, AddressException, MessagingException{
     	ServerLoggers.infoLog.info("***Userdata: "+usrStr+"***");
     	
     	JSONObject usrObj = new JSONObject(usrStr);
@@ -178,7 +184,9 @@ public class SignupController extends Controller {
 //		    		Add email to index for all users.
 	    			 
 	    			sDB.index().forNodes("users").add(uNode, "email", usrObj.get("email"));
-
+	    			
+	    			//Email User welcome Email
+	    			new WelcomeEmailer().sendWelcomeEmail((String)usrObj.get("email"));
 		    		
 		    		sFormatter.login = true;
 		    		sFormatter.message = "Thank you for signing up!";

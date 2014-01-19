@@ -138,7 +138,7 @@ $(document).ready(function()
 		{
 			Tube.resetPassword(postData,function(data)
 					{
-						if(data.success) $('form[name=resetPassword]').find('.input-group input').val('');
+						if(data.success) window.location.href='/';
 						Verifier.message('resetPassword-message',data.success,data.message);
 					});
 		}

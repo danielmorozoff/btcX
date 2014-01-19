@@ -15,8 +15,10 @@ import org.neo4j.graphdb.Node;
 import org.neo4j.graphdb.Transaction;
 import org.neo4j.shell.util.json.JSONException;
 import org.neo4j.shell.util.json.JSONObject;
+
+import ch.qos.logback.core.subst.Token.Type;
 import databases.BTCxDatabase;
-import databases.objects.User;
+import databases.objects.users.User;
 import emailers.SignupEmailer;
 import frontend.Response;
 
@@ -152,8 +154,9 @@ public static GraphDatabaseService bDB = BTCxDatabase.bDB;
 		if(userObj.get("password").equals(userObj.get("reppassword")) && ((Boolean) userObj.get("agreement"))){
 			UserLoginAndSignup uEnter = new UserLoginAndSignup();
 			String userExistsTestResult = uEnter.checkIfUserExistsInDb((String)userObj.get("userName"), (String)userObj.get("email"),"userName");
+			boolean acceptsTerms = (Boolean) userObj.get("acceptsTerms") ;
 			//Currently only enforcing unique usernames.
-			if(userExistsTestResult.equals("false")){
+			if(userExistsTestResult.equals("false") && acceptsTerms){
 				ServerLoggers.infoLog.info("***CREATING NEW USER: "+userObj.get("userName")+" ***");
 					
 				User newUser = new User();
@@ -161,10 +164,23 @@ public static GraphDatabaseService bDB = BTCxDatabase.bDB;
 						password=(String)userObj.get("password"),
 						email=(String)userObj.get("email"),
 						fName=(String)userObj.get("firstName"),
-						lName=(String)userObj.get("lastName");
+						lName=(String)userObj.get("lastName"),
+						type = (String) userObj.get("type");
+				
+				String address = null;
+				String city = null;
+				String state = null;
+				String phoneNumber  = null;
+				
+				if(type.equals("merchant")){
+					address= (String) userObj.get("address");
+					city=  (String) userObj.get("city");
+					state=  (String) userObj.get("state");
+					phoneNumber=  (String) userObj.get("phone");
+				}
 					
 					//Loads User class for creation. Generates unique ids, encrypts password and creates salt
-					newUser.loadUserClassForSignup(userName, password, email,fName,lName);
+					newUser.loadUserClassForSignup(userName, password, email,fName,lName,type,acceptsTerms,address,city,state,phoneNumber);
 					try{	
 					//Stores and verifies user in DB
 						if(uEnter.makeNewUser(newUser)){

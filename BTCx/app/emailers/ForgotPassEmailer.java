@@ -21,6 +21,7 @@ import serverLoggers.ServerLoggers;
 
 import databases.BTCxDatabase;
 import databases.objects.*;
+import databases.objects.users.User;
 
 
 public class ForgotPassEmailer extends Emailer{

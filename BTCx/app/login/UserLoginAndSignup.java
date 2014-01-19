@@ -11,7 +11,9 @@ import javax.crypto.spec.DESKeySpec;
 
 import org.apache.commons.codec.binary.Base64;
 import org.mindrot.jbcrypt.BCrypt;
+import org.neo4j.graphdb.DynamicLabel;
 import org.neo4j.graphdb.GraphDatabaseService;
+import org.neo4j.graphdb.Label;
 import org.neo4j.graphdb.Node;
 import org.neo4j.graphdb.Transaction;
 import org.neo4j.graphdb.index.Index;
@@ -23,7 +25,8 @@ import serverLoggers.ServerLoggers;
 
 import databases.BTCxDatabase;
 import databases.objects.BTCxObject;
-import databases.objects.User;
+import databases.objects.users.Merchant;
+import databases.objects.users.User;
 
 public class UserLoginAndSignup {
 
@@ -62,6 +65,19 @@ public class UserLoginAndSignup {
 				userNameIndex.add(userNode, "public_uniqueId", userClass.public_uniqueId);
 				userNameIndex.add(userNode, "private_uniqueId", userClass.private_uniqueId);
 				userNameIndex.add(userNode, "email", userClass.email);
+				
+				
+				//Add Labels && type specific type additions
+				Label label=null;
+					if(userClass.accountType.equals("merchant")){
+						label = DynamicLabel.label(User.ACCOUNT_TYPE.MERCHANT.toString());
+						//Add geocords to index
+						userNameIndex.add(userNode, "geoCoords", ((Merchant)userClass).geoCords);
+					}
+					else if(userClass.accountType.equals("trader")) label = DynamicLabel.label(User.ACCOUNT_TYPE.TRADER.toString());
+				if(label!=null) userNode.addLabel(label);
+				
+				
 				
 				transaction.success();
 			

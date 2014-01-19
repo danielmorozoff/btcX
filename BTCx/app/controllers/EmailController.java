@@ -124,13 +124,19 @@ public class EmailController extends Controller {
 			
 			if(userNode!=null)
 			{
-				String hashedKey = BCrypt.hashpw(UUID.randomUUID().toString(), BCrypt.gensalt());
-				//Add key to Cache under the userName -- set to 10 mins
-				Cache.add(hashedKey, userName,"10mn");
-				//Send reset email
-				new PasswordResetEmailer().sendPasswordResetEmail((String)userNode.getProperty("email"),userName, hashedKey );
-				response.message = "Please check your inbox for the email.";
-				response.success = true;
+				if((Boolean)userNode.getProperty("emailValidated")){
+					String hashedKey = BCrypt.hashpw(UUID.randomUUID().toString(), BCrypt.gensalt());
+					//Add key to Cache under the userName -- set to 10 mins
+					Cache.add(hashedKey, userName,"10mn");
+					//Send reset email
+					new PasswordResetEmailer().sendPasswordResetEmail((String)userNode.getProperty("email"),userName, hashedKey );
+					response.message = "Please check your inbox for the email.";
+					response.success = true;
+				}
+				else{
+					response.message = "Please verify your email";
+					response.success = true;
+				}
 			}
 			else
 			{
@@ -170,6 +176,10 @@ public class EmailController extends Controller {
 						
 					response.message = "Your password was reset.";
 					response.success = true;	
+					
+					//Remove from cache
+					Cache.delete(key);
+					
 					tx.success();
 				}
 				catch(Exception e)

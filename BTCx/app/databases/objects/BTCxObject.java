@@ -17,6 +17,7 @@ import serverLoggers.ServerLoggers;
 import databases.BTCxDatabase;
 import databases.BTCxDatabase.BTCRelationship;
 import databases.objects.*;
+import databases.objects.users.User;
 /**
  * Conversion of BTCx Objects to and from Node objects in Neo4j
  * @author danielmorozoff
