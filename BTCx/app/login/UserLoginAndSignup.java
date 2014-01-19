@@ -120,53 +120,57 @@ public class UserLoginAndSignup {
 	 public boolean testLoginInfo(String userName, String password,String type){
 	//	System.out.println("Logging "+userName+" into site");
 		boolean enter = false;
-		if (userName !=null && password!=null && bDB.index().existsForNodes("users") ){
-		 String encryptedInputPass="";
-		 IndexHits <Node> hits=null;
-				if(type.equals("userName")){
-					hits = BTCxDatabase.USER_INDEX.get("userName", userName);
-				}
-				//Currently not supported --- probably never since we allow multiple emails per username
-				else if(type.equals("email")){
-//					
-//					System.out.println("getting email");
-//					System.out.println(userIndex.forNodes("users").get("email", userName).getSingle());
-//					hits = userIndex.forNodes("users").get("email", userName);
-				}
-				Node curNode = (Node) hits.getSingle();
-				if(curNode!=null){
-					if(curNode.getProperty("userName").equals(userName) && type.equals("userName")){
-						try {
-							//Returns my encryption string
-							encryptedInputPass = encryptPassword(password,"userValidation",curNode,null,"1wayEncryption");
-						} catch (Exception e) {
-							ServerLoggers.errorLog.error("!!! Failed to decrypt password. Method UserLoginAndSignup.println !!!");
-							errorString = "User / password combination not found.";
-							e.printStackTrace();
-						}
-						// Dual encrypted/ final hash with bCrypt
-						String hashedDbPass =(String) curNode.getProperty("password");
-					
-						if (BCrypt.checkpw(encryptedInputPass, hashedDbPass)){
-							enter = true;
-							System.out.println(new BTCxObject().convertNodeToObject(curNode, null, new User()).getClass());
-							loggedInUser =(User) new BTCxObject().convertNodeToObject(curNode, null, new User());
-							ServerLoggers.infoLog.info("***User "+userName+" granted access***");
-						}
-						else{
-							enter=false;
-							errorString = "User / password combination not found.";
-							return enter;
-						}
+		try(Transaction tx = bDB.beginTx() ){
+			if (userName !=null && password!=null && bDB.index().existsForNodes("users") ){
+			 String encryptedInputPass="";
+			 IndexHits <Node> hits=null;
+					if(type.equals("userName")){
+						hits = BTCxDatabase.USER_INDEX.get("userName", userName);
 						
 					}
-				}
-				else if(type.equals("email")){
-					errorString = "Currently not supporting email login";
-				}
-				else{
-					errorString="User not found.";
-				}
+					//Currently not supported --- probably never since we allow multiple emails per username
+					else if(type.equals("email")){
+	//					
+	//					System.out.println("getting email");
+	//					System.out.println(userIndex.forNodes("users").get("email", userName).getSingle());
+	//					hits = userIndex.forNodes("users").get("email", userName);
+					}
+					Node curNode = (Node) hits.getSingle();
+					if(curNode!=null){
+						if(curNode.getProperty("userName").equals(userName) && type.equals("userName")){
+							try {
+								//Returns my encryption string
+								encryptedInputPass = encryptPassword(password,"userValidation",curNode,null,"1wayEncryption");
+							} catch (Exception e) {
+								ServerLoggers.errorLog.error("!!! Failed to decrypt password. Method UserLoginAndSignup.println !!!");
+								errorString = "User / password combination not found.";
+								e.printStackTrace();
+							}
+							// Dual encrypted/ final hash with bCrypt
+							String hashedDbPass =(String) curNode.getProperty("password");
+							
+							if (BCrypt.checkpw(encryptedInputPass, hashedDbPass)){
+								enter = true;
+								System.out.println(new BTCxObject().convertNodeToObject(curNode, null, new User()).getClass());
+								loggedInUser =(User) new BTCxObject().convertNodeToObject(curNode, null, new User());
+								ServerLoggers.infoLog.info("***User "+userName+" granted access***");
+							}
+							else{
+								enter=false;
+								errorString = "User / password combination not found.";
+								return enter;
+							}
+							
+						}
+					}
+					else if(type.equals("email")){
+						errorString = "Currently not supporting email login";
+					}
+					else{
+						errorString="User not found.";
+					}
+			}
+			tx.success();
 		}
 		System.out.println("ERROR STRING: "+errorString);
 		errorString="Server Error.";

@@ -76,7 +76,6 @@ public static GraphDatabaseService bDB = BTCxDatabase.bDB;
 						{
 							String password = (String) userObj.get("password");
 							boolean emailVerified = (Boolean) curNode.getProperty("emailValidated");
-							System.out.println("EMAIL VERIFIED: "+emailVerified);
 							if(!emailVerified)
 							{
 								//Did not verify Email
@@ -92,6 +91,7 @@ public static GraphDatabaseService bDB = BTCxDatabase.bDB;
 							}
 							else
 							{
+								System.out.println();
 								MainSystemController.renderLoginPage();
 							}
 						}

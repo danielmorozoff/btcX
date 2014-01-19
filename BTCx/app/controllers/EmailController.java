@@ -216,6 +216,7 @@ public class EmailController extends Controller {
 					uNode.setProperty("emailValidated", true);
 					uNode.removeProperty("emailVerificationStr");
 					BTCxDatabase.USER_INDEX.remove(uNode, "codeToValidateEmail");
+					
 					tx.success();
 					
 					System.out.println("Validated: "+uNode.getProperty("emailValidated"));
@@ -223,7 +224,6 @@ public class EmailController extends Controller {
 					MainSystemController.renderIndexPage();
 				}			
 			}
-			
 		}catch(Exception e){
 			ServerLoggers.errorLog.error("***Error in verifying email. EmailController.emailVerificationResponse  ***");
 		}

@@ -107,8 +107,10 @@ public class User extends Object {
 
 		user.userName = userName;
 		user.salt= BCrypt.hashpw(UUID.randomUUID().toString(),BCrypt.gensalt());
+		System.out.println("Password to store: "+user.password);
+		System.out.println("Salt to store: "+user.salt);
 		try {
-			user.password = uEnter.encryptPassword(password, "userCreation", null, salt,"2wayEncryption");
+			user.password = uEnter.encryptPassword(password, "userCreation", null, user.salt,"2wayEncryption");
 		} catch (Exception e) {
 			ServerLoggers.errorLog.error("!!! Failed to create User object. Method User.loadUserClassForSignup !!!");
 			e.printStackTrace();
