@@ -80,39 +80,74 @@
 							   	<div class="row">
 							   		<form name="signup">
 							   		<div id="panel-trader" class="col-md-12">
-							      		<div class="input-group">
+							   			<div class='type-selection-wrapper'>
+								  		<select name="type" msg="Type" type="select" class="form-control type-selection" >
+										  <option value="trader">Trader</option>
+										  <option value="merchant">Merchant</option>
+										</select>
+										</div>
+							      		<div class="input-group trader">
 										  <span class="input-group-addon">E</span>
 										  <input type="text" name="email" class="form-control" msg="Email" placeholder="Email">
 										</div>
-										<div class="input-group">
+										<div class="input-group trader">
 										  <span class="input-group-addon">U</span>
 										  <input type="text" name="userName" msg="Username" class="form-control" placeholder="Username">
 										</div>
-										<div class="input-group">
+										<div class="input-group trader">
 										  <span class="input-group-addon">F</span>
 										  <input type="text" name="firstName" msg="First Name" class="form-control" placeholder="First Name">
 										</div>
-										<div class="input-group">
+										<div class="input-group trader">
 										  <span class="input-group-addon">L</span>
 										  <input type="text" name="lastName" msg="Last Name" class="form-control" placeholder="Last Name">
 										</div>
-									  	<div class="input-group">
+									  	<div class="input-group trader">
 										  <span class="input-group-addon">P</span>
 										  <input type="password" name="password" class="form-control" placeholder="Password" msg="Password">
 										</div>
-										<div class="input-group">
+										<div class="input-group trader">
 										  <span class="input-group-addon">P</span>
 										  <input type="password" name="reppassword" class="form-control" placeholder="Rep. Password" msg="Rep. Password">
 										</div>
-										<div class="checkbox input-group">
+										<div class="trader-fade">
+											<div class="checkbox input-group trader">
+											   <label>
+											      <input type="checkbox" name="agreement" msg="agreement to Terms of Use and Privacy Policy"> I read and accept the <a href='#termsandprivacy' index="5" class="carousel-nav" >Terms of Use</a> and <a href='#termsandprivacy' class="carousel-nav" index="5">Privacy Policy</a>
+											   </label>
+											</div>
+											<hr>
+											 <p class="signup-message" style="text-align:left;font-size:11px;margin:0"></p>
+							    			<button type="button" class="signupBtn btn btn-default btn-white pull-right">Submit</button>
+									   </div> 
+									</div>
+									<div class="col-md-6 merchant" style="display:none">
+										<div class="input-group merchant" style="display: none;">
+										  <span class="input-group-addon">P</span>
+										  <input type="text" name="phone" msg="Phone" class="form-control" placeholder="Phone">
+										</div>
+										<div class="input-group merchant" style="display: none;">
+										  <span class="input-group-addon">A</span>
+										  <input type="text" name="address" msg="Address" class="form-control" placeholder="Address">
+										</div>
+										<div class="input-group merchant" style="display: none;"> 
+										  <span class="input-group-addon">C</span>
+										  <input type="text" name="city" msg="City" class="form-control" placeholder="City">
+										</div>
+										<div class="input-group merchant" style="display: none;">
+										  <span class="input-group-addon">S</span>
+										  <input type="text" name="state" msg="State" class="form-control" placeholder="State">
+										</div>
+										<div class="checkbox input-group merchant">
 										   <label>
-										      <input type="checkbox" name="agreement" msg="agreement to Terms of Use and Privacy Policy"> I read and accept the <a href='#termsandprivacy' index="6" class="carousel-nav" >Terms of Use</a> and <a href='#termsandprivacy' class="carousel-nav" index="6">Privacy Policy</a>
+										      <input type="checkbox" name="agreement" msg="agreement to Terms of Use and Privacy Policy"> I read and accept the <a  href='#termsandprivacy' class="carousel-nav" index="5">Terms of Use</a> and <a href='#termsandprivacy' class="carousel-nav" index="5">Privacy Policy</a>
 										   </label>
 										</div>
 										<hr>
-										 <p class="signup-message" style="text-align:left;font-size:11px;margin:0 0 10px 0"></p>
+										 <p class="signup-message" style="text-align:left;font-size:11px;margin:0"></p>
 						    			<button type="button" class="signupBtn btn btn-default btn-white pull-right">Submit</button>
-									</div>
+									    </span>
+									</div> 
 									</form>
 								</div>	
 							</div>

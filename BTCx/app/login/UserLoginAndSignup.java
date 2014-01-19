@@ -28,6 +28,8 @@ import databases.objects.BTCxObject;
 import databases.objects.users.Merchant;
 import databases.objects.users.User;
 
+import java.util.*;
+
 public class UserLoginAndSignup {
 
 	GraphDatabaseService bDB = BTCxDatabase.bDB; 
@@ -47,13 +49,31 @@ public class UserLoginAndSignup {
 			Node userNode = bDB.createNode();
 			Index<Node> userNameIndex = BTCxDatabase.USER_INDEX;
 			ServerLoggers.infoLog.info("***Loading User params for "+userClass.userName+".***");
-			
+	
 			Field[] userFields = userClass.getClass().getDeclaredFields();
+
+			
 				for(int i=0; i<userFields.length;i++){
+									System.out.println("Property: "+userFields[i].getName());
+
 					if(userFields[i].get(userClass)!=null){
 						userNode.setProperty(userFields[i].getName(), userFields[i].get(userClass));
 					}
 					else{
+
+						userNode.setProperty(userFields[i].getName(), "");
+					}
+				}
+			userFields = User.class.getDeclaredFields();	
+
+			for(int i=0; i<userFields.length;i++){
+									System.out.println("Property: "+userFields[i].getName());
+
+					if(userFields[i].get(userClass)!=null){
+						userNode.setProperty(userFields[i].getName(), userFields[i].get(userClass));
+					}
+					else{
+
 						userNode.setProperty(userFields[i].getName(), "");
 					}
 				}
@@ -77,7 +97,7 @@ public class UserLoginAndSignup {
 					else if(userClass.accountType.equals("trader")) label = DynamicLabel.label(User.ACCOUNT_TYPE.TRADER.toString());
 				if(label!=null) userNode.addLabel(label);
 				
-				
+				ServerLoggers.infoLog.info("***User: "+userNode.getProperty("userName")+".***");
 				
 				transaction.success();
 			

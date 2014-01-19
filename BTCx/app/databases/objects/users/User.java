@@ -70,15 +70,12 @@ public class User extends Object {
 	 * @return
 	 * @throws JSONException 
 	 */
-	public User loadUserClassForSignup(String type, String userName, String password, String email,String fName, String lName,boolean acceptsTerms, //Shared amongst users
-							String address,String city, String state, String phoneNumber		//Merchant Specific	
-							) throws JSONException{ //Trader Specific
+	public User loadUserClassForSignup(String type, String userName, String password, String email,String fName, String lName,boolean acceptsTerms, String address,String city, String state, String phoneNumber) throws JSONException
+	{ 
 		User user = null;
-		
-		if(type.equals("merchant") 
-				&& address!=null && city!=null
-				&& state!=null && phoneNumber!=null){
-			
+		System.out.println(type+" "+address+" "+city+" "+state+" "+phoneNumber);
+		if(type.equals("merchant") && address!=null && city!=null && state!=null && phoneNumber!=null)
+		{	
 			user = new Merchant();
 			user.accountType = ACCOUNT_TYPE.MERCHANT.toString();
 			Merchant merchObj = ((Merchant)user);

@@ -16,7 +16,7 @@ $(document).ready(function()
 				postData['type'] = type;
 			}
 			
-			form.find('.input-group:not(:hidden) input, .input-group:not(:hidden) textarea').each(function()
+			form.find('.input-group:not(:hidden) input, .input-group:not(:hidden) select, .input-group:not(:hidden) textarea').each(function()
 			{
 
 				var input = $(this);
@@ -52,6 +52,10 @@ $(document).ready(function()
 				{
 					val = input.is(':checked');
 					if(val) check = true;
+				}
+				else if(type == 'select')
+				{
+					check = true;
 				}
 
 				if(input.attr('optional') != undefined) check = true;

@@ -56,18 +56,19 @@ public static GraphDatabaseService bDB = BTCxDatabase.bDB;
 	 */
 	 
 	 //ADD email verification ERROR
-	public static void logIntoSite(String userStr) throws JSONException{
+	public static void logIntoSite(String userStr) throws JSONException
+	{
 		UserLoginAndSignup entranceClass = new UserLoginAndSignup();
 		flash.clear();
 			//Double check the Cache.
-			if(Cache.get(session.getAuthenticityToken())== null && userStr !=null && userStr != "")
+		if(Cache.get(session.getAuthenticityToken())== null && userStr !=null && userStr != "")
+		{
+			try
 			{
-				try
+				JSONObject userObj = new JSONObject(userStr);
+				String userName = (String) userObj.get("userName");
+				if(userName != null && userName != "")
 				{
-					JSONObject userObj = new JSONObject(userStr);
-					String userName = (String) userObj.get("userName");
-					if(userName != null && userName != "")
-					{
 					try(Transaction tx = bDB.beginTx())
 					{
 						Node curNode = BTCxDatabase.USER_INDEX.get("userName", userName).getSingle();	
@@ -109,7 +110,7 @@ public static GraphDatabaseService bDB = BTCxDatabase.bDB;
 						flash.error("Please try again later");
 						MainSystemController.renderLoginPage();
 					}
-					}
+				}
 				else
 				{
 					//Username null
@@ -154,7 +155,7 @@ public static GraphDatabaseService bDB = BTCxDatabase.bDB;
 		if(userObj.get("password").equals(userObj.get("reppassword")) && ((Boolean) userObj.get("agreement"))){
 			UserLoginAndSignup uEnter = new UserLoginAndSignup();
 			String userExistsTestResult = uEnter.checkIfUserExistsInDb((String)userObj.get("userName"), (String)userObj.get("email"),"userName");
-			boolean acceptsTerms = (Boolean) userObj.get("acceptsTerms") ;
+			boolean acceptsTerms = (Boolean) userObj.get("agreement") ;
 			//Currently only enforcing unique usernames.
 			if(userExistsTestResult.equals("false") && acceptsTerms){
 				ServerLoggers.infoLog.info("***CREATING NEW USER: "+userObj.get("userName")+" ***");
@@ -180,7 +181,7 @@ public static GraphDatabaseService bDB = BTCxDatabase.bDB;
 				}
 					
 					//Loads User class for creation. Generates unique ids, encrypts password and creates salt
-					newUser.loadUserClassForSignup(userName, password, email,fName,lName,type,acceptsTerms,address,city,state,phoneNumber);
+					newUser = newUser.loadUserClassForSignup(type,userName, password, email,fName,lName,acceptsTerms,address,city,state,phoneNumber);
 					try{	
 					//Stores and verifies user in DB
 						if(uEnter.makeNewUser(newUser)){
