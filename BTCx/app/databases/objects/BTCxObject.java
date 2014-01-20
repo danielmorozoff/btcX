@@ -12,7 +12,7 @@ import java.util.HashMap;
 import org.neo4j.graphdb.Node;
 import org.neo4j.graphdb.Relationship;
 
-import serverLoggers.ServerLoggers;
+import server.loggers.ServerLoggers;
 
 import databases.BTCxDatabase;
 import databases.BTCxDatabase.BTCRelationship;

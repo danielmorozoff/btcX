@@ -9,7 +9,7 @@ import org.neo4j.shell.util.json.JSONObject;
 
 import api.WebpageAPI;
 
-import serverLoggers.ServerLoggers;
+import server.loggers.ServerLoggers;
 
 import login.UserLoginAndSignup;
 
@@ -50,6 +50,12 @@ public class User extends Object {
 	public boolean accountActive;
 	public String emailVerificationStr;
 	public boolean emailValidated;
+	
+	/*
+	 * Stripe properties to store in DB
+	 */
+	public String stripe_uniqueId;
+	
 	
 	/**
 	 * Current supported account types. These are reflected in both Labels
@@ -126,6 +132,9 @@ public class User extends Object {
 		long curTime = System.currentTimeMillis();
 		user.signupDate  = curTime;
 		user.lastLoginDate = curTime;
+		
+		//Stripe merchant properties.
+		user.stripe_uniqueId = "";
 		
 		return user;
 	}

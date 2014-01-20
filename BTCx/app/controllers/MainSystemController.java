@@ -10,7 +10,7 @@ import play.jobs.Job;
 import play.jobs.OnApplicationStart;
 import play.mvc.Before;
 import play.mvc.Controller;
-import serverLoggers.ServerLoggers;
+import server.loggers.ServerLoggers;
 
 import play.cache.Cache;
 

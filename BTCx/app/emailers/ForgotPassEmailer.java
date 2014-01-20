@@ -17,7 +17,7 @@ import org.neo4j.graphdb.Node;
 import controllers.MainSystemController;
 
 import play.cache.Cache;
-import serverLoggers.ServerLoggers;
+import server.loggers.ServerLoggers;
 
 import databases.BTCxDatabase;
 import databases.objects.*;

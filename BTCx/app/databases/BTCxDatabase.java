@@ -15,7 +15,7 @@ import org.neo4j.graphdb.index.Index;
 import org.neo4j.graphdb.index.IndexHits;
 import org.neo4j.graphdb.index.IndexManager;
 
-import serverLoggers.ServerLoggers;
+import server.loggers.ServerLoggers;
 
 public class BTCxDatabase {
 	static public GraphDatabaseService bDB;
@@ -38,7 +38,7 @@ public class BTCxDatabase {
 		File folder = new File("Databases");
 		if(!folder.exists())folder.mkdirs();
 		System.out.println("***BTCx Server Started****");
-			serverLoggers.ServerLoggers.infoLog.info("***BTCx Server Started***");
+			server.loggers.ServerLoggers.infoLog.info("***BTCx Server Started***");
 		
 		Map<String, String> config = new HashMap<String, String>();
 		config.put( "neostore.nodestore.db.mapped_memory", "10M" );
@@ -73,7 +73,7 @@ public class BTCxDatabase {
 	        public void run()
 	        {
 	        	bDB.shutdown();
-	        	serverLoggers.ServerLoggers.infoLog.info("***BTCx Database Shutdown***");
+	        	server.loggers.ServerLoggers.infoLog.info("***BTCx Database Shutdown***");
 	        }
 	    } );
 	}

@@ -1,4 +1,4 @@
-package qrCode;
+package qr.code;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
@@ -9,7 +9,7 @@ import java.util.Hashtable;
 
 import javax.imageio.ImageIO;
 
-import serverLoggers.ServerLoggers;
+import server.loggers.ServerLoggers;
 
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.EncodeHintType;

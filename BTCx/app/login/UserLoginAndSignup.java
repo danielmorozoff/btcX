@@ -20,7 +20,7 @@ import org.neo4j.graphdb.index.Index;
 import org.neo4j.graphdb.index.IndexHits;
 import org.neo4j.graphdb.index.IndexManager;
 
-import serverLoggers.ServerLoggers;
+import server.loggers.ServerLoggers;
 
 
 import databases.BTCxDatabase;

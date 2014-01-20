@@ -11,7 +11,7 @@ import org.neo4j.graphdb.Node;
 import databases.BTCxDatabase;
 
 
-import serverLoggers.ServerLoggers;
+import server.loggers.ServerLoggers;
 
 /**
  * This is the Exchange class. It is an object of the various exchanges that BTCx supports.

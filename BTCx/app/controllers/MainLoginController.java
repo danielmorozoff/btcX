@@ -26,7 +26,7 @@ import play.cache.Cache;
 import play.mvc.Before;
 import play.mvc.Controller;
 import play.mvc.Http.Cookie;
-import serverLoggers.ServerLoggers;
+import server.loggers.ServerLoggers;
 
 public class MainLoginController extends Controller {
 

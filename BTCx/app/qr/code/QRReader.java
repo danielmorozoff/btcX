@@ -1,10 +1,10 @@
-package qrCode;
+package qr.code;
 
 import java.io.FileInputStream;
 
 import javax.imageio.ImageIO;
 
-import serverLoggers.ServerLoggers;
+import server.loggers.ServerLoggers;
 
 import com.google.zxing.BinaryBitmap;
 import com.google.zxing.MultiFormatReader;
@@ -14,13 +14,6 @@ import com.google.zxing.common.HybridBinarizer;
 
 public class QRReader {
 
-	/**
-	 * @param args
-	 */
-	public static void main(String[] args) {
-		
-
-	}
 	/**
 	 * Decode QR code into a String
 	 * @param qrFileLoc

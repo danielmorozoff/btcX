@@ -21,7 +21,7 @@ import emailers.SignupEmailer;
 import frontend.Response;
 import play.cache.Cache;
 import play.mvc.Controller;
-import serverLoggers.ServerLoggers;
+import server.loggers.ServerLoggers;
 
 public class EmailController extends Controller {
 	/**

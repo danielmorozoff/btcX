@@ -11,7 +11,7 @@ import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
-import serverLoggers.ServerLoggers;
+import server.loggers.ServerLoggers;
 import controllers.MainSystemController;
 
 public class PasswordResetEmailer extends Emailer {

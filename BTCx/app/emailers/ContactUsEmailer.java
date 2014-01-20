@@ -13,7 +13,7 @@ import javax.mail.internet.MimeMessage;
 
 
 import play.mvc.Http.Request;
-import serverLoggers.ServerLoggers;
+import server.loggers.ServerLoggers;
 
 public class ContactUsEmailer extends Emailer {
 
