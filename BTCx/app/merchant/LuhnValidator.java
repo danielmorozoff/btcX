@@ -1,5 +1,10 @@
 package merchant;
 
+/**
+ * Recovered from the internet this algorithm certifies the valdidity of card
+ * @author danielmorozoff
+ *
+ */
 public class LuhnValidator {
 
 	    public boolean validateCard (String cardNumber) {
