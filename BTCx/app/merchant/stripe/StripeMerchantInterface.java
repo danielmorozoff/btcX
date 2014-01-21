@@ -1,5 +1,10 @@
 package merchant.stripe;
 
+/**
+ * Interface that stores our unique keys to utilize the stripe APIs
+ * @author danielmorozoff
+ *
+ */
 public interface StripeMerchantInterface {
 	
 	public static final String API_DEV_SECRET = "sk_test_rBjsx83geytSR1kGhezDH1GS";

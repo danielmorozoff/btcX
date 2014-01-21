@@ -23,6 +23,11 @@ import com.stripe.model.DeletedCustomer;
 
 import databases.BTCxDatabase;
 
+/**
+ * Class that handles the creation / deletion and maintenance of Stripe Customer objects with bindings to our back end.
+ * @author danielmorozoff
+ *
+ */
 public class StripeCustomer implements StripeMerchantInterface {
 	private final String secretToUse = API_CUR_SECRET;
 	private static GraphDatabaseService bDB = BTCxDatabase.bDB;
@@ -38,10 +43,10 @@ public class StripeCustomer implements StripeMerchantInterface {
 					Map customerParams = new HashMap<String, Object>();
 					
 					customerParams.put("email", email);
-					JSONObject crUserObj = new JSONObject();
-						crUserObj.put("cryptRexUsername", cryptRexUserName);
-						crUserObj.put("cryptRexPublicId",cryptRexPublicId);	
-					customerParams.put("metadata", crUserObj);
+					Map<String, Object> crUserMap = new HashMap <String,Object>();
+						crUserMap.put("cryptRexUsername", cryptRexUserName);
+						crUserMap.put("cryptRexPublicId",cryptRexPublicId);	
+					customerParams.put("metadata", crUserMap);
 					
 					//Stripe will make this the default card and assign this map to the customer object
 					/*
@@ -66,23 +71,35 @@ public class StripeCustomer implements StripeMerchantInterface {
 					 */
 					customerParams.put("card", cardParams);
 					
-					try{
-						Customer cust =  Customer.create(customerParams);
-						if(cust!=null){
-							//Store object information in User Class in DB
-							String custId = cust.getId();
-							custNode.setProperty("stripeId", custId);
-							
-							//Store in our DB index
-							BTCxDatabase.USER_INDEX.add(custNode, "stripe_uniqueId", custId);
-						}
-					}catch (StripeException e){
-						e.printStackTrace();
-						ServerLoggers.errorLog.error("*** Could not store new Stripe customer object. StripeCustomer.createNewCustomer***" );
+					Customer cust=null;
+					try {
+						cust = Customer.create(customerParams);
+					} catch (AuthenticationException | InvalidRequestException | APIConnectionException | APIException e){
+						//Exception caused by some sort of programming/ connection issue
+						return false;
+					}catch( CardException e) {
+						//Excetion caused by issue with infomation provided. AKA card declined etc.
+						String errorMsg = e.getMessage();
+						String errorCode = e.getCode();
+						String errorParam = e.getParam();
+						ServerLoggers.errorLog.error("***Error in Stripe card API. Messge from stripe: " +
+														errorMsg+" Code: "+errorCode+" Param"+errorParam+"***");
+						//Code up an error handler
+						return false;
+					}
+					if(cust!=null){
+						//Store object information in User Class in DB
+						String custId = cust.getId();
+						custNode.setProperty("stripeId", custId);
+						
+						//Store in our DB index
+						BTCxDatabase.USER_INDEX.add(custNode, "stripe_uniqueId", custId);
 					}
 				}
 				else{
 					//Stripe id assigned in DB.
+					//Need to handle if a person already has an stripe id...Should this method ever be invoked?
+					
 				}
 			}
 		tx.success();

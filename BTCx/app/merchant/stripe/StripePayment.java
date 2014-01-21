@@ -7,11 +7,20 @@ import java.util.Map;
 import server.loggers.ServerLoggers;
 
 import com.stripe.Stripe;
+import com.stripe.exception.APIConnectionException;
+import com.stripe.exception.APIException;
+import com.stripe.exception.AuthenticationException;
+import com.stripe.exception.CardException;
+import com.stripe.exception.InvalidRequestException;
 import com.stripe.exception.StripeException;
 import com.stripe.model.Charge;
 
 
-
+/**
+ * Class that handles payments and charges (Stripe API refers to these as Charge Objects)
+ * @author danielmorozoff
+ *
+ */
 public class StripePayment implements StripeMerchantInterface {
 	private final String secretToUse = API_CUR_SECRET;
 	/**
@@ -37,10 +46,19 @@ public class StripePayment implements StripeMerchantInterface {
 		        ServerLoggers.infoLog.info("Charging credit card: "+cardNumber+ "for "+amount+" in "+currency);
 		        ServerLoggers.infoLog.info("Charg object:  "+charge);
 		        return true;
-		    } catch (StripeException e) {
-		        e.printStackTrace();
-		    }
-		 return false; 
+		    }catch (AuthenticationException | InvalidRequestException | APIConnectionException | APIException e){
+				//Exception caused by some sort of programming/ connection issue
+				return false;
+			}catch( CardException e) {
+				//Excetion caused by issue with infomation provided. AKA card declined etc.
+				String errorMsg = e.getMessage();
+				String errorCode = e.getCode();
+				String errorParam = e.getParam();
+				ServerLoggers.errorLog.error("***Error in Stripe card API. Messge from stripe: " +
+												errorMsg+" Code: "+errorCode+" Param"+errorParam+"***");
+				//Code up an error handler
+				return false;
+			}
 	}
 	
 }
