@@ -152,23 +152,27 @@ public class SignupController extends Controller {
 		    			uNode.setProperty("state", usrObj.get("state"));
 
 //			    		Convert to geo coordinates using google maps api
+		    			try{
 		    			String fullAddress =  usrObj.get("address") +" "+ usrObj.get("city")+" "+usrObj.get("state");
 		    			fullAddress = fullAddress.replaceAll(" ", "%20");
 		    			JSONObject coordsObj = new JSONObject((String) new WebpageAPI(null).sendRequestToDataHub("http://maps.googleapis.com/maps/api/geocode/json?address="+fullAddress+"&sensor=true", "GET", "string", null));
-
+		    			System.out.println(coordsObj.toString());
 		    			JSONArray results = (JSONArray) coordsObj.get("results");
 		    			JSONObject result = (JSONObject) results.get(0);
 		    			String geoCoordsStr = ((JSONObject)result.get("geometry")).get("location").toString();
 		    			uNode.setProperty("geoCoords", geoCoordsStr);
-
+//			    		Add Geo coords if store
+		    			sDB.index().forNodes("users").add(uNode, "geoCoords", geoCoordsStr);
+		    			}catch(Exception e){
+		    				ServerLoggers.errorLog.error("!Failed to get google maps address coords. SignupController.storeUserData!");
+		    			}
 		    			uNode.setProperty("storeName", usrObj.get("storeName"));
 		    			uNode.setProperty("storeDescription", usrObj.get("storeDescription"));
 		    			uNode.setProperty("acceptsBTC", (Boolean) usrObj.get("acceptance"));
 		    			uNode.setProperty("acceptsTerms", (Boolean) usrObj.get("agreement"));
 			    			
 			    			
-//			    		Add Geo coords if store
-		    			sDB.index().forNodes("users").add(uNode, "geoCoords", geoCoordsStr);
+
 //			    		Add label Merchant 
 		    			Label merchantLabel = DynamicLabel.label("Merchant");
 		    			uNode.addLabel(merchantLabel);

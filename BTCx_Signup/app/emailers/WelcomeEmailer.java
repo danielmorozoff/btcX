@@ -34,7 +34,7 @@ public class WelcomeEmailer extends Emailer {
 	    Session session = Session.getDefaultInstance(props);	
 	    
 	    MimeMessage msg = new MimeMessage(session); 
-	   	msg.setFrom(new InternetAddress(Emailer.username));
+	   	msg.setFrom(new InternetAddress(username));
 	   	
 	   	InternetAddress[] addresses = {new InternetAddress(emailAddress)};
         msg.setRecipients(Message.RecipientType.TO, addresses);
