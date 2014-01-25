@@ -219,12 +219,21 @@ h1
 	background: transparent;
 	padding:0;
 }
+.navbar-brand img 
+{
+	max-height: 80%;
+}
 @media (min-width: 200px) and (max-width: 650px)
 {
 	.navbar-right.pull-right.info
 	{
 		display: none;
 	}
+	.navbar-brand img 
+	{
+	width: 250px;
+	}
+
 	.row
 	{
 		margin:0 0;
@@ -330,6 +339,10 @@ h1
 
 @media (min-width: 720px) and (max-width: 991px)
 {
+	.navbar-right.pull-right.info 
+	{
+		display: none;
+	}
 	.footer div.col-md-4
 	{
 		width: 49%;

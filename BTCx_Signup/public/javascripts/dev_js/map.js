@@ -17,6 +17,7 @@ $(document).ready(function()
 		//calculates height of map
 		var height = $(document).height()-parseInt($(".footer").css('height'))-parseInt($(".navbar-fixed").css('height'))-11;
 		$("#crypt-map-container").css('height',height+'px');
+		$(".carousel-inner").css('min-height',height+'px');
 
 		this.getMarkers = function()
 		{
@@ -32,7 +33,7 @@ $(document).ready(function()
 							marker['type'] = 'shop';
 							marker['active']=true;
 							marker['location']='Location';
-							marker['symbol']='shop';
+							marker['symbol']='commercial';
 							marker['color']='#000';
 							marker['size']='large';
 
